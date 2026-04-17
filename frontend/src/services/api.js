@@ -3,6 +3,7 @@ import axios from "axios";
 const AUTH_API = import.meta.env.VITE_AUTH_API_URL;
 const APP_API = import.meta.env.VITE_APP_API_URL;
 const RESULTS_API = import.meta.env.VITE_RESULTS_API_URL;
+const JOBS_API = import.meta.env.VITE_JOBS_API_URL;
 
 function authHeaders() {
   const token = localStorage.getItem("idToken");
@@ -90,3 +91,37 @@ export const getResults = (uploadId) => {
 
 export const getResult = (resultId) =>
   axios.get(`${RESULTS_API}/results/${resultId}`, { headers: authHeaders() }).then((r) => r.data);
+
+// ── Jobs ──────────────────────────────────────────────────────────────────────
+export const listJobs = (resultId) =>
+  axios
+    .get(`${JOBS_API}/jobs`, { headers: authHeaders(), params: { resultId } })
+    .then((r) => r.data);
+
+export const searchJobs = (resultId, country) =>
+  axios
+    .post(`${JOBS_API}/jobs/search`, { resultId, country }, { headers: authHeaders() })
+    .then((r) => r.data);
+
+export const getJob = (jobId) =>
+  axios.get(`${JOBS_API}/jobs/${jobId}`, { headers: authHeaders() }).then((r) => r.data);
+
+export const fetchCoursesForJob = (jobId) =>
+  axios
+    .post(`${JOBS_API}/jobs/${jobId}/courses`, {}, { headers: authHeaders() })
+    .then((r) => r.data);
+
+export const createTailoredResume = (jobId, resumeText) =>
+  axios
+    .post(`${JOBS_API}/jobs/${jobId}/tailored-resume`, { resumeText }, { headers: authHeaders() })
+    .then((r) => r.data);
+
+export const getTailoredResume = (resumeId) =>
+  axios
+    .get(`${JOBS_API}/tailored-resumes/${resumeId}`, { headers: authHeaders() })
+    .then((r) => r.data);
+
+export const saveTailoredResume = (resumeId, markdown) =>
+  axios
+    .put(`${JOBS_API}/tailored-resumes/${resumeId}`, { markdown }, { headers: authHeaders() })
+    .then((r) => r.data);

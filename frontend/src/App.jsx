@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense, lazy } from "react";
 import { BrowserRouter, Routes, Route, Navigate, Link, useNavigate } from "react-router-dom";
 import Register from "./components/Auth/Register";
 import VerifyOTP from "./components/Auth/VerifyOTP";
@@ -8,6 +8,12 @@ import ResetPassword from "./components/Auth/ResetPassword";
 import Profile from "./components/Auth/Profile";
 import ResumeUpload from "./components/Resume/ResumeUpload";
 import ReportView from "./components/Report/ReportView";
+const JobDetail = lazy(() => import("./components/Jobs/JobDetail"));
+const TailoredResumeEditor = lazy(() => import("./components/Jobs/TailoredResumeEditor"));
+
+const PageFallback = () => (
+  <div style={{ textAlign: "center", padding: 80, color: "#64748b" }}>Loading…</div>
+);
 
 function getUserInfo() {
   const token = localStorage.getItem("idToken");
@@ -112,6 +118,8 @@ export default function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/dashboard" element={<RequireAuth><ResumeUpload /></RequireAuth>} />
         <Route path="/results/:resultId" element={<RequireAuth><ReportView /></RequireAuth>} />
+        <Route path="/jobs/:jobId" element={<RequireAuth><Suspense fallback={<PageFallback />}><JobDetail /></Suspense></RequireAuth>} />
+        <Route path="/tailored-resumes/:resumeId" element={<RequireAuth><Suspense fallback={<PageFallback />}><TailoredResumeEditor /></Suspense></RequireAuth>} />
         <Route path="/profile" element={<RequireAuth><Profile /></RequireAuth>} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password" element={<ResetPassword />} />

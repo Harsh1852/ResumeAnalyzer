@@ -6,6 +6,7 @@ from stacks.parser_stack import ParserStack
 from stacks.analyzer_stack import AnalyzerStack
 from stacks.results_stack import ResultsStack
 from stacks.frontend_stack import FrontendStack
+from stacks.jobs_stack import JobsStack
 
 app = cdk.App()
 env = cdk.Environment(
@@ -45,6 +46,14 @@ frontend_stack = FrontendStack(
     notification_queue=analyzer_stack.notification_queue,
     user_pool=auth_stack.user_pool,
     results_table=results_stack.results_table,
+    env=env,
+)
+
+# Phase 1 — Jobs Service (live jobs + courses + tailored resumes)
+jobs_stack = JobsStack(
+    app, "ResumeAnalyzerJobs",
+    results_table=results_stack.results_table,
+    user_pool=auth_stack.user_pool,
     env=env,
 )
 

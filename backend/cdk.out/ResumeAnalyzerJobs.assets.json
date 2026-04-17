@@ -1,0 +1,36 @@
+{
+  "version": "53.0.0",
+  "files": {
+    "186069abfee0d7be4154e7d2ba5686b91caf4a4af94bbb1a00f571502a38d736": {
+      "displayName": "JobsAPILambda/Code",
+      "source": {
+        "path": "asset.186069abfee0d7be4154e7d2ba5686b91caf4a4af94bbb1a00f571502a38d736",
+        "packaging": "zip"
+      },
+      "destinations": {
+        "YOUR_AWS_ACCOUNT_ID-us-east-1-c26f85dd": {
+          "bucketName": "cdk-hnb659fds-assets-YOUR_AWS_ACCOUNT_ID-us-east-1",
+          "objectKey": "186069abfee0d7be4154e7d2ba5686b91caf4a4af94bbb1a00f571502a38d736.zip",
+          "region": "us-east-1",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::YOUR_AWS_ACCOUNT_ID:role/cdk-hnb659fds-file-publishing-role-YOUR_AWS_ACCOUNT_ID-us-east-1"
+        }
+      }
+    },
+    "190c2e5891b3bf06a1a07fc8b706ab24438464ee76f4c79db91bb40f2a8a7a25": {
+      "displayName": "ResumeAnalyzerJobs Template",
+      "source": {
+        "path": "ResumeAnalyzerJobs.template.json",
+        "packaging": "file"
+      },
+      "destinations": {
+        "YOUR_AWS_ACCOUNT_ID-us-east-1-9fb0c8af": {
+          "bucketName": "cdk-hnb659fds-assets-YOUR_AWS_ACCOUNT_ID-us-east-1",
+          "objectKey": "190c2e5891b3bf06a1a07fc8b706ab24438464ee76f4c79db91bb40f2a8a7a25.json",
+          "region": "us-east-1",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::YOUR_AWS_ACCOUNT_ID:role/cdk-hnb659fds-file-publishing-role-YOUR_AWS_ACCOUNT_ID-us-east-1"
+        }
+      }
+    }
+  },
+  "dockerImages": {}
+}

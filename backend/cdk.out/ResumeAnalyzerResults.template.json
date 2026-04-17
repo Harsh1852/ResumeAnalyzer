@@ -185,7 +185,7 @@
    "Type": "AWS::Lambda::Function",
    "Properties": {
     "Code": {
-     "S3Bucket": "cdk-hnb659fds-assets-307711586938-us-east-1",
+     "S3Bucket": "cdk-hnb659fds-assets-YOUR_AWS_ACCOUNT_ID-us-east-1",
      "S3Key": "72c62a2265b13b6e510215a979dd185af61595053d357dee22b937e61241b358.zip"
     },
     "Environment": {
@@ -344,7 +344,7 @@
    "Type": "AWS::Lambda::Function",
    "Properties": {
     "Code": {
-     "S3Bucket": "cdk-hnb659fds-assets-307711586938-us-east-1",
+     "S3Bucket": "cdk-hnb659fds-assets-YOUR_AWS_ACCOUNT_ID-us-east-1",
      "S3Key": "72c62a2265b13b6e510215a979dd185af61595053d357dee22b937e61241b358.zip"
     },
     "Environment": {
@@ -609,7 +609,7 @@
        {
         "Ref": "AWS::Partition"
        },
-       ":execute-api:us-east-1:307711586938:",
+       ":execute-api:us-east-1:YOUR_AWS_ACCOUNT_ID:",
        {
         "Ref": "ResultsAPI598FCA16"
        },
@@ -645,7 +645,7 @@
        {
         "Ref": "AWS::Partition"
        },
-       ":execute-api:us-east-1:307711586938:",
+       ":execute-api:us-east-1:YOUR_AWS_ACCOUNT_ID:",
        {
         "Ref": "ResultsAPI598FCA16"
        },
@@ -777,7 +777,7 @@
        {
         "Ref": "AWS::Partition"
        },
-       ":execute-api:us-east-1:307711586938:",
+       ":execute-api:us-east-1:YOUR_AWS_ACCOUNT_ID:",
        {
         "Ref": "ResultsAPI598FCA16"
        },
@@ -813,7 +813,7 @@
        {
         "Ref": "AWS::Partition"
        },
-       ":execute-api:us-east-1:307711586938:",
+       ":execute-api:us-east-1:YOUR_AWS_ACCOUNT_ID:",
        {
         "Ref": "ResultsAPI598FCA16"
        },
@@ -887,7 +887,7 @@
        {
         "Ref": "AWS::Partition"
        },
-       ":execute-api:us-east-1:307711586938:",
+       ":execute-api:us-east-1:YOUR_AWS_ACCOUNT_ID:",
        {
         "Ref": "ResultsAPI598FCA16"
        },
@@ -923,7 +923,7 @@
        {
         "Ref": "AWS::Partition"
        },
-       ":execute-api:us-east-1:307711586938:",
+       ":execute-api:us-east-1:YOUR_AWS_ACCOUNT_ID:",
        {
         "Ref": "ResultsAPI598FCA16"
        },
@@ -1000,7 +1000,7 @@
   "CDKMetadata": {
    "Type": "AWS::CDK::Metadata",
    "Properties": {
-    "Analytics": "v2:deflate64:H4sIAAAAAAAA/22QQVLDMAxFz9K9a0oDB0ih7DpkUlh3FEekoomViWQ6IZO7M3FDy4KVnvRt/W+v7fpxZVcLOMvSladlTYUd9gruZOAsh6HsPTRcFnZ4g6JG8/ThI4ymhqYowQ4vwTsl9pN05e0Xet1z6BzuoG3JV5P8/zTDriERYj8agsYOOV+MYs24JtfHc5FGI8kBRFDFplMxkthNcCfUDQgaaKkCxTP0dshRNG0p7rph6hwHr+YZ25r7Br1O0z/dXqGKAS6Qo8TIcf0O9cjlJM70q84mM3PlSfldsMuYa0mDHrmjb+xigGs3jrf78TGT4/wtr0HboKPJej2yv0vs/YNNFp9CtOyCV2rQ5pf6Azqu5I/EAQAA"
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/21Qy07DMBD8lt4dg1qE4JjyuFVELZyrjbOEJfFDsU0VIv87thNaDpx2dmYfs7vm65s7fr2Cky1E0xU91Xw6OBAdi9RxakYFUjeRfIW6R/bwrjIIrAdZN8CnZ6+EI62SdMZPX6jcQftB4A6MIdUm+X+2wkGStbEtMALJp72eF+VY6Z7EmOsyCsxujmAtOsvLFGLOt1506LZgkYGhFhyeYIyD0LrSUJ51gaUQ2ivHHtH0epTRUmL/ZPH8NhuYQWzNlvP4HboP3SRxQb/qsmTBulXk9JvFodK6t6WPtQN945ANnLMQLv35mLRxecuLd8a7wKoxVqurDb/nt6tPS1QM0T1J5Ps5/gBz/auDwwEAAA=="
    },
    "Metadata": {
     "aws:cdk:path": "ResumeAnalyzerResults/CDKMetadata/Default"

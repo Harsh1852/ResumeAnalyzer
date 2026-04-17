@@ -1,0 +1,342 @@
+{
+  "/ResumeAnalyzerJobs/JobsTable": [
+    {
+      "type": "aws:cdk:hasPhysicalName",
+      "data": {
+        "Ref": "JobsTable1970BC16"
+      }
+    }
+  ],
+  "/ResumeAnalyzerJobs/TailoredResumesTable": [
+    {
+      "type": "aws:cdk:hasPhysicalName",
+      "data": {
+        "Ref": "TailoredResumesTable92E887F9"
+      }
+    }
+  ],
+  "/ResumeAnalyzerJobs/JobsTableName": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "JobsTableName"
+    }
+  ],
+  "/ResumeAnalyzerJobs/TailoredResumesTableName": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "TailoredResumesTableName"
+    }
+  ],
+  "/ResumeAnalyzerJobs/JobsApiUrl": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "JobsApiUrl"
+    }
+  ],
+  "/ResumeAnalyzerJobs/BootstrapVersion": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "BootstrapVersion"
+    }
+  ],
+  "/ResumeAnalyzerJobs/CheckBootstrapVersion": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CheckBootstrapVersion"
+    }
+  ],
+  "/ResumeAnalyzerJobs/JobsTable/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "JobsTable1970BC16"
+    }
+  ],
+  "/ResumeAnalyzerJobs/TailoredResumesTable/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "TailoredResumesTable92E887F9"
+    }
+  ],
+  "/ResumeAnalyzerJobs/JobsAPILambda/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "JobsAPILambda316F45F1"
+    }
+  ],
+  "/ResumeAnalyzerJobs/JobsAPI/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "JobsAPIDF0E9567"
+    }
+  ],
+  "/ResumeAnalyzerJobs/JobsAPI/Account": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "JobsAPIAccount6ABD7E38"
+    }
+  ],
+  "/ResumeAnalyzerJobs/JobsAPI/Endpoint": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "JobsAPIEndpoint0ECAA6F6"
+    }
+  ],
+  "/ResumeAnalyzerJobs/JobsCognitoAuthorizer/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "JobsCognitoAuthorizer3D0AD42C"
+    }
+  ],
+  "/ResumeAnalyzerJobs/CDKMetadata/Default": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CDKMetadata"
+    }
+  ],
+  "/ResumeAnalyzerJobs/JobsAPILambda/ServiceRole/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "JobsAPILambdaServiceRole502E55C6"
+    }
+  ],
+  "/ResumeAnalyzerJobs/JobsAPI/CloudWatchRole/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "JobsAPICloudWatchRole70F5A28A"
+    }
+  ],
+  "/ResumeAnalyzerJobs/JobsAPI/Deployment/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "JobsAPIDeploymentC59B10B7481d823ffee754dff1ade19df05b7895"
+    }
+  ],
+  "/ResumeAnalyzerJobs/JobsAPI/DeploymentStage.prod/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "JobsAPIDeploymentStageprod35811838"
+    }
+  ],
+  "/ResumeAnalyzerJobs/JobsAPILambda/ServiceRole/DefaultPolicy/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "JobsAPILambdaServiceRoleDefaultPolicy3437ACB8"
+    }
+  ],
+  "/ResumeAnalyzerJobs/JobsAPI/Default/OPTIONS/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "JobsAPIOPTIONS8FAC477C"
+    }
+  ],
+  "/ResumeAnalyzerJobs/JobsAPI/Default/jobs/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "JobsAPIjobs90F2D618"
+    }
+  ],
+  "/ResumeAnalyzerJobs/JobsAPI/Default/tailored-resumes/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "JobsAPItailoredresumes2E83B193"
+    }
+  ],
+  "/ResumeAnalyzerJobs/JobsAPI/Default/jobs/OPTIONS/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "JobsAPIjobsOPTIONSF9A9DE4A"
+    }
+  ],
+  "/ResumeAnalyzerJobs/JobsAPI/Default/jobs/GET/ApiPermission.ResumeAnalyzerJobsJobsAPI4D290882.GET..jobs": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "JobsAPIjobsGETApiPermissionResumeAnalyzerJobsJobsAPI4D290882GETjobs94DFB465"
+    }
+  ],
+  "/ResumeAnalyzerJobs/JobsAPI/Default/jobs/GET/ApiPermission.Test.ResumeAnalyzerJobsJobsAPI4D290882.GET..jobs": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "JobsAPIjobsGETApiPermissionTestResumeAnalyzerJobsJobsAPI4D290882GETjobs2B6681E1"
+    }
+  ],
+  "/ResumeAnalyzerJobs/JobsAPI/Default/jobs/GET/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "JobsAPIjobsGET1A5D544E"
+    }
+  ],
+  "/ResumeAnalyzerJobs/JobsAPI/Default/jobs/search/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "JobsAPIjobssearch9F179B97"
+    }
+  ],
+  "/ResumeAnalyzerJobs/JobsAPI/Default/jobs/{jobId}/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "JobsAPIjobsjobIdD3F5AFDB"
+    }
+  ],
+  "/ResumeAnalyzerJobs/JobsAPI/Default/tailored-resumes/OPTIONS/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "JobsAPItailoredresumesOPTIONSF03D3F60"
+    }
+  ],
+  "/ResumeAnalyzerJobs/JobsAPI/Default/tailored-resumes/{resumeId}/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "JobsAPItailoredresumesresumeId9C3CCC5C"
+    }
+  ],
+  "/ResumeAnalyzerJobs/JobsAPI/Default/jobs/search/OPTIONS/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "JobsAPIjobssearchOPTIONSFA50AAFE"
+    }
+  ],
+  "/ResumeAnalyzerJobs/JobsAPI/Default/jobs/search/POST/ApiPermission.ResumeAnalyzerJobsJobsAPI4D290882.POST..jobs.search": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "JobsAPIjobssearchPOSTApiPermissionResumeAnalyzerJobsJobsAPI4D290882POSTjobssearchC1D16E13"
+    }
+  ],
+  "/ResumeAnalyzerJobs/JobsAPI/Default/jobs/search/POST/ApiPermission.Test.ResumeAnalyzerJobsJobsAPI4D290882.POST..jobs.search": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "JobsAPIjobssearchPOSTApiPermissionTestResumeAnalyzerJobsJobsAPI4D290882POSTjobssearch5E387425"
+    }
+  ],
+  "/ResumeAnalyzerJobs/JobsAPI/Default/jobs/search/POST/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "JobsAPIjobssearchPOST6771CD27"
+    }
+  ],
+  "/ResumeAnalyzerJobs/JobsAPI/Default/jobs/{jobId}/OPTIONS/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "JobsAPIjobsjobIdOPTIONS81387995"
+    }
+  ],
+  "/ResumeAnalyzerJobs/JobsAPI/Default/jobs/{jobId}/GET/ApiPermission.ResumeAnalyzerJobsJobsAPI4D290882.GET..jobs.{jobId}": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "JobsAPIjobsjobIdGETApiPermissionResumeAnalyzerJobsJobsAPI4D290882GETjobsjobId417822C8"
+    }
+  ],
+  "/ResumeAnalyzerJobs/JobsAPI/Default/jobs/{jobId}/GET/ApiPermission.Test.ResumeAnalyzerJobsJobsAPI4D290882.GET..jobs.{jobId}": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "JobsAPIjobsjobIdGETApiPermissionTestResumeAnalyzerJobsJobsAPI4D290882GETjobsjobIdEAC03011"
+    }
+  ],
+  "/ResumeAnalyzerJobs/JobsAPI/Default/jobs/{jobId}/GET/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "JobsAPIjobsjobIdGET8376728B"
+    }
+  ],
+  "/ResumeAnalyzerJobs/JobsAPI/Default/jobs/{jobId}/courses/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "JobsAPIjobsjobIdcourses41F9807C"
+    }
+  ],
+  "/ResumeAnalyzerJobs/JobsAPI/Default/jobs/{jobId}/tailored-resume/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "JobsAPIjobsjobIdtailoredresume2212AE82"
+    }
+  ],
+  "/ResumeAnalyzerJobs/JobsAPI/Default/tailored-resumes/{resumeId}/OPTIONS/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "JobsAPItailoredresumesresumeIdOPTIONS53352F55"
+    }
+  ],
+  "/ResumeAnalyzerJobs/JobsAPI/Default/tailored-resumes/{resumeId}/GET/ApiPermission.ResumeAnalyzerJobsJobsAPI4D290882.GET..tailored-resumes.{resumeId}": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "JobsAPItailoredresumesresumeIdGETApiPermissionResumeAnalyzerJobsJobsAPI4D290882GETtailoredresumesresumeIdFA48F7BB"
+    }
+  ],
+  "/ResumeAnalyzerJobs/JobsAPI/Default/tailored-resumes/{resumeId}/GET/ApiPermission.Test.ResumeAnalyzerJobsJobsAPI4D290882.GET..tailored-resumes.{resumeId}": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "JobsAPItailoredresumesresumeIdGETApiPermissionTestResumeAnalyzerJobsJobsAPI4D290882GETtailoredresumesresumeId68B9ADB0"
+    }
+  ],
+  "/ResumeAnalyzerJobs/JobsAPI/Default/tailored-resumes/{resumeId}/GET/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "JobsAPItailoredresumesresumeIdGETF2C2CD96"
+    }
+  ],
+  "/ResumeAnalyzerJobs/JobsAPI/Default/tailored-resumes/{resumeId}/PUT/ApiPermission.ResumeAnalyzerJobsJobsAPI4D290882.PUT..tailored-resumes.{resumeId}": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "JobsAPItailoredresumesresumeIdPUTApiPermissionResumeAnalyzerJobsJobsAPI4D290882PUTtailoredresumesresumeIdBDECE1F7"
+    }
+  ],
+  "/ResumeAnalyzerJobs/JobsAPI/Default/tailored-resumes/{resumeId}/PUT/ApiPermission.Test.ResumeAnalyzerJobsJobsAPI4D290882.PUT..tailored-resumes.{resumeId}": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "JobsAPItailoredresumesresumeIdPUTApiPermissionTestResumeAnalyzerJobsJobsAPI4D290882PUTtailoredresumesresumeId0E836BE0"
+    }
+  ],
+  "/ResumeAnalyzerJobs/JobsAPI/Default/tailored-resumes/{resumeId}/PUT/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "JobsAPItailoredresumesresumeIdPUT8C309EC5"
+    }
+  ],
+  "/ResumeAnalyzerJobs/JobsAPI/Default/jobs/{jobId}/courses/OPTIONS/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "JobsAPIjobsjobIdcoursesOPTIONS6F53402E"
+    }
+  ],
+  "/ResumeAnalyzerJobs/JobsAPI/Default/jobs/{jobId}/courses/POST/ApiPermission.ResumeAnalyzerJobsJobsAPI4D290882.POST..jobs.{jobId}.courses": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "JobsAPIjobsjobIdcoursesPOSTApiPermissionResumeAnalyzerJobsJobsAPI4D290882POSTjobsjobIdcourses37AB44CC"
+    }
+  ],
+  "/ResumeAnalyzerJobs/JobsAPI/Default/jobs/{jobId}/courses/POST/ApiPermission.Test.ResumeAnalyzerJobsJobsAPI4D290882.POST..jobs.{jobId}.courses": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "JobsAPIjobsjobIdcoursesPOSTApiPermissionTestResumeAnalyzerJobsJobsAPI4D290882POSTjobsjobIdcourses10DBC966"
+    }
+  ],
+  "/ResumeAnalyzerJobs/JobsAPI/Default/jobs/{jobId}/courses/POST/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "JobsAPIjobsjobIdcoursesPOSTD03386A6"
+    }
+  ],
+  "/ResumeAnalyzerJobs/JobsAPI/Default/jobs/{jobId}/tailored-resume/OPTIONS/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "JobsAPIjobsjobIdtailoredresumeOPTIONSA2BB58E6"
+    }
+  ],
+  "/ResumeAnalyzerJobs/JobsAPI/Default/jobs/{jobId}/tailored-resume/POST/ApiPermission.ResumeAnalyzerJobsJobsAPI4D290882.POST..jobs.{jobId}.tailored-resume": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "JobsAPIjobsjobIdtailoredresumePOSTApiPermissionResumeAnalyzerJobsJobsAPI4D290882POSTjobsjobIdtailoredresumeDD501208"
+    }
+  ],
+  "/ResumeAnalyzerJobs/JobsAPI/Default/jobs/{jobId}/tailored-resume/POST/ApiPermission.Test.ResumeAnalyzerJobsJobsAPI4D290882.POST..jobs.{jobId}.tailored-resume": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "JobsAPIjobsjobIdtailoredresumePOSTApiPermissionTestResumeAnalyzerJobsJobsAPI4D290882POSTjobsjobIdtailoredresume912FD7FB"
+    }
+  ],
+  "/ResumeAnalyzerJobs/JobsAPI/Default/jobs/{jobId}/tailored-resume/POST/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "JobsAPIjobsjobIdtailoredresumePOST32A282BC"
+    }
+  ]
+}

@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import html2pdf from "html2pdf.js";
 import { getResult, getResumeViewUrl, deleteUpload, deleteResult } from "../../services/api";
+import JobsSection from "../Jobs/JobsSection";
 
 const s = {
   page: { maxWidth: 820, margin: "40px auto", padding: "0 20px 60px" },
@@ -259,6 +260,9 @@ export default function ReportView() {
           </div>
         ))}
       </div>
+
+      {/* Live Jobs — new in Phase 1 */}
+      <JobsSection resultId={result.resultId} />
 
       {/* Job Search Strategies */}
       <div style={s.card}>

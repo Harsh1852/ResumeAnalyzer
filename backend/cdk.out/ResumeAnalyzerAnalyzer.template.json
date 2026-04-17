@@ -137,7 +137,7 @@
    "Type": "AWS::Lambda::Function",
    "Properties": {
     "Code": {
-     "S3Bucket": "cdk-hnb659fds-assets-307711586938-us-east-1",
+     "S3Bucket": "cdk-hnb659fds-assets-YOUR_AWS_ACCOUNT_ID-us-east-1",
      "S3Key": "faa95a81ae7d7373f3e1f242268f904eb748d8d0fdd306e8a6fe515a1905a7d6.zip"
     },
     "Timeout": 900,
@@ -592,7 +592,7 @@
    "Type": "AWS::Lambda::Function",
    "Properties": {
     "Code": {
-     "S3Bucket": "cdk-hnb659fds-assets-307711586938-us-east-1",
+     "S3Bucket": "cdk-hnb659fds-assets-YOUR_AWS_ACCOUNT_ID-us-east-1",
      "S3Key": "4c130a8884062ec174f359857e3226854de43151bcb79462c34669f0f5887f23.zip"
     },
     "Environment": {
@@ -611,7 +611,7 @@
       },
       "BEDROCK_MODEL_ID": "anthropic.claude-3-haiku-20240307-v1:0",
       "BEDROCK_MAX_TOKENS": "8192",
-      "TAVILY_API_KEY": "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"
+      "TAVILY_API_KEY": "TAVILY_API_KEY"
      }
     },
     "Handler": "handler.handler",
@@ -654,7 +654,7 @@
   "CDKMetadata": {
    "Type": "AWS::CDK::Metadata",
    "Properties": {
-    "Analytics": "v2:deflate64:H4sIAAAAAAAA/5VQwVICMQz9FjiXiKxevAHqzQFZbo7DdLsRC7vtuklBptN/d7YdYB1PXpqXvLyXpBOY3I9hPJBHGqlyP6p0AT5nqfZCHmnjKQM/c2qPLOYfJqE3P6z1tzbDh2Ff1vVTBpEiSK1Tx/YRK2RcFDtUTMPwLhK1tJVWp6tryv/hnQQ5S8YaTd96JgmDKE9G1rYswK9lUWE3KYIgyBD4tW20isUIcleQanXD2pqu2s+DoC8C/+rQRZsE4nu9opcGUcm6KCX4Z2fU2fGCnw5oOLeuVfgim0abbUf/rQahZQ1+ZdPyMV7nnUdRtpFEyATTLgQxd8S2XiFFr6i84F/UsrUHXWLbfZeI4pzltlunL144bhwHsTzxpzU3GdzeQTbYkdaj1hnWNcIqxR8W+FvVTAIAAA=="
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/5VQTU8CMRD9Ley5VAPGqDfw42ZA4GYM6XZHHNi2606Lkmb/u/0IsMaTl86bN/PezHTER1c3/HIgvmgoq92wxpL7pRVyxwK19jTmfurkDiy7f9cZvfpC4Tfq4q7oy2J/aE8l4rl14qx5gBoszMotSEtF98ZyaW5qlIeza87/4Z0FYVcLCnTfeioIOlYdtFCmCvesRFlDnJRAxyh4+JVpUCYygaUrSbbYWDQ6sv08KD6D4sWBSzYZpPd8RS/tWC1UWQnun5yWR8cTftyHdZfGtRKeRdOg3sTyX7ZjKBT3C5OXT/E87ziKxmtBBJb4JIaO3TuyRi2AkldSnvCv0rw1e6ygjd/Fkjh85iau0xfPnG1csJ0f7IfRF2N+y68HW0Ictk5bVMAXOf4AE75CWUsCAAA="
    },
    "Metadata": {
     "aws:cdk:path": "ResumeAnalyzerAnalyzer/CDKMetadata/Default"

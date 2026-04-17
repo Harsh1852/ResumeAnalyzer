@@ -250,7 +250,7 @@
    "Type": "AWS::Lambda::Function",
    "Properties": {
     "Code": {
-     "S3Bucket": "cdk-hnb659fds-assets-307711586938-us-east-1",
+     "S3Bucket": "cdk-hnb659fds-assets-YOUR_AWS_ACCOUNT_ID-us-east-1",
      "S3Key": "faa95a81ae7d7373f3e1f242268f904eb748d8d0fdd306e8a6fe515a1905a7d6.zip"
     },
     "Timeout": 900,
@@ -605,7 +605,7 @@
            {
             "Ref": "AWS::Partition"
            },
-           ":dynamodb:us-east-1:307711586938:table/resume-analyzer-analysis-jobs"
+           ":dynamodb:us-east-1:YOUR_AWS_ACCOUNT_ID:table/resume-analyzer-analysis-jobs"
           ]
          ]
         },
@@ -617,7 +617,7 @@
            {
             "Ref": "AWS::Partition"
            },
-           ":dynamodb:us-east-1:307711586938:table/resume-analyzer-analysis-jobs/index/*"
+           ":dynamodb:us-east-1:YOUR_AWS_ACCOUNT_ID:table/resume-analyzer-analysis-jobs/index/*"
           ]
          ]
         },
@@ -629,7 +629,7 @@
            {
             "Ref": "AWS::Partition"
            },
-           ":dynamodb:us-east-1:307711586938:table/resume-analyzer-parse-jobs"
+           ":dynamodb:us-east-1:YOUR_AWS_ACCOUNT_ID:table/resume-analyzer-parse-jobs"
           ]
          ]
         },
@@ -641,7 +641,7 @@
            {
             "Ref": "AWS::Partition"
            },
-           ":dynamodb:us-east-1:307711586938:table/resume-analyzer-parse-jobs/index/*"
+           ":dynamodb:us-east-1:YOUR_AWS_ACCOUNT_ID:table/resume-analyzer-parse-jobs/index/*"
           ]
          ]
         }
@@ -665,7 +665,7 @@
    "Type": "AWS::Lambda::Function",
    "Properties": {
     "Code": {
-     "S3Bucket": "cdk-hnb659fds-assets-307711586938-us-east-1",
+     "S3Bucket": "cdk-hnb659fds-assets-YOUR_AWS_ACCOUNT_ID-us-east-1",
      "S3Key": "37abe2747c011d40556c57817ed38cdf84f3028e6c1a41fcc5e99dba9c394034.zip"
     },
     "Environment": {
@@ -943,7 +943,7 @@
        {
         "Ref": "AWS::Partition"
        },
-       ":execute-api:us-east-1:307711586938:",
+       ":execute-api:us-east-1:YOUR_AWS_ACCOUNT_ID:",
        {
         "Ref": "AppAPI893ABA96"
        },
@@ -979,7 +979,7 @@
        {
         "Ref": "AWS::Partition"
        },
-       ":execute-api:us-east-1:307711586938:",
+       ":execute-api:us-east-1:YOUR_AWS_ACCOUNT_ID:",
        {
         "Ref": "AppAPI893ABA96"
        },
@@ -1111,7 +1111,7 @@
        {
         "Ref": "AWS::Partition"
        },
-       ":execute-api:us-east-1:307711586938:",
+       ":execute-api:us-east-1:YOUR_AWS_ACCOUNT_ID:",
        {
         "Ref": "AppAPI893ABA96"
        },
@@ -1147,7 +1147,7 @@
        {
         "Ref": "AWS::Partition"
        },
-       ":execute-api:us-east-1:307711586938:",
+       ":execute-api:us-east-1:YOUR_AWS_ACCOUNT_ID:",
        {
         "Ref": "AppAPI893ABA96"
        },
@@ -1279,7 +1279,7 @@
        {
         "Ref": "AWS::Partition"
        },
-       ":execute-api:us-east-1:307711586938:",
+       ":execute-api:us-east-1:YOUR_AWS_ACCOUNT_ID:",
        {
         "Ref": "AppAPI893ABA96"
        },
@@ -1315,7 +1315,7 @@
        {
         "Ref": "AWS::Partition"
        },
-       ":execute-api:us-east-1:307711586938:",
+       ":execute-api:us-east-1:YOUR_AWS_ACCOUNT_ID:",
        {
         "Ref": "AppAPI893ABA96"
        },
@@ -1447,7 +1447,7 @@
        {
         "Ref": "AWS::Partition"
        },
-       ":execute-api:us-east-1:307711586938:",
+       ":execute-api:us-east-1:YOUR_AWS_ACCOUNT_ID:",
        {
         "Ref": "AppAPI893ABA96"
        },
@@ -1483,7 +1483,7 @@
        {
         "Ref": "AWS::Partition"
        },
-       ":execute-api:us-east-1:307711586938:",
+       ":execute-api:us-east-1:YOUR_AWS_ACCOUNT_ID:",
        {
         "Ref": "AppAPI893ABA96"
        },
@@ -1557,7 +1557,7 @@
        {
         "Ref": "AWS::Partition"
        },
-       ":execute-api:us-east-1:307711586938:",
+       ":execute-api:us-east-1:YOUR_AWS_ACCOUNT_ID:",
        {
         "Ref": "AppAPI893ABA96"
        },
@@ -1593,7 +1593,7 @@
        {
         "Ref": "AWS::Partition"
        },
-       ":execute-api:us-east-1:307711586938:",
+       ":execute-api:us-east-1:YOUR_AWS_ACCOUNT_ID:",
        {
         "Ref": "AppAPI893ABA96"
        },
@@ -1725,7 +1725,7 @@
        {
         "Ref": "AWS::Partition"
        },
-       ":execute-api:us-east-1:307711586938:",
+       ":execute-api:us-east-1:YOUR_AWS_ACCOUNT_ID:",
        {
         "Ref": "AppAPI893ABA96"
        },
@@ -1761,7 +1761,7 @@
        {
         "Ref": "AWS::Partition"
        },
-       ":execute-api:us-east-1:307711586938:",
+       ":execute-api:us-east-1:YOUR_AWS_ACCOUNT_ID:",
        {
         "Ref": "AppAPI893ABA96"
        },
@@ -1838,7 +1838,7 @@
   "CDKMetadata": {
    "Type": "AWS::CDK::Metadata",
    "Properties": {
-    "Analytics": "v2:deflate64:H4sIAAAAAAAA/5VQTU/DMAz9LeychY/BhVsBcUOUDU4IoTQ1m1kbj9phlKj/HSUZrEhcuNTPefbzez3RJ2dH+ujAbHlq6/W0wUqHhRi7VmbLz6HunWmprnS4N1UD6vLFJTAonulw4e0aJD5m9BgmLX6gm5xPxoJRiWc6UazzaOGFrqABgdvqFazwZHhSmSqpQdvvVXP/D+28sBAj0IIbS18YjtbfWIc7Dz7lySB995dH7aDQtDrMKcdPdT/4PdOYtqqNDtfeWUFykRvjEroWmZFc/HXPhhmEdRGLMhtcGoGt6XWYA0uxwXRpDwtryTtRV7BpqI+h4uuoW4hZJnsZzIHJdxZiXnUDsqI6kjv0ze6O7DAtHQo9MHQlUcOFlxV1+AldMvDTDcNo37NQ+7fcL6rs6B1r6JKfFDr6RLeMO7deNl4GVfayInc408enenbwyojTzjvBFvQ81y/3y8y2rgIAAA=="
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/5VRy07DMBD8lubsGtQiBNxSKm6oocAJocpxltRt7A2xTQlR/h0/WhIkLlyys6/ZGWdGZxdX9HzCDnrKi/20EjntHg3je+JKm65oFZNYuOITyysgt28qgJ7oOe0Wlu/B+GJEL10ixadQyU0yJvRMbjy0NI2jqTW4hAoMrPIdcKOT/pXEVoaV4O3AGvN/cMcF58KABDWmXjDtpb9r2j1YsMFPBOE7XB6lPRFM0m6N0X6Iw+BppmIyLxjt7qziRqDyvTHOoJFCa5f5p9swrcFomvpAWC1Kp/XAWncGtElrES4NMOUcrTJkCXWFrTflq6PMmS2DvAjcKtqGg/dL7sFssfDNIzp1j0eOGEslDD5raDLESrsftMVGfEETBPxkfT/at9qg/JvuVytr8EMU0AQ9wbTXKVTpd1bW1Nb0JGvdDXU2p9f0crLTQkwb51lIoOsYvwGrXbcBrQIAAA=="
    },
    "Metadata": {
     "aws:cdk:path": "ResumeAnalyzerUpload/CDKMetadata/Default"

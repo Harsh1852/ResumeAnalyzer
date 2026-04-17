@@ -1,0 +1,1782 @@
+{
+ "Resources": {
+  "JobsTable1970BC16": {
+   "Type": "AWS::DynamoDB::Table",
+   "Properties": {
+    "AttributeDefinitions": [
+     {
+      "AttributeName": "jobId",
+      "AttributeType": "S"
+     },
+     {
+      "AttributeName": "resultId",
+      "AttributeType": "S"
+     },
+     {
+      "AttributeName": "userId",
+      "AttributeType": "S"
+     }
+    ],
+    "BillingMode": "PAY_PER_REQUEST",
+    "GlobalSecondaryIndexes": [
+     {
+      "IndexName": "resultId-index",
+      "KeySchema": [
+       {
+        "AttributeName": "resultId",
+        "KeyType": "HASH"
+       }
+      ],
+      "Projection": {
+       "ProjectionType": "ALL"
+      }
+     },
+     {
+      "IndexName": "userId-index",
+      "KeySchema": [
+       {
+        "AttributeName": "userId",
+        "KeyType": "HASH"
+       }
+      ],
+      "Projection": {
+       "ProjectionType": "ALL"
+      }
+     }
+    ],
+    "KeySchema": [
+     {
+      "AttributeName": "jobId",
+      "KeyType": "HASH"
+     }
+    ],
+    "TableName": "resume-analyzer-jobs"
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerJobs/JobsTable/Resource"
+   }
+  },
+  "TailoredResumesTable92E887F9": {
+   "Type": "AWS::DynamoDB::Table",
+   "Properties": {
+    "AttributeDefinitions": [
+     {
+      "AttributeName": "resumeId",
+      "AttributeType": "S"
+     },
+     {
+      "AttributeName": "userId",
+      "AttributeType": "S"
+     },
+     {
+      "AttributeName": "jobId",
+      "AttributeType": "S"
+     }
+    ],
+    "BillingMode": "PAY_PER_REQUEST",
+    "GlobalSecondaryIndexes": [
+     {
+      "IndexName": "userId-index",
+      "KeySchema": [
+       {
+        "AttributeName": "userId",
+        "KeyType": "HASH"
+       }
+      ],
+      "Projection": {
+       "ProjectionType": "ALL"
+      }
+     },
+     {
+      "IndexName": "jobId-index",
+      "KeySchema": [
+       {
+        "AttributeName": "jobId",
+        "KeyType": "HASH"
+       }
+      ],
+      "Projection": {
+       "ProjectionType": "ALL"
+      }
+     }
+    ],
+    "KeySchema": [
+     {
+      "AttributeName": "resumeId",
+      "KeyType": "HASH"
+     }
+    ],
+    "TableName": "resume-analyzer-tailored-resumes"
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerJobs/TailoredResumesTable/Resource"
+   }
+  },
+  "JobsAPILambdaServiceRole502E55C6": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerJobs/JobsAPILambda/ServiceRole/Resource"
+   }
+  },
+  "JobsAPILambdaServiceRoleDefaultPolicy3437ACB8": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "dynamodb:BatchGetItem",
+        "dynamodb:BatchWriteItem",
+        "dynamodb:ConditionCheckItem",
+        "dynamodb:DeleteItem",
+        "dynamodb:DescribeTable",
+        "dynamodb:GetItem",
+        "dynamodb:GetRecords",
+        "dynamodb:GetShardIterator",
+        "dynamodb:PutItem",
+        "dynamodb:Query",
+        "dynamodb:Scan",
+        "dynamodb:UpdateItem"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "JobsTable1970BC16",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::GetAtt": [
+          "TailoredResumesTable92E887F9",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "JobsTable1970BC16",
+             "Arn"
+            ]
+           },
+           "/index/*"
+          ]
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "TailoredResumesTable92E887F9",
+             "Arn"
+            ]
+           },
+           "/index/*"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": [
+        "dynamodb:BatchGetItem",
+        "dynamodb:ConditionCheckItem",
+        "dynamodb:DescribeTable",
+        "dynamodb:GetItem",
+        "dynamodb:GetRecords",
+        "dynamodb:GetShardIterator",
+        "dynamodb:Query",
+        "dynamodb:Scan"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::ImportValue": "ResumeAnalyzerResults:ExportsOutputFnGetAttResultsTableF0B5BF22Arn1CE9057C"
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::ImportValue": "ResumeAnalyzerResults:ExportsOutputFnGetAttResultsTableF0B5BF22Arn1CE9057C"
+           },
+           "/index/*"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": "bedrock:InvokeModel",
+       "Effect": "Allow",
+       "Resource": "arn:aws:bedrock:us-east-1::foundation-model/anthropic.claude-3-haiku-20240307-v1:0"
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "JobsAPILambdaServiceRoleDefaultPolicy3437ACB8",
+    "Roles": [
+     {
+      "Ref": "JobsAPILambdaServiceRole502E55C6"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerJobs/JobsAPILambda/ServiceRole/DefaultPolicy/Resource"
+   }
+  },
+  "JobsAPILambda316F45F1": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-YOUR_AWS_ACCOUNT_ID-us-east-1",
+     "S3Key": "186069abfee0d7be4154e7d2ba5686b91caf4a4af94bbb1a00f571502a38d736.zip"
+    },
+    "Environment": {
+     "Variables": {
+      "JOBS_TABLE_NAME": {
+       "Ref": "JobsTable1970BC16"
+      },
+      "TAILORED_RESUMES_TABLE_NAME": {
+       "Ref": "TailoredResumesTable92E887F9"
+      },
+      "RESULTS_TABLE_NAME": {
+       "Fn::ImportValue": "ResumeAnalyzerResults:ExportsOutputRefResultsTableF0B5BF22D7933BCD"
+      },
+      "ADZUNA_APP_ID": "t",
+      "ADZUNA_APP_KEY": "t",
+      "ADZUNA_COUNTRY": "us",
+      "TAVILY_API_KEY": "",
+      "BEDROCK_MODEL_ID": "anthropic.claude-3-haiku-20240307-v1:0",
+      "BEDROCK_MAX_TOKENS": "4096"
+     }
+    },
+    "Handler": "handler.api_handler",
+    "MemorySize": 512,
+    "Role": {
+     "Fn::GetAtt": [
+      "JobsAPILambdaServiceRole502E55C6",
+      "Arn"
+     ]
+    },
+    "Runtime": "python3.12",
+    "Timeout": 60
+   },
+   "DependsOn": [
+    "JobsAPILambdaServiceRoleDefaultPolicy3437ACB8",
+    "JobsAPILambdaServiceRole502E55C6"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerJobs/JobsAPILambda/Resource",
+    "aws:asset:path": "asset.186069abfee0d7be4154e7d2ba5686b91caf4a4af94bbb1a00f571502a38d736",
+    "aws:asset:is-bundled": false,
+    "aws:asset:property": "Code"
+   }
+  },
+  "JobsAPIDF0E9567": {
+   "Type": "AWS::ApiGateway::RestApi",
+   "Properties": {
+    "Name": "resume-analyzer-jobs-api"
+   },
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerJobs/JobsAPI/Resource"
+   }
+  },
+  "JobsAPICloudWatchRole70F5A28A": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "apigateway.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AmazonAPIGatewayPushToCloudWatchLogs"
+       ]
+      ]
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerJobs/JobsAPI/CloudWatchRole/Resource"
+   }
+  },
+  "JobsAPIAccount6ABD7E38": {
+   "Type": "AWS::ApiGateway::Account",
+   "Properties": {
+    "CloudWatchRoleArn": {
+     "Fn::GetAtt": [
+      "JobsAPICloudWatchRole70F5A28A",
+      "Arn"
+     ]
+    }
+   },
+   "DependsOn": [
+    "JobsAPIDF0E9567"
+   ],
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerJobs/JobsAPI/Account"
+   }
+  },
+  "JobsAPIDeploymentC59B10B7481d823ffee754dff1ade19df05b7895": {
+   "Type": "AWS::ApiGateway::Deployment",
+   "Properties": {
+    "Description": "Automatically created by the RestApi construct",
+    "RestApiId": {
+     "Ref": "JobsAPIDF0E9567"
+    }
+   },
+   "DependsOn": [
+    "JobsAPIjobsjobIdcoursesOPTIONS6F53402E",
+    "JobsAPIjobsjobIdcoursesPOSTD03386A6",
+    "JobsAPIjobsjobIdcourses41F9807C",
+    "JobsAPIjobsjobIdGET8376728B",
+    "JobsAPIjobsjobIdOPTIONS81387995",
+    "JobsAPIjobsjobIdD3F5AFDB",
+    "JobsAPIjobsjobIdtailoredresumeOPTIONSA2BB58E6",
+    "JobsAPIjobsjobIdtailoredresumePOST32A282BC",
+    "JobsAPIjobsjobIdtailoredresume2212AE82",
+    "JobsAPIjobsGET1A5D544E",
+    "JobsAPIjobsOPTIONSF9A9DE4A",
+    "JobsAPIjobs90F2D618",
+    "JobsAPIjobssearchOPTIONSFA50AAFE",
+    "JobsAPIjobssearchPOST6771CD27",
+    "JobsAPIjobssearch9F179B97",
+    "JobsAPIOPTIONS8FAC477C",
+    "JobsAPItailoredresumesresumeIdGETF2C2CD96",
+    "JobsAPItailoredresumesresumeIdOPTIONS53352F55",
+    "JobsAPItailoredresumesresumeIdPUT8C309EC5",
+    "JobsAPItailoredresumesresumeId9C3CCC5C",
+    "JobsAPItailoredresumesOPTIONSF03D3F60",
+    "JobsAPItailoredresumes2E83B193"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerJobs/JobsAPI/Deployment/Resource",
+    "aws:cdk:do-not-refactor": true
+   }
+  },
+  "JobsAPIDeploymentStageprod35811838": {
+   "Type": "AWS::ApiGateway::Stage",
+   "Properties": {
+    "DeploymentId": {
+     "Ref": "JobsAPIDeploymentC59B10B7481d823ffee754dff1ade19df05b7895"
+    },
+    "RestApiId": {
+     "Ref": "JobsAPIDF0E9567"
+    },
+    "StageName": "prod"
+   },
+   "DependsOn": [
+    "JobsAPIAccount6ABD7E38"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerJobs/JobsAPI/DeploymentStage.prod/Resource"
+   }
+  },
+  "JobsAPIOPTIONS8FAC477C": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "ApiKeyRequired": false,
+    "AuthorizationType": "NONE",
+    "HttpMethod": "OPTIONS",
+    "Integration": {
+     "IntegrationResponses": [
+      {
+       "ResponseParameters": {
+        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,Authorization'",
+        "method.response.header.Access-Control-Allow-Origin": "'*'",
+        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,PUT,POST,DELETE,PATCH,HEAD'"
+       },
+       "StatusCode": "204"
+      }
+     ],
+     "RequestTemplates": {
+      "application/json": "{ statusCode: 200 }"
+     },
+     "Type": "MOCK"
+    },
+    "MethodResponses": [
+     {
+      "ResponseParameters": {
+       "method.response.header.Access-Control-Allow-Headers": true,
+       "method.response.header.Access-Control-Allow-Origin": true,
+       "method.response.header.Access-Control-Allow-Methods": true
+      },
+      "StatusCode": "204"
+     }
+    ],
+    "ResourceId": {
+     "Fn::GetAtt": [
+      "JobsAPIDF0E9567",
+      "RootResourceId"
+     ]
+    },
+    "RestApiId": {
+     "Ref": "JobsAPIDF0E9567"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerJobs/JobsAPI/Default/OPTIONS/Resource"
+   }
+  },
+  "JobsAPIjobs90F2D618": {
+   "Type": "AWS::ApiGateway::Resource",
+   "Properties": {
+    "ParentId": {
+     "Fn::GetAtt": [
+      "JobsAPIDF0E9567",
+      "RootResourceId"
+     ]
+    },
+    "PathPart": "jobs",
+    "RestApiId": {
+     "Ref": "JobsAPIDF0E9567"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerJobs/JobsAPI/Default/jobs/Resource"
+   }
+  },
+  "JobsAPIjobsOPTIONSF9A9DE4A": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "ApiKeyRequired": false,
+    "AuthorizationType": "NONE",
+    "HttpMethod": "OPTIONS",
+    "Integration": {
+     "IntegrationResponses": [
+      {
+       "ResponseParameters": {
+        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,Authorization'",
+        "method.response.header.Access-Control-Allow-Origin": "'*'",
+        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,PUT,POST,DELETE,PATCH,HEAD'"
+       },
+       "StatusCode": "204"
+      }
+     ],
+     "RequestTemplates": {
+      "application/json": "{ statusCode: 200 }"
+     },
+     "Type": "MOCK"
+    },
+    "MethodResponses": [
+     {
+      "ResponseParameters": {
+       "method.response.header.Access-Control-Allow-Headers": true,
+       "method.response.header.Access-Control-Allow-Origin": true,
+       "method.response.header.Access-Control-Allow-Methods": true
+      },
+      "StatusCode": "204"
+     }
+    ],
+    "ResourceId": {
+     "Ref": "JobsAPIjobs90F2D618"
+    },
+    "RestApiId": {
+     "Ref": "JobsAPIDF0E9567"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerJobs/JobsAPI/Default/jobs/OPTIONS/Resource"
+   }
+  },
+  "JobsAPIjobsGETApiPermissionResumeAnalyzerJobsJobsAPI4D290882GETjobs94DFB465": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "JobsAPILambda316F45F1",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:us-east-1:YOUR_AWS_ACCOUNT_ID:",
+       {
+        "Ref": "JobsAPIDF0E9567"
+       },
+       "/",
+       {
+        "Ref": "JobsAPIDeploymentStageprod35811838"
+       },
+       "/GET/jobs"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerJobs/JobsAPI/Default/jobs/GET/ApiPermission.ResumeAnalyzerJobsJobsAPI4D290882.GET..jobs"
+   }
+  },
+  "JobsAPIjobsGETApiPermissionTestResumeAnalyzerJobsJobsAPI4D290882GETjobs2B6681E1": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "JobsAPILambda316F45F1",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:us-east-1:YOUR_AWS_ACCOUNT_ID:",
+       {
+        "Ref": "JobsAPIDF0E9567"
+       },
+       "/test-invoke-stage/GET/jobs"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerJobs/JobsAPI/Default/jobs/GET/ApiPermission.Test.ResumeAnalyzerJobsJobsAPI4D290882.GET..jobs"
+   }
+  },
+  "JobsAPIjobsGET1A5D544E": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "COGNITO_USER_POOLS",
+    "AuthorizerId": {
+     "Ref": "JobsCognitoAuthorizer3D0AD42C"
+    },
+    "HttpMethod": "GET",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":apigateway:us-east-1:lambda:path/2015-03-31/functions/",
+        {
+         "Fn::GetAtt": [
+          "JobsAPILambda316F45F1",
+          "Arn"
+         ]
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    },
+    "ResourceId": {
+     "Ref": "JobsAPIjobs90F2D618"
+    },
+    "RestApiId": {
+     "Ref": "JobsAPIDF0E9567"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerJobs/JobsAPI/Default/jobs/GET/Resource"
+   }
+  },
+  "JobsAPIjobssearch9F179B97": {
+   "Type": "AWS::ApiGateway::Resource",
+   "Properties": {
+    "ParentId": {
+     "Ref": "JobsAPIjobs90F2D618"
+    },
+    "PathPart": "search",
+    "RestApiId": {
+     "Ref": "JobsAPIDF0E9567"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerJobs/JobsAPI/Default/jobs/search/Resource"
+   }
+  },
+  "JobsAPIjobssearchOPTIONSFA50AAFE": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "ApiKeyRequired": false,
+    "AuthorizationType": "NONE",
+    "HttpMethod": "OPTIONS",
+    "Integration": {
+     "IntegrationResponses": [
+      {
+       "ResponseParameters": {
+        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,Authorization'",
+        "method.response.header.Access-Control-Allow-Origin": "'*'",
+        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,PUT,POST,DELETE,PATCH,HEAD'"
+       },
+       "StatusCode": "204"
+      }
+     ],
+     "RequestTemplates": {
+      "application/json": "{ statusCode: 200 }"
+     },
+     "Type": "MOCK"
+    },
+    "MethodResponses": [
+     {
+      "ResponseParameters": {
+       "method.response.header.Access-Control-Allow-Headers": true,
+       "method.response.header.Access-Control-Allow-Origin": true,
+       "method.response.header.Access-Control-Allow-Methods": true
+      },
+      "StatusCode": "204"
+     }
+    ],
+    "ResourceId": {
+     "Ref": "JobsAPIjobssearch9F179B97"
+    },
+    "RestApiId": {
+     "Ref": "JobsAPIDF0E9567"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerJobs/JobsAPI/Default/jobs/search/OPTIONS/Resource"
+   }
+  },
+  "JobsAPIjobssearchPOSTApiPermissionResumeAnalyzerJobsJobsAPI4D290882POSTjobssearchC1D16E13": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "JobsAPILambda316F45F1",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:us-east-1:YOUR_AWS_ACCOUNT_ID:",
+       {
+        "Ref": "JobsAPIDF0E9567"
+       },
+       "/",
+       {
+        "Ref": "JobsAPIDeploymentStageprod35811838"
+       },
+       "/POST/jobs/search"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerJobs/JobsAPI/Default/jobs/search/POST/ApiPermission.ResumeAnalyzerJobsJobsAPI4D290882.POST..jobs.search"
+   }
+  },
+  "JobsAPIjobssearchPOSTApiPermissionTestResumeAnalyzerJobsJobsAPI4D290882POSTjobssearch5E387425": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "JobsAPILambda316F45F1",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:us-east-1:YOUR_AWS_ACCOUNT_ID:",
+       {
+        "Ref": "JobsAPIDF0E9567"
+       },
+       "/test-invoke-stage/POST/jobs/search"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerJobs/JobsAPI/Default/jobs/search/POST/ApiPermission.Test.ResumeAnalyzerJobsJobsAPI4D290882.POST..jobs.search"
+   }
+  },
+  "JobsAPIjobssearchPOST6771CD27": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "COGNITO_USER_POOLS",
+    "AuthorizerId": {
+     "Ref": "JobsCognitoAuthorizer3D0AD42C"
+    },
+    "HttpMethod": "POST",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":apigateway:us-east-1:lambda:path/2015-03-31/functions/",
+        {
+         "Fn::GetAtt": [
+          "JobsAPILambda316F45F1",
+          "Arn"
+         ]
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    },
+    "ResourceId": {
+     "Ref": "JobsAPIjobssearch9F179B97"
+    },
+    "RestApiId": {
+     "Ref": "JobsAPIDF0E9567"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerJobs/JobsAPI/Default/jobs/search/POST/Resource"
+   }
+  },
+  "JobsAPIjobsjobIdD3F5AFDB": {
+   "Type": "AWS::ApiGateway::Resource",
+   "Properties": {
+    "ParentId": {
+     "Ref": "JobsAPIjobs90F2D618"
+    },
+    "PathPart": "{jobId}",
+    "RestApiId": {
+     "Ref": "JobsAPIDF0E9567"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerJobs/JobsAPI/Default/jobs/{jobId}/Resource"
+   }
+  },
+  "JobsAPIjobsjobIdOPTIONS81387995": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "ApiKeyRequired": false,
+    "AuthorizationType": "NONE",
+    "HttpMethod": "OPTIONS",
+    "Integration": {
+     "IntegrationResponses": [
+      {
+       "ResponseParameters": {
+        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,Authorization'",
+        "method.response.header.Access-Control-Allow-Origin": "'*'",
+        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,PUT,POST,DELETE,PATCH,HEAD'"
+       },
+       "StatusCode": "204"
+      }
+     ],
+     "RequestTemplates": {
+      "application/json": "{ statusCode: 200 }"
+     },
+     "Type": "MOCK"
+    },
+    "MethodResponses": [
+     {
+      "ResponseParameters": {
+       "method.response.header.Access-Control-Allow-Headers": true,
+       "method.response.header.Access-Control-Allow-Origin": true,
+       "method.response.header.Access-Control-Allow-Methods": true
+      },
+      "StatusCode": "204"
+     }
+    ],
+    "ResourceId": {
+     "Ref": "JobsAPIjobsjobIdD3F5AFDB"
+    },
+    "RestApiId": {
+     "Ref": "JobsAPIDF0E9567"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerJobs/JobsAPI/Default/jobs/{jobId}/OPTIONS/Resource"
+   }
+  },
+  "JobsAPIjobsjobIdGETApiPermissionResumeAnalyzerJobsJobsAPI4D290882GETjobsjobId417822C8": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "JobsAPILambda316F45F1",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:us-east-1:YOUR_AWS_ACCOUNT_ID:",
+       {
+        "Ref": "JobsAPIDF0E9567"
+       },
+       "/",
+       {
+        "Ref": "JobsAPIDeploymentStageprod35811838"
+       },
+       "/GET/jobs/*"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerJobs/JobsAPI/Default/jobs/{jobId}/GET/ApiPermission.ResumeAnalyzerJobsJobsAPI4D290882.GET..jobs.{jobId}"
+   }
+  },
+  "JobsAPIjobsjobIdGETApiPermissionTestResumeAnalyzerJobsJobsAPI4D290882GETjobsjobIdEAC03011": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "JobsAPILambda316F45F1",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:us-east-1:YOUR_AWS_ACCOUNT_ID:",
+       {
+        "Ref": "JobsAPIDF0E9567"
+       },
+       "/test-invoke-stage/GET/jobs/*"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerJobs/JobsAPI/Default/jobs/{jobId}/GET/ApiPermission.Test.ResumeAnalyzerJobsJobsAPI4D290882.GET..jobs.{jobId}"
+   }
+  },
+  "JobsAPIjobsjobIdGET8376728B": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "COGNITO_USER_POOLS",
+    "AuthorizerId": {
+     "Ref": "JobsCognitoAuthorizer3D0AD42C"
+    },
+    "HttpMethod": "GET",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":apigateway:us-east-1:lambda:path/2015-03-31/functions/",
+        {
+         "Fn::GetAtt": [
+          "JobsAPILambda316F45F1",
+          "Arn"
+         ]
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    },
+    "ResourceId": {
+     "Ref": "JobsAPIjobsjobIdD3F5AFDB"
+    },
+    "RestApiId": {
+     "Ref": "JobsAPIDF0E9567"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerJobs/JobsAPI/Default/jobs/{jobId}/GET/Resource"
+   }
+  },
+  "JobsAPIjobsjobIdcourses41F9807C": {
+   "Type": "AWS::ApiGateway::Resource",
+   "Properties": {
+    "ParentId": {
+     "Ref": "JobsAPIjobsjobIdD3F5AFDB"
+    },
+    "PathPart": "courses",
+    "RestApiId": {
+     "Ref": "JobsAPIDF0E9567"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerJobs/JobsAPI/Default/jobs/{jobId}/courses/Resource"
+   }
+  },
+  "JobsAPIjobsjobIdcoursesOPTIONS6F53402E": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "ApiKeyRequired": false,
+    "AuthorizationType": "NONE",
+    "HttpMethod": "OPTIONS",
+    "Integration": {
+     "IntegrationResponses": [
+      {
+       "ResponseParameters": {
+        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,Authorization'",
+        "method.response.header.Access-Control-Allow-Origin": "'*'",
+        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,PUT,POST,DELETE,PATCH,HEAD'"
+       },
+       "StatusCode": "204"
+      }
+     ],
+     "RequestTemplates": {
+      "application/json": "{ statusCode: 200 }"
+     },
+     "Type": "MOCK"
+    },
+    "MethodResponses": [
+     {
+      "ResponseParameters": {
+       "method.response.header.Access-Control-Allow-Headers": true,
+       "method.response.header.Access-Control-Allow-Origin": true,
+       "method.response.header.Access-Control-Allow-Methods": true
+      },
+      "StatusCode": "204"
+     }
+    ],
+    "ResourceId": {
+     "Ref": "JobsAPIjobsjobIdcourses41F9807C"
+    },
+    "RestApiId": {
+     "Ref": "JobsAPIDF0E9567"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerJobs/JobsAPI/Default/jobs/{jobId}/courses/OPTIONS/Resource"
+   }
+  },
+  "JobsAPIjobsjobIdcoursesPOSTApiPermissionResumeAnalyzerJobsJobsAPI4D290882POSTjobsjobIdcourses37AB44CC": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "JobsAPILambda316F45F1",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:us-east-1:YOUR_AWS_ACCOUNT_ID:",
+       {
+        "Ref": "JobsAPIDF0E9567"
+       },
+       "/",
+       {
+        "Ref": "JobsAPIDeploymentStageprod35811838"
+       },
+       "/POST/jobs/*/courses"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerJobs/JobsAPI/Default/jobs/{jobId}/courses/POST/ApiPermission.ResumeAnalyzerJobsJobsAPI4D290882.POST..jobs.{jobId}.courses"
+   }
+  },
+  "JobsAPIjobsjobIdcoursesPOSTApiPermissionTestResumeAnalyzerJobsJobsAPI4D290882POSTjobsjobIdcourses10DBC966": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "JobsAPILambda316F45F1",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:us-east-1:YOUR_AWS_ACCOUNT_ID:",
+       {
+        "Ref": "JobsAPIDF0E9567"
+       },
+       "/test-invoke-stage/POST/jobs/*/courses"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerJobs/JobsAPI/Default/jobs/{jobId}/courses/POST/ApiPermission.Test.ResumeAnalyzerJobsJobsAPI4D290882.POST..jobs.{jobId}.courses"
+   }
+  },
+  "JobsAPIjobsjobIdcoursesPOSTD03386A6": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "COGNITO_USER_POOLS",
+    "AuthorizerId": {
+     "Ref": "JobsCognitoAuthorizer3D0AD42C"
+    },
+    "HttpMethod": "POST",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":apigateway:us-east-1:lambda:path/2015-03-31/functions/",
+        {
+         "Fn::GetAtt": [
+          "JobsAPILambda316F45F1",
+          "Arn"
+         ]
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    },
+    "ResourceId": {
+     "Ref": "JobsAPIjobsjobIdcourses41F9807C"
+    },
+    "RestApiId": {
+     "Ref": "JobsAPIDF0E9567"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerJobs/JobsAPI/Default/jobs/{jobId}/courses/POST/Resource"
+   }
+  },
+  "JobsAPIjobsjobIdtailoredresume2212AE82": {
+   "Type": "AWS::ApiGateway::Resource",
+   "Properties": {
+    "ParentId": {
+     "Ref": "JobsAPIjobsjobIdD3F5AFDB"
+    },
+    "PathPart": "tailored-resume",
+    "RestApiId": {
+     "Ref": "JobsAPIDF0E9567"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerJobs/JobsAPI/Default/jobs/{jobId}/tailored-resume/Resource"
+   }
+  },
+  "JobsAPIjobsjobIdtailoredresumeOPTIONSA2BB58E6": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "ApiKeyRequired": false,
+    "AuthorizationType": "NONE",
+    "HttpMethod": "OPTIONS",
+    "Integration": {
+     "IntegrationResponses": [
+      {
+       "ResponseParameters": {
+        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,Authorization'",
+        "method.response.header.Access-Control-Allow-Origin": "'*'",
+        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,PUT,POST,DELETE,PATCH,HEAD'"
+       },
+       "StatusCode": "204"
+      }
+     ],
+     "RequestTemplates": {
+      "application/json": "{ statusCode: 200 }"
+     },
+     "Type": "MOCK"
+    },
+    "MethodResponses": [
+     {
+      "ResponseParameters": {
+       "method.response.header.Access-Control-Allow-Headers": true,
+       "method.response.header.Access-Control-Allow-Origin": true,
+       "method.response.header.Access-Control-Allow-Methods": true
+      },
+      "StatusCode": "204"
+     }
+    ],
+    "ResourceId": {
+     "Ref": "JobsAPIjobsjobIdtailoredresume2212AE82"
+    },
+    "RestApiId": {
+     "Ref": "JobsAPIDF0E9567"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerJobs/JobsAPI/Default/jobs/{jobId}/tailored-resume/OPTIONS/Resource"
+   }
+  },
+  "JobsAPIjobsjobIdtailoredresumePOSTApiPermissionResumeAnalyzerJobsJobsAPI4D290882POSTjobsjobIdtailoredresumeDD501208": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "JobsAPILambda316F45F1",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:us-east-1:YOUR_AWS_ACCOUNT_ID:",
+       {
+        "Ref": "JobsAPIDF0E9567"
+       },
+       "/",
+       {
+        "Ref": "JobsAPIDeploymentStageprod35811838"
+       },
+       "/POST/jobs/*/tailored-resume"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerJobs/JobsAPI/Default/jobs/{jobId}/tailored-resume/POST/ApiPermission.ResumeAnalyzerJobsJobsAPI4D290882.POST..jobs.{jobId}.tailored-resume"
+   }
+  },
+  "JobsAPIjobsjobIdtailoredresumePOSTApiPermissionTestResumeAnalyzerJobsJobsAPI4D290882POSTjobsjobIdtailoredresume912FD7FB": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "JobsAPILambda316F45F1",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:us-east-1:YOUR_AWS_ACCOUNT_ID:",
+       {
+        "Ref": "JobsAPIDF0E9567"
+       },
+       "/test-invoke-stage/POST/jobs/*/tailored-resume"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerJobs/JobsAPI/Default/jobs/{jobId}/tailored-resume/POST/ApiPermission.Test.ResumeAnalyzerJobsJobsAPI4D290882.POST..jobs.{jobId}.tailored-resume"
+   }
+  },
+  "JobsAPIjobsjobIdtailoredresumePOST32A282BC": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "COGNITO_USER_POOLS",
+    "AuthorizerId": {
+     "Ref": "JobsCognitoAuthorizer3D0AD42C"
+    },
+    "HttpMethod": "POST",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":apigateway:us-east-1:lambda:path/2015-03-31/functions/",
+        {
+         "Fn::GetAtt": [
+          "JobsAPILambda316F45F1",
+          "Arn"
+         ]
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    },
+    "ResourceId": {
+     "Ref": "JobsAPIjobsjobIdtailoredresume2212AE82"
+    },
+    "RestApiId": {
+     "Ref": "JobsAPIDF0E9567"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerJobs/JobsAPI/Default/jobs/{jobId}/tailored-resume/POST/Resource"
+   }
+  },
+  "JobsAPItailoredresumes2E83B193": {
+   "Type": "AWS::ApiGateway::Resource",
+   "Properties": {
+    "ParentId": {
+     "Fn::GetAtt": [
+      "JobsAPIDF0E9567",
+      "RootResourceId"
+     ]
+    },
+    "PathPart": "tailored-resumes",
+    "RestApiId": {
+     "Ref": "JobsAPIDF0E9567"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerJobs/JobsAPI/Default/tailored-resumes/Resource"
+   }
+  },
+  "JobsAPItailoredresumesOPTIONSF03D3F60": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "ApiKeyRequired": false,
+    "AuthorizationType": "NONE",
+    "HttpMethod": "OPTIONS",
+    "Integration": {
+     "IntegrationResponses": [
+      {
+       "ResponseParameters": {
+        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,Authorization'",
+        "method.response.header.Access-Control-Allow-Origin": "'*'",
+        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,PUT,POST,DELETE,PATCH,HEAD'"
+       },
+       "StatusCode": "204"
+      }
+     ],
+     "RequestTemplates": {
+      "application/json": "{ statusCode: 200 }"
+     },
+     "Type": "MOCK"
+    },
+    "MethodResponses": [
+     {
+      "ResponseParameters": {
+       "method.response.header.Access-Control-Allow-Headers": true,
+       "method.response.header.Access-Control-Allow-Origin": true,
+       "method.response.header.Access-Control-Allow-Methods": true
+      },
+      "StatusCode": "204"
+     }
+    ],
+    "ResourceId": {
+     "Ref": "JobsAPItailoredresumes2E83B193"
+    },
+    "RestApiId": {
+     "Ref": "JobsAPIDF0E9567"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerJobs/JobsAPI/Default/tailored-resumes/OPTIONS/Resource"
+   }
+  },
+  "JobsAPItailoredresumesresumeId9C3CCC5C": {
+   "Type": "AWS::ApiGateway::Resource",
+   "Properties": {
+    "ParentId": {
+     "Ref": "JobsAPItailoredresumes2E83B193"
+    },
+    "PathPart": "{resumeId}",
+    "RestApiId": {
+     "Ref": "JobsAPIDF0E9567"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerJobs/JobsAPI/Default/tailored-resumes/{resumeId}/Resource"
+   }
+  },
+  "JobsAPItailoredresumesresumeIdOPTIONS53352F55": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "ApiKeyRequired": false,
+    "AuthorizationType": "NONE",
+    "HttpMethod": "OPTIONS",
+    "Integration": {
+     "IntegrationResponses": [
+      {
+       "ResponseParameters": {
+        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,Authorization'",
+        "method.response.header.Access-Control-Allow-Origin": "'*'",
+        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,PUT,POST,DELETE,PATCH,HEAD'"
+       },
+       "StatusCode": "204"
+      }
+     ],
+     "RequestTemplates": {
+      "application/json": "{ statusCode: 200 }"
+     },
+     "Type": "MOCK"
+    },
+    "MethodResponses": [
+     {
+      "ResponseParameters": {
+       "method.response.header.Access-Control-Allow-Headers": true,
+       "method.response.header.Access-Control-Allow-Origin": true,
+       "method.response.header.Access-Control-Allow-Methods": true
+      },
+      "StatusCode": "204"
+     }
+    ],
+    "ResourceId": {
+     "Ref": "JobsAPItailoredresumesresumeId9C3CCC5C"
+    },
+    "RestApiId": {
+     "Ref": "JobsAPIDF0E9567"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerJobs/JobsAPI/Default/tailored-resumes/{resumeId}/OPTIONS/Resource"
+   }
+  },
+  "JobsAPItailoredresumesresumeIdGETApiPermissionResumeAnalyzerJobsJobsAPI4D290882GETtailoredresumesresumeIdFA48F7BB": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "JobsAPILambda316F45F1",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:us-east-1:YOUR_AWS_ACCOUNT_ID:",
+       {
+        "Ref": "JobsAPIDF0E9567"
+       },
+       "/",
+       {
+        "Ref": "JobsAPIDeploymentStageprod35811838"
+       },
+       "/GET/tailored-resumes/*"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerJobs/JobsAPI/Default/tailored-resumes/{resumeId}/GET/ApiPermission.ResumeAnalyzerJobsJobsAPI4D290882.GET..tailored-resumes.{resumeId}"
+   }
+  },
+  "JobsAPItailoredresumesresumeIdGETApiPermissionTestResumeAnalyzerJobsJobsAPI4D290882GETtailoredresumesresumeId68B9ADB0": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "JobsAPILambda316F45F1",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:us-east-1:YOUR_AWS_ACCOUNT_ID:",
+       {
+        "Ref": "JobsAPIDF0E9567"
+       },
+       "/test-invoke-stage/GET/tailored-resumes/*"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerJobs/JobsAPI/Default/tailored-resumes/{resumeId}/GET/ApiPermission.Test.ResumeAnalyzerJobsJobsAPI4D290882.GET..tailored-resumes.{resumeId}"
+   }
+  },
+  "JobsAPItailoredresumesresumeIdGETF2C2CD96": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "COGNITO_USER_POOLS",
+    "AuthorizerId": {
+     "Ref": "JobsCognitoAuthorizer3D0AD42C"
+    },
+    "HttpMethod": "GET",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":apigateway:us-east-1:lambda:path/2015-03-31/functions/",
+        {
+         "Fn::GetAtt": [
+          "JobsAPILambda316F45F1",
+          "Arn"
+         ]
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    },
+    "ResourceId": {
+     "Ref": "JobsAPItailoredresumesresumeId9C3CCC5C"
+    },
+    "RestApiId": {
+     "Ref": "JobsAPIDF0E9567"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerJobs/JobsAPI/Default/tailored-resumes/{resumeId}/GET/Resource"
+   }
+  },
+  "JobsAPItailoredresumesresumeIdPUTApiPermissionResumeAnalyzerJobsJobsAPI4D290882PUTtailoredresumesresumeIdBDECE1F7": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "JobsAPILambda316F45F1",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:us-east-1:YOUR_AWS_ACCOUNT_ID:",
+       {
+        "Ref": "JobsAPIDF0E9567"
+       },
+       "/",
+       {
+        "Ref": "JobsAPIDeploymentStageprod35811838"
+       },
+       "/PUT/tailored-resumes/*"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerJobs/JobsAPI/Default/tailored-resumes/{resumeId}/PUT/ApiPermission.ResumeAnalyzerJobsJobsAPI4D290882.PUT..tailored-resumes.{resumeId}"
+   }
+  },
+  "JobsAPItailoredresumesresumeIdPUTApiPermissionTestResumeAnalyzerJobsJobsAPI4D290882PUTtailoredresumesresumeId0E836BE0": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "JobsAPILambda316F45F1",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:us-east-1:YOUR_AWS_ACCOUNT_ID:",
+       {
+        "Ref": "JobsAPIDF0E9567"
+       },
+       "/test-invoke-stage/PUT/tailored-resumes/*"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerJobs/JobsAPI/Default/tailored-resumes/{resumeId}/PUT/ApiPermission.Test.ResumeAnalyzerJobsJobsAPI4D290882.PUT..tailored-resumes.{resumeId}"
+   }
+  },
+  "JobsAPItailoredresumesresumeIdPUT8C309EC5": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "COGNITO_USER_POOLS",
+    "AuthorizerId": {
+     "Ref": "JobsCognitoAuthorizer3D0AD42C"
+    },
+    "HttpMethod": "PUT",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":apigateway:us-east-1:lambda:path/2015-03-31/functions/",
+        {
+         "Fn::GetAtt": [
+          "JobsAPILambda316F45F1",
+          "Arn"
+         ]
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    },
+    "ResourceId": {
+     "Ref": "JobsAPItailoredresumesresumeId9C3CCC5C"
+    },
+    "RestApiId": {
+     "Ref": "JobsAPIDF0E9567"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerJobs/JobsAPI/Default/tailored-resumes/{resumeId}/PUT/Resource"
+   }
+  },
+  "JobsCognitoAuthorizer3D0AD42C": {
+   "Type": "AWS::ApiGateway::Authorizer",
+   "Properties": {
+    "IdentitySource": "method.request.header.Authorization",
+    "Name": "ResumeAnalyzerJobsJobsCognitoAuthorizer6B7CB7E7",
+    "ProviderARNs": [
+     {
+      "Fn::ImportValue": "ResumeAnalyzerAuth:ExportsOutputFnGetAttUserPool6BA7E5F2Arn686ACC00"
+     }
+    ],
+    "RestApiId": {
+     "Ref": "JobsAPIDF0E9567"
+    },
+    "Type": "COGNITO_USER_POOLS"
+   },
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerJobs/JobsCognitoAuthorizer/Resource"
+   }
+  },
+  "CDKMetadata": {
+   "Type": "AWS::CDK::Metadata",
+   "Properties": {
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/02PTU/DMAyGf8vuaUAbQnDsQNwQ1YDzlKamM03iKh+aStX/jpsWtpOf1379tZXbuwd5u1HnUOimKwzWcnyPSneCU8exGZyy1HDyQ9UGxNOXyzAJo2zdKDm+JKcjkptL11yBtxgCq0mgsnI80NKfY0UG9ZB9mSYRdkcVAsQgyzmwlvukO4h7FUCoHlsV4awGHgQhlj3mWRcstabkoniG3tBggZGzV4q/avMBC3ArJa8hj3+FeKJmLq70V12XrEytw0ifAXxFZEKZ2OvxB3w+4F9N06U/PzNvRNfOrrcU+xQnUQ3sdjc7+SjvN98BsfB8PVqQhyX+ApL0nbuaAQAA"
+   },
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerJobs/CDKMetadata/Default"
+   }
+  }
+ },
+ "Outputs": {
+  "JobsAPIEndpoint0ECAA6F6": {
+   "Value": {
+    "Fn::Join": [
+     "",
+     [
+      "https://",
+      {
+       "Ref": "JobsAPIDF0E9567"
+      },
+      ".execute-api.us-east-1.",
+      {
+       "Ref": "AWS::URLSuffix"
+      },
+      "/",
+      {
+       "Ref": "JobsAPIDeploymentStageprod35811838"
+      },
+      "/"
+     ]
+    ]
+   }
+  },
+  "JobsTableName": {
+   "Value": {
+    "Ref": "JobsTable1970BC16"
+   }
+  },
+  "TailoredResumesTableName": {
+   "Value": {
+    "Ref": "TailoredResumesTable92E887F9"
+   }
+  },
+  "JobsApiUrl": {
+   "Value": {
+    "Fn::Join": [
+     "",
+     [
+      "https://",
+      {
+       "Ref": "JobsAPIDF0E9567"
+      },
+      ".execute-api.us-east-1.",
+      {
+       "Ref": "AWS::URLSuffix"
+      },
+      "/",
+      {
+       "Ref": "JobsAPIDeploymentStageprod35811838"
+      },
+      "/"
+     ]
+    ]
+   },
+   "Export": {
+    "Name": "JobsApiUrl"
+   }
+  }
+ },
+ "Parameters": {
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}

@@ -247,7 +247,7 @@
            {
             "Ref": "AWS::Partition"
            },
-           ":dynamodb:us-east-1:307711586938:table/resume-analyzer-analysis-jobs"
+           ":dynamodb:us-east-1:YOUR_AWS_ACCOUNT_ID:table/resume-analyzer-analysis-jobs"
           ]
          ]
         },
@@ -259,7 +259,7 @@
            {
             "Ref": "AWS::Partition"
            },
-           ":dynamodb:us-east-1:307711586938:table/resume-analyzer-analysis-jobs/index/*"
+           ":dynamodb:us-east-1:YOUR_AWS_ACCOUNT_ID:table/resume-analyzer-analysis-jobs/index/*"
           ]
          ]
         },
@@ -271,7 +271,7 @@
            {
             "Ref": "AWS::Partition"
            },
-           ":dynamodb:us-east-1:307711586938:table/resume-analyzer-parse-jobs"
+           ":dynamodb:us-east-1:YOUR_AWS_ACCOUNT_ID:table/resume-analyzer-parse-jobs"
           ]
          ]
         },
@@ -283,7 +283,7 @@
            {
             "Ref": "AWS::Partition"
            },
-           ":dynamodb:us-east-1:307711586938:table/resume-analyzer-parse-jobs/index/*"
+           ":dynamodb:us-east-1:YOUR_AWS_ACCOUNT_ID:table/resume-analyzer-parse-jobs/index/*"
           ]
          ]
         },
@@ -295,7 +295,7 @@
            {
             "Ref": "AWS::Partition"
            },
-           ":dynamodb:us-east-1:307711586938:table/resume-analyzer-results"
+           ":dynamodb:us-east-1:YOUR_AWS_ACCOUNT_ID:table/resume-analyzer-results"
           ]
          ]
         },
@@ -307,7 +307,7 @@
            {
             "Ref": "AWS::Partition"
            },
-           ":dynamodb:us-east-1:307711586938:table/resume-analyzer-results/index/*"
+           ":dynamodb:us-east-1:YOUR_AWS_ACCOUNT_ID:table/resume-analyzer-results/index/*"
           ]
          ]
         },
@@ -319,7 +319,7 @@
            {
             "Ref": "AWS::Partition"
            },
-           ":dynamodb:us-east-1:307711586938:table/resume-analyzer-uploads"
+           ":dynamodb:us-east-1:YOUR_AWS_ACCOUNT_ID:table/resume-analyzer-uploads"
           ]
          ]
         },
@@ -331,7 +331,7 @@
            {
             "Ref": "AWS::Partition"
            },
-           ":dynamodb:us-east-1:307711586938:table/resume-analyzer-uploads/index/*"
+           ":dynamodb:us-east-1:YOUR_AWS_ACCOUNT_ID:table/resume-analyzer-uploads/index/*"
           ]
          ]
         }
@@ -378,7 +378,7 @@
    "Type": "AWS::Lambda::Function",
    "Properties": {
     "Code": {
-     "S3Bucket": "cdk-hnb659fds-assets-307711586938-us-east-1",
+     "S3Bucket": "cdk-hnb659fds-assets-YOUR_AWS_ACCOUNT_ID-us-east-1",
      "S3Key": "52c595a4c036bb3d4ba2a0cd1520b214e54013efd98fa579464da9635e24b87b.zip"
     },
     "Environment": {
@@ -735,7 +735,7 @@
        {
         "Ref": "AWS::Partition"
        },
-       ":execute-api:us-east-1:307711586938:",
+       ":execute-api:us-east-1:YOUR_AWS_ACCOUNT_ID:",
        {
         "Ref": "AuthAPI72934D14"
        },
@@ -771,7 +771,7 @@
        {
         "Ref": "AWS::Partition"
        },
-       ":execute-api:us-east-1:307711586938:",
+       ":execute-api:us-east-1:YOUR_AWS_ACCOUNT_ID:",
        {
         "Ref": "AuthAPI72934D14"
        },
@@ -900,7 +900,7 @@
        {
         "Ref": "AWS::Partition"
        },
-       ":execute-api:us-east-1:307711586938:",
+       ":execute-api:us-east-1:YOUR_AWS_ACCOUNT_ID:",
        {
         "Ref": "AuthAPI72934D14"
        },
@@ -936,7 +936,7 @@
        {
         "Ref": "AWS::Partition"
        },
-       ":execute-api:us-east-1:307711586938:",
+       ":execute-api:us-east-1:YOUR_AWS_ACCOUNT_ID:",
        {
         "Ref": "AuthAPI72934D14"
        },
@@ -1065,7 +1065,7 @@
        {
         "Ref": "AWS::Partition"
        },
-       ":execute-api:us-east-1:307711586938:",
+       ":execute-api:us-east-1:YOUR_AWS_ACCOUNT_ID:",
        {
         "Ref": "AuthAPI72934D14"
        },
@@ -1101,7 +1101,7 @@
        {
         "Ref": "AWS::Partition"
        },
-       ":execute-api:us-east-1:307711586938:",
+       ":execute-api:us-east-1:YOUR_AWS_ACCOUNT_ID:",
        {
         "Ref": "AuthAPI72934D14"
        },
@@ -1230,7 +1230,7 @@
        {
         "Ref": "AWS::Partition"
        },
-       ":execute-api:us-east-1:307711586938:",
+       ":execute-api:us-east-1:YOUR_AWS_ACCOUNT_ID:",
        {
         "Ref": "AuthAPI72934D14"
        },
@@ -1266,7 +1266,7 @@
        {
         "Ref": "AWS::Partition"
        },
-       ":execute-api:us-east-1:307711586938:",
+       ":execute-api:us-east-1:YOUR_AWS_ACCOUNT_ID:",
        {
         "Ref": "AuthAPI72934D14"
        },
@@ -1395,7 +1395,7 @@
        {
         "Ref": "AWS::Partition"
        },
-       ":execute-api:us-east-1:307711586938:",
+       ":execute-api:us-east-1:YOUR_AWS_ACCOUNT_ID:",
        {
         "Ref": "AuthAPI72934D14"
        },
@@ -1431,7 +1431,7 @@
        {
         "Ref": "AWS::Partition"
        },
-       ":execute-api:us-east-1:307711586938:",
+       ":execute-api:us-east-1:YOUR_AWS_ACCOUNT_ID:",
        {
         "Ref": "AuthAPI72934D14"
        },
@@ -1560,7 +1560,7 @@
        {
         "Ref": "AWS::Partition"
        },
-       ":execute-api:us-east-1:307711586938:",
+       ":execute-api:us-east-1:YOUR_AWS_ACCOUNT_ID:",
        {
         "Ref": "AuthAPI72934D14"
        },
@@ -1596,7 +1596,7 @@
        {
         "Ref": "AWS::Partition"
        },
-       ":execute-api:us-east-1:307711586938:",
+       ":execute-api:us-east-1:YOUR_AWS_ACCOUNT_ID:",
        {
         "Ref": "AuthAPI72934D14"
        },
@@ -1725,7 +1725,7 @@
        {
         "Ref": "AWS::Partition"
        },
-       ":execute-api:us-east-1:307711586938:",
+       ":execute-api:us-east-1:YOUR_AWS_ACCOUNT_ID:",
        {
         "Ref": "AuthAPI72934D14"
        },
@@ -1761,7 +1761,7 @@
        {
         "Ref": "AWS::Partition"
        },
-       ":execute-api:us-east-1:307711586938:",
+       ":execute-api:us-east-1:YOUR_AWS_ACCOUNT_ID:",
        {
         "Ref": "AuthAPI72934D14"
        },
@@ -1890,7 +1890,7 @@
        {
         "Ref": "AWS::Partition"
        },
-       ":execute-api:us-east-1:307711586938:",
+       ":execute-api:us-east-1:YOUR_AWS_ACCOUNT_ID:",
        {
         "Ref": "AuthAPI72934D14"
        },
@@ -1926,7 +1926,7 @@
        {
         "Ref": "AWS::Partition"
        },
-       ":execute-api:us-east-1:307711586938:",
+       ":execute-api:us-east-1:YOUR_AWS_ACCOUNT_ID:",
        {
         "Ref": "AuthAPI72934D14"
        },
@@ -2055,7 +2055,7 @@
        {
         "Ref": "AWS::Partition"
        },
-       ":execute-api:us-east-1:307711586938:",
+       ":execute-api:us-east-1:YOUR_AWS_ACCOUNT_ID:",
        {
         "Ref": "AuthAPI72934D14"
        },
@@ -2091,7 +2091,7 @@
        {
         "Ref": "AWS::Partition"
        },
-       ":execute-api:us-east-1:307711586938:",
+       ":execute-api:us-east-1:YOUR_AWS_ACCOUNT_ID:",
        {
         "Ref": "AuthAPI72934D14"
        },
@@ -2220,7 +2220,7 @@
        {
         "Ref": "AWS::Partition"
        },
-       ":execute-api:us-east-1:307711586938:",
+       ":execute-api:us-east-1:YOUR_AWS_ACCOUNT_ID:",
        {
         "Ref": "AuthAPI72934D14"
        },
@@ -2256,7 +2256,7 @@
        {
         "Ref": "AWS::Partition"
        },
-       ":execute-api:us-east-1:307711586938:",
+       ":execute-api:us-east-1:YOUR_AWS_ACCOUNT_ID:",
        {
         "Ref": "AuthAPI72934D14"
        },
@@ -2385,7 +2385,7 @@
        {
         "Ref": "AWS::Partition"
        },
-       ":execute-api:us-east-1:307711586938:",
+       ":execute-api:us-east-1:YOUR_AWS_ACCOUNT_ID:",
        {
         "Ref": "AuthAPI72934D14"
        },
@@ -2421,7 +2421,7 @@
        {
         "Ref": "AWS::Partition"
        },
-       ":execute-api:us-east-1:307711586938:",
+       ":execute-api:us-east-1:YOUR_AWS_ACCOUNT_ID:",
        {
         "Ref": "AuthAPI72934D14"
        },
@@ -2550,7 +2550,7 @@
        {
         "Ref": "AWS::Partition"
        },
-       ":execute-api:us-east-1:307711586938:",
+       ":execute-api:us-east-1:YOUR_AWS_ACCOUNT_ID:",
        {
         "Ref": "AuthAPI72934D14"
        },
@@ -2586,7 +2586,7 @@
        {
         "Ref": "AWS::Partition"
        },
-       ":execute-api:us-east-1:307711586938:",
+       ":execute-api:us-east-1:YOUR_AWS_ACCOUNT_ID:",
        {
         "Ref": "AuthAPI72934D14"
        },
@@ -2641,7 +2641,7 @@
   "CDKMetadata": {
    "Type": "AWS::CDK::Metadata",
    "Properties": {
-    "Analytics": "v2:deflate64:H4sIAAAAAAAA/02PwW7CMBBEv4W7cSlpPwCoeqsahfaMNs42bOPYUXYtFFn+9yoOFE7zvDMer7d6+7rRmxVceG2abm2p1vEoYDoFFz5F41tH4nX8ZhxL7606/Lh/vsHBEjp5tJZJUs3koPdNreMX1BbnSIakLPR1Azq+B2eEvJutRy5x7ImZvEuKoNex8sv9rKW3ZKacy5QUFydgRmG9m0VxoffBdCh7YFQwUAuCF5h0rJBlN1DuuuPOGB+cqDccrJ/6638eTkeBNi+wQIXsw2gw13+gnH0zm1e6uddHMqd0H+cd5yJy7Zz5DDIESaqc5OzdU6GfX3Sx+mWi9RicUI+6WvQPcVf2LbIBAAA="
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/02QwU7DMAyGn2X3LKANITh2Q9wQ1YDz5KammCZx1SSaqqrvTpJ2rCd/9m//sbOTu4cneb+Bi9uqut1qquT44UG1IpbOo+LGkmc5fjnsS2Ytjt/2n69w1ITWr6W5Mol6sGC4jqafUGlMLRkmocFUNcjxNVjliW2S1lxib8i5mE2CwMjxxPN8jiVrUkPuyzQJtz+Dc+idLFKIuTwE1aI/gEMBHTXg8QJDNELni46y1w0LpTjEI16w0zyY5Z5VFn+lyQvMEEc59Aqz/Rv6H66TuNBVXR7JPE23ct4xGZFtUs978F2I/1UOcdze7eWzfNz8OqJtH5cig/I0xz9UbFcvsQEAAA=="
    },
    "Metadata": {
     "aws:cdk:path": "ResumeAnalyzerAuth/CDKMetadata/Default"
