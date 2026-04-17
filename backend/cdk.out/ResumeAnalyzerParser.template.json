@@ -137,7 +137,7 @@
    "Type": "AWS::Lambda::Function",
    "Properties": {
     "Code": {
-     "S3Bucket": "cdk-hnb659fds-assets-YOUR_AWS_ACCOUNT_ID-us-east-1",
+     "S3Bucket": "cdk-hnb659fds-assets-307711586938-us-east-1",
      "S3Key": "faa95a81ae7d7373f3e1f242268f904eb748d8d0fdd306e8a6fe515a1905a7d6.zip"
     },
     "Timeout": 900,
@@ -455,7 +455,7 @@
    "Type": "AWS::Lambda::Function",
    "Properties": {
     "Code": {
-     "S3Bucket": "cdk-hnb659fds-assets-YOUR_AWS_ACCOUNT_ID-us-east-1",
+     "S3Bucket": "cdk-hnb659fds-assets-307711586938-us-east-1",
      "S3Key": "dd4a1589573b4dbf05d456d99b154e6dbf96e90ec399a7a83c63e448944f33dc.zip"
     },
     "Environment": {

@@ -8,26 +8,26 @@
         "packaging": "zip"
       },
       "destinations": {
-        "YOUR_AWS_ACCOUNT_ID-us-east-1-fe9c2759": {
-          "bucketName": "cdk-hnb659fds-assets-YOUR_AWS_ACCOUNT_ID-us-east-1",
+        "307711586938-us-east-1-a195e779": {
+          "bucketName": "cdk-hnb659fds-assets-307711586938-us-east-1",
           "objectKey": "9e494f028a41863d1c74da7a83cdbfb770194a9f83ccccebe803c552eb1cde59.zip",
           "region": "us-east-1",
-          "assumeRoleArn": "arn:${AWS::Partition}:iam::YOUR_AWS_ACCOUNT_ID:role/cdk-hnb659fds-file-publishing-role-YOUR_AWS_ACCOUNT_ID-us-east-1"
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::307711586938:role/cdk-hnb659fds-file-publishing-role-307711586938-us-east-1"
         }
       }
     },
-    "ce22254bc8d2af31c38b87bf641be57bedc6ba20d4eab645a0d5972079d81ed2": {
+    "c8fa79243e0b69f7c87b716a56fe9f0ca8c4796eb475b9e0a8e3e882c99eb979": {
       "displayName": "ResumeAnalyzerApplications Template",
       "source": {
         "path": "ResumeAnalyzerApplications.template.json",
         "packaging": "file"
       },
       "destinations": {
-        "YOUR_AWS_ACCOUNT_ID-us-east-1-52bb8679": {
-          "bucketName": "cdk-hnb659fds-assets-YOUR_AWS_ACCOUNT_ID-us-east-1",
-          "objectKey": "ce22254bc8d2af31c38b87bf641be57bedc6ba20d4eab645a0d5972079d81ed2.json",
+        "307711586938-us-east-1-0d1a1b50": {
+          "bucketName": "cdk-hnb659fds-assets-307711586938-us-east-1",
+          "objectKey": "c8fa79243e0b69f7c87b716a56fe9f0ca8c4796eb475b9e0a8e3e882c99eb979.json",
           "region": "us-east-1",
-          "assumeRoleArn": "arn:${AWS::Partition}:iam::YOUR_AWS_ACCOUNT_ID:role/cdk-hnb659fds-file-publishing-role-YOUR_AWS_ACCOUNT_ID-us-east-1"
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::307711586938:role/cdk-hnb659fds-file-publishing-role-307711586938-us-east-1"
         }
       }
     }

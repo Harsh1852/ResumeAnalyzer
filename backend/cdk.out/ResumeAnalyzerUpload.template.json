@@ -250,7 +250,7 @@
    "Type": "AWS::Lambda::Function",
    "Properties": {
     "Code": {
-     "S3Bucket": "cdk-hnb659fds-assets-YOUR_AWS_ACCOUNT_ID-us-east-1",
+     "S3Bucket": "cdk-hnb659fds-assets-307711586938-us-east-1",
      "S3Key": "faa95a81ae7d7373f3e1f242268f904eb748d8d0fdd306e8a6fe515a1905a7d6.zip"
     },
     "Timeout": 900,
@@ -605,7 +605,7 @@
            {
             "Ref": "AWS::Partition"
            },
-           ":dynamodb:us-east-1:YOUR_AWS_ACCOUNT_ID:table/resume-analyzer-analysis-jobs"
+           ":dynamodb:us-east-1:307711586938:table/resume-analyzer-analysis-jobs"
           ]
          ]
         },
@@ -617,7 +617,7 @@
            {
             "Ref": "AWS::Partition"
            },
-           ":dynamodb:us-east-1:YOUR_AWS_ACCOUNT_ID:table/resume-analyzer-analysis-jobs/index/*"
+           ":dynamodb:us-east-1:307711586938:table/resume-analyzer-analysis-jobs/index/*"
           ]
          ]
         },
@@ -629,7 +629,7 @@
            {
             "Ref": "AWS::Partition"
            },
-           ":dynamodb:us-east-1:YOUR_AWS_ACCOUNT_ID:table/resume-analyzer-parse-jobs"
+           ":dynamodb:us-east-1:307711586938:table/resume-analyzer-parse-jobs"
           ]
          ]
         },
@@ -641,7 +641,7 @@
            {
             "Ref": "AWS::Partition"
            },
-           ":dynamodb:us-east-1:YOUR_AWS_ACCOUNT_ID:table/resume-analyzer-parse-jobs/index/*"
+           ":dynamodb:us-east-1:307711586938:table/resume-analyzer-parse-jobs/index/*"
           ]
          ]
         }
@@ -665,7 +665,7 @@
    "Type": "AWS::Lambda::Function",
    "Properties": {
     "Code": {
-     "S3Bucket": "cdk-hnb659fds-assets-YOUR_AWS_ACCOUNT_ID-us-east-1",
+     "S3Bucket": "cdk-hnb659fds-assets-307711586938-us-east-1",
      "S3Key": "37abe2747c011d40556c57817ed38cdf84f3028e6c1a41fcc5e99dba9c394034.zip"
     },
     "Environment": {
@@ -943,7 +943,7 @@
        {
         "Ref": "AWS::Partition"
        },
-       ":execute-api:us-east-1:YOUR_AWS_ACCOUNT_ID:",
+       ":execute-api:us-east-1:307711586938:",
        {
         "Ref": "AppAPI893ABA96"
        },
@@ -979,7 +979,7 @@
        {
         "Ref": "AWS::Partition"
        },
-       ":execute-api:us-east-1:YOUR_AWS_ACCOUNT_ID:",
+       ":execute-api:us-east-1:307711586938:",
        {
         "Ref": "AppAPI893ABA96"
        },
@@ -1111,7 +1111,7 @@
        {
         "Ref": "AWS::Partition"
        },
-       ":execute-api:us-east-1:YOUR_AWS_ACCOUNT_ID:",
+       ":execute-api:us-east-1:307711586938:",
        {
         "Ref": "AppAPI893ABA96"
        },
@@ -1147,7 +1147,7 @@
        {
         "Ref": "AWS::Partition"
        },
-       ":execute-api:us-east-1:YOUR_AWS_ACCOUNT_ID:",
+       ":execute-api:us-east-1:307711586938:",
        {
         "Ref": "AppAPI893ABA96"
        },
@@ -1279,7 +1279,7 @@
        {
         "Ref": "AWS::Partition"
        },
-       ":execute-api:us-east-1:YOUR_AWS_ACCOUNT_ID:",
+       ":execute-api:us-east-1:307711586938:",
        {
         "Ref": "AppAPI893ABA96"
        },
@@ -1315,7 +1315,7 @@
        {
         "Ref": "AWS::Partition"
        },
-       ":execute-api:us-east-1:YOUR_AWS_ACCOUNT_ID:",
+       ":execute-api:us-east-1:307711586938:",
        {
         "Ref": "AppAPI893ABA96"
        },
@@ -1447,7 +1447,7 @@
        {
         "Ref": "AWS::Partition"
        },
-       ":execute-api:us-east-1:YOUR_AWS_ACCOUNT_ID:",
+       ":execute-api:us-east-1:307711586938:",
        {
         "Ref": "AppAPI893ABA96"
        },
@@ -1483,7 +1483,7 @@
        {
         "Ref": "AWS::Partition"
        },
-       ":execute-api:us-east-1:YOUR_AWS_ACCOUNT_ID:",
+       ":execute-api:us-east-1:307711586938:",
        {
         "Ref": "AppAPI893ABA96"
        },
@@ -1557,7 +1557,7 @@
        {
         "Ref": "AWS::Partition"
        },
-       ":execute-api:us-east-1:YOUR_AWS_ACCOUNT_ID:",
+       ":execute-api:us-east-1:307711586938:",
        {
         "Ref": "AppAPI893ABA96"
        },
@@ -1593,7 +1593,7 @@
        {
         "Ref": "AWS::Partition"
        },
-       ":execute-api:us-east-1:YOUR_AWS_ACCOUNT_ID:",
+       ":execute-api:us-east-1:307711586938:",
        {
         "Ref": "AppAPI893ABA96"
        },
@@ -1725,7 +1725,7 @@
        {
         "Ref": "AWS::Partition"
        },
-       ":execute-api:us-east-1:YOUR_AWS_ACCOUNT_ID:",
+       ":execute-api:us-east-1:307711586938:",
        {
         "Ref": "AppAPI893ABA96"
        },
@@ -1761,7 +1761,7 @@
        {
         "Ref": "AWS::Partition"
        },
-       ":execute-api:us-east-1:YOUR_AWS_ACCOUNT_ID:",
+       ":execute-api:us-east-1:307711586938:",
        {
         "Ref": "AppAPI893ABA96"
        },

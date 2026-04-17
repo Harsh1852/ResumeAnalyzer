@@ -239,6 +239,40 @@ def _seed_job(jobs_table, description="A JD mentioning rust and kubernetes."):
     })
 
 
+def test_create_tailored_resume_prefers_stored_resume_text(jobs_handler, jobs_tables):
+    """When the result has resumeText stored, that's fed to Bedrock — not the
+    reconstructed blob the frontend sends. This ensures the candidate's real
+    name + contact reaches the tailored resume."""
+    # Seed a result with stored parsed text
+    jobs_tables["results"].put_item(Item={
+        "userId": USER, "resultId": RESULT_ID, "uploadId": "up-1",
+        "topRoles": [{"title": "Senior Backend Engineer", "match_percentage": 88,
+                       "resume_gaps": []}],
+        "skillsToDevelop": [],
+        "resumeText": "Jane Doe · jane@example.com · +1-555-0100\nStaff Engineer, Acme",
+    })
+    _seed_job(jobs_tables["jobs"])
+
+    captured = {}
+
+    def fake_tailor(resume_text, job_description, target_words):
+        captured["text"] = resume_text
+        return "# Jane Doe\nTailored."
+
+    with patch.object(jobs_handler, "invoke_bedrock_tailor", side_effect=fake_tailor):
+        resp = jobs_handler.api_handler(
+            _event("POST", "/jobs/{jobId}/tailored-resume",
+                   path_params={"jobId": "job-1"},
+                   body={"resumeText": "RECONSTRUCTED SHORT BLOB"}),
+            None,
+        )
+
+    assert resp["statusCode"] == 200
+    # Bedrock got the real parsed text — with name + email — not the fallback
+    assert "Jane Doe" in captured["text"]
+    assert "jane@example.com" in captured["text"]
+
+
 def test_create_tailored_resume_happy_path(jobs_handler, jobs_tables):
     _seed_result(jobs_tables["results"])
     _seed_job(jobs_tables["jobs"])

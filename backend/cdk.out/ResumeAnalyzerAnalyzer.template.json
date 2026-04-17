@@ -137,7 +137,7 @@
    "Type": "AWS::Lambda::Function",
    "Properties": {
     "Code": {
-     "S3Bucket": "cdk-hnb659fds-assets-YOUR_AWS_ACCOUNT_ID-us-east-1",
+     "S3Bucket": "cdk-hnb659fds-assets-307711586938-us-east-1",
      "S3Key": "faa95a81ae7d7373f3e1f242268f904eb748d8d0fdd306e8a6fe515a1905a7d6.zip"
     },
     "Timeout": 900,
@@ -592,8 +592,8 @@
    "Type": "AWS::Lambda::Function",
    "Properties": {
     "Code": {
-     "S3Bucket": "cdk-hnb659fds-assets-YOUR_AWS_ACCOUNT_ID-us-east-1",
-     "S3Key": "dcefd7c73185587a7e17052dd18123c38208f7d0edc5e67b9b17e8d64c72475a.zip"
+     "S3Bucket": "cdk-hnb659fds-assets-307711586938-us-east-1",
+     "S3Key": "ae289bf4990d93ce443f65203f4be101b91fe8af769e39027936c92d04614419.zip"
     },
     "Environment": {
      "Variables": {
@@ -611,7 +611,7 @@
       },
       "BEDROCK_MODEL_ID": "anthropic.claude-3-haiku-20240307-v1:0",
       "BEDROCK_MAX_TOKENS": "8192",
-      "TAVILY_API_KEY": "t"
+      "TAVILY_API_KEY": "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"
      }
     },
     "Handler": "handler.handler",
@@ -631,7 +631,7 @@
    ],
    "Metadata": {
     "aws:cdk:path": "ResumeAnalyzerAnalyzer/AnalyzerLambda/Resource",
-    "aws:asset:path": "asset.dcefd7c73185587a7e17052dd18123c38208f7d0edc5e67b9b17e8d64c72475a",
+    "aws:asset:path": "asset.ae289bf4990d93ce443f65203f4be101b91fe8af769e39027936c92d04614419",
     "aws:asset:is-bundled": false,
     "aws:asset:property": "Code"
    }
