@@ -1,0 +1,36 @@
+{
+  "version": "53.0.0",
+  "files": {
+    "9399ab530c7f8814815d4b6202cb06617d048d3507249f9b156f57d521419e30": {
+      "displayName": "AuthLambda/Code",
+      "source": {
+        "path": "asset.9399ab530c7f8814815d4b6202cb06617d048d3507249f9b156f57d521419e30",
+        "packaging": "zip"
+      },
+      "destinations": {
+        "307711586938-us-east-1-35639185": {
+          "bucketName": "cdk-hnb659fds-assets-307711586938-us-east-1",
+          "objectKey": "9399ab530c7f8814815d4b6202cb06617d048d3507249f9b156f57d521419e30.zip",
+          "region": "us-east-1",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::307711586938:role/cdk-hnb659fds-file-publishing-role-307711586938-us-east-1"
+        }
+      }
+    },
+    "56652a573c938e32b23cfa57937fd40ef72f748a082e2b76040d43bdbc05893b": {
+      "displayName": "ResumeAnalyzerAuth Template",
+      "source": {
+        "path": "ResumeAnalyzerAuth.template.json",
+        "packaging": "file"
+      },
+      "destinations": {
+        "307711586938-us-east-1-c9d7d120": {
+          "bucketName": "cdk-hnb659fds-assets-307711586938-us-east-1",
+          "objectKey": "56652a573c938e32b23cfa57937fd40ef72f748a082e2b76040d43bdbc05893b.json",
+          "region": "us-east-1",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::307711586938:role/cdk-hnb659fds-file-publishing-role-307711586938-us-east-1"
+        }
+      }
+    }
+  },
+  "dockerImages": {}
+}

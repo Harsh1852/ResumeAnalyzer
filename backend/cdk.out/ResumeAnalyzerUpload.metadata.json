@@ -1,0 +1,352 @@
+{
+  "/ResumeAnalyzerUpload/UploadsTable": [
+    {
+      "type": "aws:cdk:hasPhysicalName",
+      "data": {
+        "Ref": "UploadsTableFE9AB9DB"
+      }
+    }
+  ],
+  "/ResumeAnalyzerUpload/Custom::S3AutoDeleteObjectsCustomResourceProvider": [
+    {
+      "type": "aws:cdk:is-custom-resource-handler-customResourceProvider",
+      "data": true
+    }
+  ],
+  "/ResumeAnalyzerUpload/AppApiUrl": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AppApiUrl"
+    }
+  ],
+  "/ResumeAnalyzerUpload/ResumeBucketName": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ResumeBucketName"
+    }
+  ],
+  "/ResumeAnalyzerUpload/BootstrapVersion": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "BootstrapVersion"
+    }
+  ],
+  "/ResumeAnalyzerUpload/CheckBootstrapVersion": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CheckBootstrapVersion"
+    }
+  ],
+  "/ResumeAnalyzerUpload/UploadsTable/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "UploadsTableFE9AB9DB"
+    }
+  ],
+  "/ResumeAnalyzerUpload/ResumeBucket/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ResumeBucketD07CCF44"
+    },
+    {
+      "type": "aws:cdk:analytics:mixin",
+      "data": {
+        "mixin": "aws-cdk-lib.aws_s3.mixins.BucketAutoDeleteObjects"
+      }
+    }
+  ],
+  "/ResumeAnalyzerUpload/Custom::S3AutoDeleteObjectsCustomResourceProvider/Role": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092"
+    }
+  ],
+  "/ResumeAnalyzerUpload/Custom::S3AutoDeleteObjectsCustomResourceProvider/Handler": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CustomS3AutoDeleteObjectsCustomResourceProviderHandler9D90184F"
+    }
+  ],
+  "/ResumeAnalyzerUpload/ParseDLQ/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ParseDLQB4D695E2"
+    }
+  ],
+  "/ResumeAnalyzerUpload/ParseQueue/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ParseQueue0ACEB52B"
+    }
+  ],
+  "/ResumeAnalyzerUpload/BucketNotificationsHandler050a0587b7544547bf325f094a3db834/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "BucketNotificationsHandler050a0587b7544547bf325f094a3db8347ECC3691"
+    }
+  ],
+  "/ResumeAnalyzerUpload/UploadLambda/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "UploadLambdaF57B15C3"
+    }
+  ],
+  "/ResumeAnalyzerUpload/AppAPI/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AppAPI893ABA96"
+    }
+  ],
+  "/ResumeAnalyzerUpload/AppAPI/Account": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AppAPIAccount0B795F88"
+    }
+  ],
+  "/ResumeAnalyzerUpload/AppAPI/Endpoint": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AppAPIEndpoint76843F3A"
+    }
+  ],
+  "/ResumeAnalyzerUpload/CognitoAuthorizer/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CognitoAuthorizerF3215DBC"
+    }
+  ],
+  "/ResumeAnalyzerUpload/CDKMetadata/Default": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CDKMetadata"
+    }
+  ],
+  "/ResumeAnalyzerUpload/Exports/Output{\"Fn::GetAtt\":[\"ParseQueue0ACEB52B\",\"Arn\"]}": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ExportsOutputFnGetAttParseQueue0ACEB52BArn775BC820"
+    }
+  ],
+  "/ResumeAnalyzerUpload/Exports/Output{\"Fn::GetAtt\":[\"ResumeBucketD07CCF44\",\"Arn\"]}": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ExportsOutputFnGetAttResumeBucketD07CCF44Arn6D9D8E81"
+    }
+  ],
+  "/ResumeAnalyzerUpload/Exports/Output{\"Fn::GetAtt\":[\"UploadsTableFE9AB9DB\",\"Arn\"]}": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ExportsOutputFnGetAttUploadsTableFE9AB9DBArn838D3DB7"
+    }
+  ],
+  "/ResumeAnalyzerUpload/Exports/Output{\"Ref\":\"UploadsTableFE9AB9DB\"}": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ExportsOutputRefUploadsTableFE9AB9DB426D5B83"
+    }
+  ],
+  "/ResumeAnalyzerUpload/Exports/Output{\"Ref\":\"ResumeBucketD07CCF44\"}": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ExportsOutputRefResumeBucketD07CCF44BCFE2CBB"
+    }
+  ],
+  "/ResumeAnalyzerUpload/ResumeBucket/Policy/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ResumeBucketPolicyD6A19716"
+    },
+    {
+      "type": "aws:cdk:analytics:mixin",
+      "data": {
+        "mixin": "aws-cdk-lib.aws_s3.mixins.BucketPolicyStatements"
+      }
+    }
+  ],
+  "/ResumeAnalyzerUpload/ResumeBucket/AutoDeleteObjectsCustomResource/Default": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ResumeBucketAutoDeleteObjectsCustomResource2D039196"
+    }
+  ],
+  "/ResumeAnalyzerUpload/ResumeBucket/Notifications/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ResumeBucketNotifications138F9751"
+    }
+  ],
+  "/ResumeAnalyzerUpload/ParseQueue/Policy/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ParseQueuePolicy6597887D"
+    }
+  ],
+  "/ResumeAnalyzerUpload/BucketNotificationsHandler050a0587b7544547bf325f094a3db834/Role/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "BucketNotificationsHandler050a0587b7544547bf325f094a3db834RoleB6FB88EC"
+    }
+  ],
+  "/ResumeAnalyzerUpload/UploadLambda/ServiceRole/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "UploadLambdaServiceRole7676E203"
+    }
+  ],
+  "/ResumeAnalyzerUpload/AppAPI/CloudWatchRole/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AppAPICloudWatchRoleF815BCA8"
+    }
+  ],
+  "/ResumeAnalyzerUpload/AppAPI/Deployment/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AppAPIDeployment7B521F5203cb2e00d5a3bd5ad60cd391fc24fd17"
+    }
+  ],
+  "/ResumeAnalyzerUpload/AppAPI/DeploymentStage.prod/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AppAPIDeploymentStageprod0470FE5D"
+    }
+  ],
+  "/ResumeAnalyzerUpload/BucketNotificationsHandler050a0587b7544547bf325f094a3db834/Role/DefaultPolicy/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "BucketNotificationsHandler050a0587b7544547bf325f094a3db834RoleDefaultPolicy2CF63D36"
+    }
+  ],
+  "/ResumeAnalyzerUpload/UploadLambda/ServiceRole/DefaultPolicy/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "UploadLambdaServiceRoleDefaultPolicyCD46782A"
+    }
+  ],
+  "/ResumeAnalyzerUpload/AppAPI/Default/OPTIONS/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AppAPIOPTIONS7AB84F33"
+    }
+  ],
+  "/ResumeAnalyzerUpload/AppAPI/Default/uploads/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AppAPIuploads7FCD2DBD"
+    }
+  ],
+  "/ResumeAnalyzerUpload/AppAPI/Default/uploads/OPTIONS/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AppAPIuploadsOPTIONS2360052B"
+    }
+  ],
+  "/ResumeAnalyzerUpload/AppAPI/Default/uploads/GET/ApiPermission.ResumeAnalyzerUploadAppAPI3924F12E.GET..uploads": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AppAPIuploadsGETApiPermissionResumeAnalyzerUploadAppAPI3924F12EGETuploadsAA0A5365"
+    }
+  ],
+  "/ResumeAnalyzerUpload/AppAPI/Default/uploads/GET/ApiPermission.Test.ResumeAnalyzerUploadAppAPI3924F12E.GET..uploads": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AppAPIuploadsGETApiPermissionTestResumeAnalyzerUploadAppAPI3924F12EGETuploadsD42CCB79"
+    }
+  ],
+  "/ResumeAnalyzerUpload/AppAPI/Default/uploads/GET/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AppAPIuploadsGET58CD1F9C"
+    }
+  ],
+  "/ResumeAnalyzerUpload/AppAPI/Default/uploads/presigned-url/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AppAPIuploadspresignedurlBDB4C409"
+    }
+  ],
+  "/ResumeAnalyzerUpload/AppAPI/Default/uploads/confirm/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AppAPIuploadsconfirmB2DA2429"
+    }
+  ],
+  "/ResumeAnalyzerUpload/AppAPI/Default/uploads/{uploadId}/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AppAPIuploadsuploadId4D30C65D"
+    }
+  ],
+  "/ResumeAnalyzerUpload/AppAPI/Default/uploads/presigned-url/OPTIONS/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AppAPIuploadspresignedurlOPTIONS96BABE5A"
+    }
+  ],
+  "/ResumeAnalyzerUpload/AppAPI/Default/uploads/presigned-url/POST/ApiPermission.ResumeAnalyzerUploadAppAPI3924F12E.POST..uploads.presigned-url": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AppAPIuploadspresignedurlPOSTApiPermissionResumeAnalyzerUploadAppAPI3924F12EPOSTuploadspresignedurl7DA53D46"
+    }
+  ],
+  "/ResumeAnalyzerUpload/AppAPI/Default/uploads/presigned-url/POST/ApiPermission.Test.ResumeAnalyzerUploadAppAPI3924F12E.POST..uploads.presigned-url": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AppAPIuploadspresignedurlPOSTApiPermissionTestResumeAnalyzerUploadAppAPI3924F12EPOSTuploadspresignedurl59BBFEF3"
+    }
+  ],
+  "/ResumeAnalyzerUpload/AppAPI/Default/uploads/presigned-url/POST/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AppAPIuploadspresignedurlPOST533313BB"
+    }
+  ],
+  "/ResumeAnalyzerUpload/AppAPI/Default/uploads/confirm/OPTIONS/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AppAPIuploadsconfirmOPTIONS9B05ABE0"
+    }
+  ],
+  "/ResumeAnalyzerUpload/AppAPI/Default/uploads/confirm/POST/ApiPermission.ResumeAnalyzerUploadAppAPI3924F12E.POST..uploads.confirm": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AppAPIuploadsconfirmPOSTApiPermissionResumeAnalyzerUploadAppAPI3924F12EPOSTuploadsconfirm3014A1FE"
+    }
+  ],
+  "/ResumeAnalyzerUpload/AppAPI/Default/uploads/confirm/POST/ApiPermission.Test.ResumeAnalyzerUploadAppAPI3924F12E.POST..uploads.confirm": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AppAPIuploadsconfirmPOSTApiPermissionTestResumeAnalyzerUploadAppAPI3924F12EPOSTuploadsconfirm223E430A"
+    }
+  ],
+  "/ResumeAnalyzerUpload/AppAPI/Default/uploads/confirm/POST/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AppAPIuploadsconfirmPOST4DB4E4F6"
+    }
+  ],
+  "/ResumeAnalyzerUpload/AppAPI/Default/uploads/{uploadId}/OPTIONS/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AppAPIuploadsuploadIdOPTIONS39364AD2"
+    }
+  ],
+  "/ResumeAnalyzerUpload/AppAPI/Default/uploads/{uploadId}/GET/ApiPermission.ResumeAnalyzerUploadAppAPI3924F12E.GET..uploads.{uploadId}": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AppAPIuploadsuploadIdGETApiPermissionResumeAnalyzerUploadAppAPI3924F12EGETuploadsuploadId42DC9DB2"
+    }
+  ],
+  "/ResumeAnalyzerUpload/AppAPI/Default/uploads/{uploadId}/GET/ApiPermission.Test.ResumeAnalyzerUploadAppAPI3924F12E.GET..uploads.{uploadId}": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AppAPIuploadsuploadIdGETApiPermissionTestResumeAnalyzerUploadAppAPI3924F12EGETuploadsuploadIdFC8D50F0"
+    }
+  ],
+  "/ResumeAnalyzerUpload/AppAPI/Default/uploads/{uploadId}/GET/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AppAPIuploadsuploadIdGET426D8854"
+    }
+  ]
+}

@@ -1,0 +1,116 @@
+{
+  "/ResumeAnalyzerFrontend/Custom::S3AutoDeleteObjectsCustomResourceProvider": [
+    {
+      "type": "aws:cdk:is-custom-resource-handler-customResourceProvider",
+      "data": true
+    }
+  ],
+  "/ResumeAnalyzerFrontend/FrontendBucketName": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "FrontendBucketName"
+    }
+  ],
+  "/ResumeAnalyzerFrontend/CloudFrontUrl": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CloudFrontUrl"
+    }
+  ],
+  "/ResumeAnalyzerFrontend/BootstrapVersion": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "BootstrapVersion"
+    }
+  ],
+  "/ResumeAnalyzerFrontend/CheckBootstrapVersion": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CheckBootstrapVersion"
+    }
+  ],
+  "/ResumeAnalyzerFrontend/NotificationLambda/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "NotificationLambda0BF28E71"
+    }
+  ],
+  "/ResumeAnalyzerFrontend/FrontendBucket/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "FrontendBucketEFE2E19C"
+    },
+    {
+      "type": "aws:cdk:analytics:mixin",
+      "data": {
+        "mixin": "aws-cdk-lib.aws_s3.mixins.BucketAutoDeleteObjects"
+      }
+    }
+  ],
+  "/ResumeAnalyzerFrontend/Custom::S3AutoDeleteObjectsCustomResourceProvider/Role": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092"
+    }
+  ],
+  "/ResumeAnalyzerFrontend/Custom::S3AutoDeleteObjectsCustomResourceProvider/Handler": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CustomS3AutoDeleteObjectsCustomResourceProviderHandler9D90184F"
+    }
+  ],
+  "/ResumeAnalyzerFrontend/OAC/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "OAC5B452445"
+    }
+  ],
+  "/ResumeAnalyzerFrontend/Distribution/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "Distribution830FAC52"
+    }
+  ],
+  "/ResumeAnalyzerFrontend/CDKMetadata/Default": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CDKMetadata"
+    }
+  ],
+  "/ResumeAnalyzerFrontend/NotificationLambda/ServiceRole/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "NotificationLambdaServiceRoleA65BA193"
+    }
+  ],
+  "/ResumeAnalyzerFrontend/NotificationLambda/SqsEventSource:ResumeAnalyzerAnalyzerNotificationQueue4A07A83A/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "NotificationLambdaSqsEventSourceResumeAnalyzerAnalyzerNotificationQueue4A07A83AF83DCA08"
+    }
+  ],
+  "/ResumeAnalyzerFrontend/FrontendBucket/Policy/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "FrontendBucketPolicy1DFF75D9"
+    },
+    {
+      "type": "aws:cdk:analytics:mixin",
+      "data": {
+        "mixin": "aws-cdk-lib.aws_s3.mixins.BucketPolicyStatements"
+      }
+    }
+  ],
+  "/ResumeAnalyzerFrontend/FrontendBucket/AutoDeleteObjectsCustomResource/Default": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "FrontendBucketAutoDeleteObjectsCustomResourceDB860B32"
+    }
+  ],
+  "/ResumeAnalyzerFrontend/NotificationLambda/ServiceRole/DefaultPolicy/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "NotificationLambdaServiceRoleDefaultPolicy56F80AE2"
+    }
+  ]
+}

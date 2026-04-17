@@ -1,0 +1,148 @@
+{
+  "/ResumeAnalyzerParser/Custom::S3AutoDeleteObjectsCustomResourceProvider": [
+    {
+      "type": "aws:cdk:is-custom-resource-handler-customResourceProvider",
+      "data": true
+    }
+  ],
+  "/ResumeAnalyzerParser/ParseJobsTable": [
+    {
+      "type": "aws:cdk:hasPhysicalName",
+      "data": {
+        "Ref": "ParseJobsTable8EF7B573"
+      }
+    }
+  ],
+  "/ResumeAnalyzerParser/AnalysisQueueUrl": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AnalysisQueueUrl"
+    }
+  ],
+  "/ResumeAnalyzerParser/ParsedOutputBucketName": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ParsedOutputBucketName"
+    }
+  ],
+  "/ResumeAnalyzerParser/BootstrapVersion": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "BootstrapVersion"
+    }
+  ],
+  "/ResumeAnalyzerParser/CheckBootstrapVersion": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CheckBootstrapVersion"
+    }
+  ],
+  "/ResumeAnalyzerParser/ParsedOutputBucket/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ParsedOutputBucketAA98647B"
+    },
+    {
+      "type": "aws:cdk:analytics:mixin",
+      "data": {
+        "mixin": "aws-cdk-lib.aws_s3.mixins.BucketAutoDeleteObjects"
+      }
+    }
+  ],
+  "/ResumeAnalyzerParser/Custom::S3AutoDeleteObjectsCustomResourceProvider/Role": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092"
+    }
+  ],
+  "/ResumeAnalyzerParser/Custom::S3AutoDeleteObjectsCustomResourceProvider/Handler": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CustomS3AutoDeleteObjectsCustomResourceProviderHandler9D90184F"
+    }
+  ],
+  "/ResumeAnalyzerParser/ParseJobsTable/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ParseJobsTable8EF7B573"
+    }
+  ],
+  "/ResumeAnalyzerParser/AnalysisDLQ/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AnalysisDLQC7CDEB4B"
+    }
+  ],
+  "/ResumeAnalyzerParser/AnalysisQueue/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AnalysisQueue251119DF"
+    }
+  ],
+  "/ResumeAnalyzerParser/ParserLambda/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ParserLambda5CBEA0F5"
+    }
+  ],
+  "/ResumeAnalyzerParser/CDKMetadata/Default": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CDKMetadata"
+    }
+  ],
+  "/ResumeAnalyzerParser/Exports/Output{\"Fn::GetAtt\":[\"AnalysisQueue251119DF\",\"Arn\"]}": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ExportsOutputFnGetAttAnalysisQueue251119DFArn84F30333"
+    }
+  ],
+  "/ResumeAnalyzerParser/Exports/Output{\"Fn::GetAtt\":[\"ParsedOutputBucketAA98647B\",\"Arn\"]}": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ExportsOutputFnGetAttParsedOutputBucketAA98647BArn2EB7E08A"
+    }
+  ],
+  "/ResumeAnalyzerParser/Exports/Output{\"Ref\":\"ParsedOutputBucketAA98647B\"}": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ExportsOutputRefParsedOutputBucketAA98647B8DA044D1"
+    }
+  ],
+  "/ResumeAnalyzerParser/ParsedOutputBucket/Policy/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ParsedOutputBucketPolicyCDE521A6"
+    },
+    {
+      "type": "aws:cdk:analytics:mixin",
+      "data": {
+        "mixin": "aws-cdk-lib.aws_s3.mixins.BucketPolicyStatements"
+      }
+    }
+  ],
+  "/ResumeAnalyzerParser/ParsedOutputBucket/AutoDeleteObjectsCustomResource/Default": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ParsedOutputBucketAutoDeleteObjectsCustomResource712153A2"
+    }
+  ],
+  "/ResumeAnalyzerParser/ParserLambda/ServiceRole/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ParserLambdaServiceRole4D06F838"
+    }
+  ],
+  "/ResumeAnalyzerParser/ParserLambda/SqsEventSource:ResumeAnalyzerUploadParseQueueA8D68BE4/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ParserLambdaSqsEventSourceResumeAnalyzerUploadParseQueueA8D68BE480B040BB"
+    }
+  ],
+  "/ResumeAnalyzerParser/ParserLambda/ServiceRole/DefaultPolicy/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ParserLambdaServiceRoleDefaultPolicy16E9746C"
+    }
+  ]
+}

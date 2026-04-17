@@ -1,0 +1,322 @@
+{
+  "/ResumeAnalyzerAuth/UsersTable": [
+    {
+      "type": "aws:cdk:hasPhysicalName",
+      "data": {
+        "Ref": "UsersTable9725E9C8"
+      }
+    }
+  ],
+  "/ResumeAnalyzerAuth/AuthApiUrl": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AuthApiUrl"
+    }
+  ],
+  "/ResumeAnalyzerAuth/UserPoolId": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "UserPoolId"
+    }
+  ],
+  "/ResumeAnalyzerAuth/UserPoolClientId": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "UserPoolClientId"
+    }
+  ],
+  "/ResumeAnalyzerAuth/BootstrapVersion": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "BootstrapVersion"
+    }
+  ],
+  "/ResumeAnalyzerAuth/CheckBootstrapVersion": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CheckBootstrapVersion"
+    }
+  ],
+  "/ResumeAnalyzerAuth/UserPool/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "UserPool6BA7E5F2"
+    }
+  ],
+  "/ResumeAnalyzerAuth/UsersTable/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "UsersTable9725E9C8"
+    }
+  ],
+  "/ResumeAnalyzerAuth/AuthLambda/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AuthLambda6BB8C88C"
+    }
+  ],
+  "/ResumeAnalyzerAuth/AuthAPI/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AuthAPI72934D14"
+    }
+  ],
+  "/ResumeAnalyzerAuth/AuthAPI/Account": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AuthAPIAccountEB7A12E7"
+    }
+  ],
+  "/ResumeAnalyzerAuth/AuthAPI/Endpoint": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AuthAPIEndpointF35601F4"
+    }
+  ],
+  "/ResumeAnalyzerAuth/CDKMetadata/Default": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CDKMetadata"
+    }
+  ],
+  "/ResumeAnalyzerAuth/Exports/Output{\"Fn::GetAtt\":[\"UserPool6BA7E5F2\",\"Arn\"]}": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ExportsOutputFnGetAttUserPool6BA7E5F2Arn686ACC00"
+    }
+  ],
+  "/ResumeAnalyzerAuth/UserPool/WebClient/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "UserPoolWebClient4C9370B0"
+    }
+  ],
+  "/ResumeAnalyzerAuth/AuthLambda/ServiceRole/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AuthLambdaServiceRole7D6ECDEC"
+    }
+  ],
+  "/ResumeAnalyzerAuth/AuthAPI/CloudWatchRole/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AuthAPICloudWatchRole14859F04"
+    }
+  ],
+  "/ResumeAnalyzerAuth/AuthAPI/Deployment/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AuthAPIDeployment3117E1E9157450fd39fbe6622e00b1db68f1e0ea"
+    }
+  ],
+  "/ResumeAnalyzerAuth/AuthAPI/DeploymentStage.prod/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AuthAPIDeploymentStageprod376488D9"
+    }
+  ],
+  "/ResumeAnalyzerAuth/AuthLambda/ServiceRole/DefaultPolicy/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AuthLambdaServiceRoleDefaultPolicy733D72E7"
+    }
+  ],
+  "/ResumeAnalyzerAuth/AuthAPI/Default/OPTIONS/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AuthAPIOPTIONS283EE7D0"
+    }
+  ],
+  "/ResumeAnalyzerAuth/AuthAPI/Default/auth/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AuthAPIauth787FE475"
+    }
+  ],
+  "/ResumeAnalyzerAuth/AuthAPI/Default/auth/OPTIONS/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AuthAPIauthOPTIONS34062149"
+    }
+  ],
+  "/ResumeAnalyzerAuth/AuthAPI/Default/auth/register/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AuthAPIauthregister581FD0B8"
+    }
+  ],
+  "/ResumeAnalyzerAuth/AuthAPI/Default/auth/verify/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AuthAPIauthverify7101CB73"
+    }
+  ],
+  "/ResumeAnalyzerAuth/AuthAPI/Default/auth/resend-otp/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AuthAPIauthresendotpF3A726A4"
+    }
+  ],
+  "/ResumeAnalyzerAuth/AuthAPI/Default/auth/login/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AuthAPIauthloginB6A67AE7"
+    }
+  ],
+  "/ResumeAnalyzerAuth/AuthAPI/Default/auth/refresh/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AuthAPIauthrefresh4B83003B"
+    }
+  ],
+  "/ResumeAnalyzerAuth/AuthAPI/Default/auth/logout/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AuthAPIauthlogoutDF7801EC"
+    }
+  ],
+  "/ResumeAnalyzerAuth/AuthAPI/Default/auth/register/OPTIONS/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AuthAPIauthregisterOPTIONSB92031EF"
+    }
+  ],
+  "/ResumeAnalyzerAuth/AuthAPI/Default/auth/register/POST/ApiPermission.ResumeAnalyzerAuthAuthAPI1F7F1864.POST..auth.register": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AuthAPIauthregisterPOSTApiPermissionResumeAnalyzerAuthAuthAPI1F7F1864POSTauthregisterA7695513"
+    }
+  ],
+  "/ResumeAnalyzerAuth/AuthAPI/Default/auth/register/POST/ApiPermission.Test.ResumeAnalyzerAuthAuthAPI1F7F1864.POST..auth.register": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AuthAPIauthregisterPOSTApiPermissionTestResumeAnalyzerAuthAuthAPI1F7F1864POSTauthregister8AC17048"
+    }
+  ],
+  "/ResumeAnalyzerAuth/AuthAPI/Default/auth/register/POST/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AuthAPIauthregisterPOST61842E8B"
+    }
+  ],
+  "/ResumeAnalyzerAuth/AuthAPI/Default/auth/verify/OPTIONS/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AuthAPIauthverifyOPTIONSC5AFBD0D"
+    }
+  ],
+  "/ResumeAnalyzerAuth/AuthAPI/Default/auth/verify/POST/ApiPermission.ResumeAnalyzerAuthAuthAPI1F7F1864.POST..auth.verify": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AuthAPIauthverifyPOSTApiPermissionResumeAnalyzerAuthAuthAPI1F7F1864POSTauthverifyE9BB908A"
+    }
+  ],
+  "/ResumeAnalyzerAuth/AuthAPI/Default/auth/verify/POST/ApiPermission.Test.ResumeAnalyzerAuthAuthAPI1F7F1864.POST..auth.verify": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AuthAPIauthverifyPOSTApiPermissionTestResumeAnalyzerAuthAuthAPI1F7F1864POSTauthverifyF23F625D"
+    }
+  ],
+  "/ResumeAnalyzerAuth/AuthAPI/Default/auth/verify/POST/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AuthAPIauthverifyPOSTE3DE5E56"
+    }
+  ],
+  "/ResumeAnalyzerAuth/AuthAPI/Default/auth/resend-otp/OPTIONS/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AuthAPIauthresendotpOPTIONSCE27EA47"
+    }
+  ],
+  "/ResumeAnalyzerAuth/AuthAPI/Default/auth/resend-otp/POST/ApiPermission.ResumeAnalyzerAuthAuthAPI1F7F1864.POST..auth.resend-otp": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AuthAPIauthresendotpPOSTApiPermissionResumeAnalyzerAuthAuthAPI1F7F1864POSTauthresendotpB5145EB1"
+    }
+  ],
+  "/ResumeAnalyzerAuth/AuthAPI/Default/auth/resend-otp/POST/ApiPermission.Test.ResumeAnalyzerAuthAuthAPI1F7F1864.POST..auth.resend-otp": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AuthAPIauthresendotpPOSTApiPermissionTestResumeAnalyzerAuthAuthAPI1F7F1864POSTauthresendotpA69F7BE4"
+    }
+  ],
+  "/ResumeAnalyzerAuth/AuthAPI/Default/auth/resend-otp/POST/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AuthAPIauthresendotpPOST34A51E82"
+    }
+  ],
+  "/ResumeAnalyzerAuth/AuthAPI/Default/auth/login/OPTIONS/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AuthAPIauthloginOPTIONS6D79DB20"
+    }
+  ],
+  "/ResumeAnalyzerAuth/AuthAPI/Default/auth/login/POST/ApiPermission.ResumeAnalyzerAuthAuthAPI1F7F1864.POST..auth.login": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AuthAPIauthloginPOSTApiPermissionResumeAnalyzerAuthAuthAPI1F7F1864POSTauthlogin24F2DAFC"
+    }
+  ],
+  "/ResumeAnalyzerAuth/AuthAPI/Default/auth/login/POST/ApiPermission.Test.ResumeAnalyzerAuthAuthAPI1F7F1864.POST..auth.login": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AuthAPIauthloginPOSTApiPermissionTestResumeAnalyzerAuthAuthAPI1F7F1864POSTauthloginB4BB6DC0"
+    }
+  ],
+  "/ResumeAnalyzerAuth/AuthAPI/Default/auth/login/POST/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AuthAPIauthloginPOSTD7F30675"
+    }
+  ],
+  "/ResumeAnalyzerAuth/AuthAPI/Default/auth/refresh/OPTIONS/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AuthAPIauthrefreshOPTIONS5370B125"
+    }
+  ],
+  "/ResumeAnalyzerAuth/AuthAPI/Default/auth/refresh/POST/ApiPermission.ResumeAnalyzerAuthAuthAPI1F7F1864.POST..auth.refresh": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AuthAPIauthrefreshPOSTApiPermissionResumeAnalyzerAuthAuthAPI1F7F1864POSTauthrefresh2C083FDC"
+    }
+  ],
+  "/ResumeAnalyzerAuth/AuthAPI/Default/auth/refresh/POST/ApiPermission.Test.ResumeAnalyzerAuthAuthAPI1F7F1864.POST..auth.refresh": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AuthAPIauthrefreshPOSTApiPermissionTestResumeAnalyzerAuthAuthAPI1F7F1864POSTauthrefresh65FD0AAD"
+    }
+  ],
+  "/ResumeAnalyzerAuth/AuthAPI/Default/auth/refresh/POST/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AuthAPIauthrefreshPOSTA689B1D8"
+    }
+  ],
+  "/ResumeAnalyzerAuth/AuthAPI/Default/auth/logout/OPTIONS/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AuthAPIauthlogoutOPTIONS2289AFA9"
+    }
+  ],
+  "/ResumeAnalyzerAuth/AuthAPI/Default/auth/logout/POST/ApiPermission.ResumeAnalyzerAuthAuthAPI1F7F1864.POST..auth.logout": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AuthAPIauthlogoutPOSTApiPermissionResumeAnalyzerAuthAuthAPI1F7F1864POSTauthlogoutF88CF49E"
+    }
+  ],
+  "/ResumeAnalyzerAuth/AuthAPI/Default/auth/logout/POST/ApiPermission.Test.ResumeAnalyzerAuthAuthAPI1F7F1864.POST..auth.logout": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AuthAPIauthlogoutPOSTApiPermissionTestResumeAnalyzerAuthAuthAPI1F7F1864POSTauthlogoutDE0C264E"
+    }
+  ],
+  "/ResumeAnalyzerAuth/AuthAPI/Default/auth/logout/POST/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AuthAPIauthlogoutPOSTEDE5F1A6"
+    }
+  ]
+}

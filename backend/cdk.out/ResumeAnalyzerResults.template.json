@@ -1,0 +1,983 @@
+{
+ "Resources": {
+  "ResultsTableF0B5BF22": {
+   "Type": "AWS::DynamoDB::Table",
+   "Properties": {
+    "AttributeDefinitions": [
+     {
+      "AttributeName": "userId",
+      "AttributeType": "S"
+     },
+     {
+      "AttributeName": "resultId",
+      "AttributeType": "S"
+     },
+     {
+      "AttributeName": "uploadId",
+      "AttributeType": "S"
+     }
+    ],
+    "BillingMode": "PAY_PER_REQUEST",
+    "GlobalSecondaryIndexes": [
+     {
+      "IndexName": "uploadId-index",
+      "KeySchema": [
+       {
+        "AttributeName": "uploadId",
+        "KeyType": "HASH"
+       }
+      ],
+      "Projection": {
+       "ProjectionType": "ALL"
+      }
+     },
+     {
+      "IndexName": "resultId-index",
+      "KeySchema": [
+       {
+        "AttributeName": "resultId",
+        "KeyType": "HASH"
+       }
+      ],
+      "Projection": {
+       "ProjectionType": "ALL"
+      }
+     }
+    ],
+    "KeySchema": [
+     {
+      "AttributeName": "userId",
+      "KeyType": "HASH"
+     },
+     {
+      "AttributeName": "resultId",
+      "KeyType": "RANGE"
+     }
+    ],
+    "TableName": "resume-analyzer-results"
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerResults/ResultsTable/Resource"
+   }
+  },
+  "ResultsWorkerLambdaServiceRole5BF9AF1E": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerResults/ResultsWorkerLambda/ServiceRole/Resource"
+   }
+  },
+  "ResultsWorkerLambdaServiceRoleDefaultPolicyEFCFE035": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "sqs:ChangeMessageVisibility",
+        "sqs:DeleteMessage",
+        "sqs:GetQueueAttributes",
+        "sqs:GetQueueUrl",
+        "sqs:ReceiveMessage"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::ImportValue": "ResumeAnalyzerAnalyzer:ExportsOutputFnGetAttResultsQueue7CAAE423Arn75D58C98"
+       }
+      },
+      {
+       "Action": [
+        "dynamodb:BatchGetItem",
+        "dynamodb:BatchWriteItem",
+        "dynamodb:ConditionCheckItem",
+        "dynamodb:DeleteItem",
+        "dynamodb:DescribeTable",
+        "dynamodb:GetItem",
+        "dynamodb:GetRecords",
+        "dynamodb:GetShardIterator",
+        "dynamodb:PutItem",
+        "dynamodb:Query",
+        "dynamodb:Scan",
+        "dynamodb:UpdateItem"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "ResultsTableF0B5BF22",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::ImportValue": "ResumeAnalyzerUpload:ExportsOutputFnGetAttUploadsTableFE9AB9DBArn838D3DB7"
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "ResultsTableF0B5BF22",
+             "Arn"
+            ]
+           },
+           "/index/*"
+          ]
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::ImportValue": "ResumeAnalyzerUpload:ExportsOutputFnGetAttUploadsTableFE9AB9DBArn838D3DB7"
+           },
+           "/index/*"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "ResultsWorkerLambdaServiceRoleDefaultPolicyEFCFE035",
+    "Roles": [
+     {
+      "Ref": "ResultsWorkerLambdaServiceRole5BF9AF1E"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerResults/ResultsWorkerLambda/ServiceRole/DefaultPolicy/Resource"
+   }
+  },
+  "ResultsWorkerLambda04B600D2": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-307711586938-us-east-1",
+     "S3Key": "1294a870416274a70554e1334f2607fbd33c74c29805355a35a899781d7c8197.zip"
+    },
+    "Environment": {
+     "Variables": {
+      "RESULTS_TABLE_NAME": {
+       "Ref": "ResultsTableF0B5BF22"
+      },
+      "UPLOADS_TABLE_NAME": {
+       "Fn::ImportValue": "ResumeAnalyzerUpload:ExportsOutputRefUploadsTableFE9AB9DB426D5B83"
+      }
+     }
+    },
+    "Handler": "handler.worker_handler",
+    "Role": {
+     "Fn::GetAtt": [
+      "ResultsWorkerLambdaServiceRole5BF9AF1E",
+      "Arn"
+     ]
+    },
+    "Runtime": "python3.12",
+    "Timeout": 60
+   },
+   "DependsOn": [
+    "ResultsWorkerLambdaServiceRoleDefaultPolicyEFCFE035",
+    "ResultsWorkerLambdaServiceRole5BF9AF1E"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerResults/ResultsWorkerLambda/Resource",
+    "aws:asset:path": "asset.1294a870416274a70554e1334f2607fbd33c74c29805355a35a899781d7c8197",
+    "aws:asset:is-bundled": false,
+    "aws:asset:property": "Code"
+   }
+  },
+  "ResultsWorkerLambdaSqsEventSourceResumeAnalyzerAnalyzerResultsQueue894D3714DCDECDBF": {
+   "Type": "AWS::Lambda::EventSourceMapping",
+   "Properties": {
+    "BatchSize": 1,
+    "EventSourceArn": {
+     "Fn::ImportValue": "ResumeAnalyzerAnalyzer:ExportsOutputFnGetAttResultsQueue7CAAE423Arn75D58C98"
+    },
+    "FunctionName": {
+     "Ref": "ResultsWorkerLambda04B600D2"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerResults/ResultsWorkerLambda/SqsEventSource:ResumeAnalyzerAnalyzerResultsQueue894D3714/Resource"
+   }
+  },
+  "ResultsAPILambdaServiceRole7F0EC83F": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerResults/ResultsAPILambda/ServiceRole/Resource"
+   }
+  },
+  "ResultsAPILambdaServiceRoleDefaultPolicy3C83DE6B": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "dynamodb:BatchGetItem",
+        "dynamodb:ConditionCheckItem",
+        "dynamodb:DescribeTable",
+        "dynamodb:GetItem",
+        "dynamodb:GetRecords",
+        "dynamodb:GetShardIterator",
+        "dynamodb:Query",
+        "dynamodb:Scan"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "ResultsTableF0B5BF22",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::ImportValue": "ResumeAnalyzerUpload:ExportsOutputFnGetAttUploadsTableFE9AB9DBArn838D3DB7"
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "ResultsTableF0B5BF22",
+             "Arn"
+            ]
+           },
+           "/index/*"
+          ]
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::ImportValue": "ResumeAnalyzerUpload:ExportsOutputFnGetAttUploadsTableFE9AB9DBArn838D3DB7"
+           },
+           "/index/*"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "ResultsAPILambdaServiceRoleDefaultPolicy3C83DE6B",
+    "Roles": [
+     {
+      "Ref": "ResultsAPILambdaServiceRole7F0EC83F"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerResults/ResultsAPILambda/ServiceRole/DefaultPolicy/Resource"
+   }
+  },
+  "ResultsAPILambdaF52E18ED": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-307711586938-us-east-1",
+     "S3Key": "1294a870416274a70554e1334f2607fbd33c74c29805355a35a899781d7c8197.zip"
+    },
+    "Environment": {
+     "Variables": {
+      "RESULTS_TABLE_NAME": {
+       "Ref": "ResultsTableF0B5BF22"
+      },
+      "UPLOADS_TABLE_NAME": {
+       "Fn::ImportValue": "ResumeAnalyzerUpload:ExportsOutputRefUploadsTableFE9AB9DB426D5B83"
+      }
+     }
+    },
+    "Handler": "handler.api_handler",
+    "Role": {
+     "Fn::GetAtt": [
+      "ResultsAPILambdaServiceRole7F0EC83F",
+      "Arn"
+     ]
+    },
+    "Runtime": "python3.12",
+    "Timeout": 30
+   },
+   "DependsOn": [
+    "ResultsAPILambdaServiceRoleDefaultPolicy3C83DE6B",
+    "ResultsAPILambdaServiceRole7F0EC83F"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerResults/ResultsAPILambda/Resource",
+    "aws:asset:path": "asset.1294a870416274a70554e1334f2607fbd33c74c29805355a35a899781d7c8197",
+    "aws:asset:is-bundled": false,
+    "aws:asset:property": "Code"
+   }
+  },
+  "ResultsAPI598FCA16": {
+   "Type": "AWS::ApiGateway::RestApi",
+   "Properties": {
+    "Name": "resume-analyzer-results-api"
+   },
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerResults/ResultsAPI/Resource"
+   }
+  },
+  "ResultsAPICloudWatchRole2551BF6A": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "apigateway.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AmazonAPIGatewayPushToCloudWatchLogs"
+       ]
+      ]
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerResults/ResultsAPI/CloudWatchRole/Resource"
+   }
+  },
+  "ResultsAPIAccount503F5229": {
+   "Type": "AWS::ApiGateway::Account",
+   "Properties": {
+    "CloudWatchRoleArn": {
+     "Fn::GetAtt": [
+      "ResultsAPICloudWatchRole2551BF6A",
+      "Arn"
+     ]
+    }
+   },
+   "DependsOn": [
+    "ResultsAPI598FCA16"
+   ],
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerResults/ResultsAPI/Account"
+   }
+  },
+  "ResultsAPIDeployment308017902e8c8d952d5792a19de65be0889244f5": {
+   "Type": "AWS::ApiGateway::Deployment",
+   "Properties": {
+    "Description": "Automatically created by the RestApi construct",
+    "RestApiId": {
+     "Ref": "ResultsAPI598FCA16"
+    }
+   },
+   "DependsOn": [
+    "ResultsAPIOPTIONSE53CD002",
+    "ResultsAPIresultsresultIdGET5A30FAA3",
+    "ResultsAPIresultsresultIdOPTIONS1BE51D4B",
+    "ResultsAPIresultsresultId95A11CD8",
+    "ResultsAPIresultsGET4259F139",
+    "ResultsAPIresultsOPTIONS7BFAB766",
+    "ResultsAPIresults43DF0710"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerResults/ResultsAPI/Deployment/Resource",
+    "aws:cdk:do-not-refactor": true
+   }
+  },
+  "ResultsAPIDeploymentStageprodACDDF4E0": {
+   "Type": "AWS::ApiGateway::Stage",
+   "Properties": {
+    "DeploymentId": {
+     "Ref": "ResultsAPIDeployment308017902e8c8d952d5792a19de65be0889244f5"
+    },
+    "RestApiId": {
+     "Ref": "ResultsAPI598FCA16"
+    },
+    "StageName": "prod"
+   },
+   "DependsOn": [
+    "ResultsAPIAccount503F5229"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerResults/ResultsAPI/DeploymentStage.prod/Resource"
+   }
+  },
+  "ResultsAPIOPTIONSE53CD002": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "ApiKeyRequired": false,
+    "AuthorizationType": "NONE",
+    "HttpMethod": "OPTIONS",
+    "Integration": {
+     "IntegrationResponses": [
+      {
+       "ResponseParameters": {
+        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,Authorization'",
+        "method.response.header.Access-Control-Allow-Origin": "'*'",
+        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,PUT,POST,DELETE,PATCH,HEAD'"
+       },
+       "StatusCode": "204"
+      }
+     ],
+     "RequestTemplates": {
+      "application/json": "{ statusCode: 200 }"
+     },
+     "Type": "MOCK"
+    },
+    "MethodResponses": [
+     {
+      "ResponseParameters": {
+       "method.response.header.Access-Control-Allow-Headers": true,
+       "method.response.header.Access-Control-Allow-Origin": true,
+       "method.response.header.Access-Control-Allow-Methods": true
+      },
+      "StatusCode": "204"
+     }
+    ],
+    "ResourceId": {
+     "Fn::GetAtt": [
+      "ResultsAPI598FCA16",
+      "RootResourceId"
+     ]
+    },
+    "RestApiId": {
+     "Ref": "ResultsAPI598FCA16"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerResults/ResultsAPI/Default/OPTIONS/Resource"
+   }
+  },
+  "ResultsAPIresults43DF0710": {
+   "Type": "AWS::ApiGateway::Resource",
+   "Properties": {
+    "ParentId": {
+     "Fn::GetAtt": [
+      "ResultsAPI598FCA16",
+      "RootResourceId"
+     ]
+    },
+    "PathPart": "results",
+    "RestApiId": {
+     "Ref": "ResultsAPI598FCA16"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerResults/ResultsAPI/Default/results/Resource"
+   }
+  },
+  "ResultsAPIresultsOPTIONS7BFAB766": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "ApiKeyRequired": false,
+    "AuthorizationType": "NONE",
+    "HttpMethod": "OPTIONS",
+    "Integration": {
+     "IntegrationResponses": [
+      {
+       "ResponseParameters": {
+        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,Authorization'",
+        "method.response.header.Access-Control-Allow-Origin": "'*'",
+        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,PUT,POST,DELETE,PATCH,HEAD'"
+       },
+       "StatusCode": "204"
+      }
+     ],
+     "RequestTemplates": {
+      "application/json": "{ statusCode: 200 }"
+     },
+     "Type": "MOCK"
+    },
+    "MethodResponses": [
+     {
+      "ResponseParameters": {
+       "method.response.header.Access-Control-Allow-Headers": true,
+       "method.response.header.Access-Control-Allow-Origin": true,
+       "method.response.header.Access-Control-Allow-Methods": true
+      },
+      "StatusCode": "204"
+     }
+    ],
+    "ResourceId": {
+     "Ref": "ResultsAPIresults43DF0710"
+    },
+    "RestApiId": {
+     "Ref": "ResultsAPI598FCA16"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerResults/ResultsAPI/Default/results/OPTIONS/Resource"
+   }
+  },
+  "ResultsAPIresultsGETApiPermissionResumeAnalyzerResultsResultsAPIB22EC9CBGETresultsEDFA1E5B": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "ResultsAPILambdaF52E18ED",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:us-east-1:307711586938:",
+       {
+        "Ref": "ResultsAPI598FCA16"
+       },
+       "/",
+       {
+        "Ref": "ResultsAPIDeploymentStageprodACDDF4E0"
+       },
+       "/GET/results"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerResults/ResultsAPI/Default/results/GET/ApiPermission.ResumeAnalyzerResultsResultsAPIB22EC9CB.GET..results"
+   }
+  },
+  "ResultsAPIresultsGETApiPermissionTestResumeAnalyzerResultsResultsAPIB22EC9CBGETresultsB7608133": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "ResultsAPILambdaF52E18ED",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:us-east-1:307711586938:",
+       {
+        "Ref": "ResultsAPI598FCA16"
+       },
+       "/test-invoke-stage/GET/results"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerResults/ResultsAPI/Default/results/GET/ApiPermission.Test.ResumeAnalyzerResultsResultsAPIB22EC9CB.GET..results"
+   }
+  },
+  "ResultsAPIresultsGET4259F139": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "COGNITO_USER_POOLS",
+    "AuthorizerId": {
+     "Ref": "ResultsCognitoAuthorizer67BA334B"
+    },
+    "HttpMethod": "GET",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":apigateway:us-east-1:lambda:path/2015-03-31/functions/",
+        {
+         "Fn::GetAtt": [
+          "ResultsAPILambdaF52E18ED",
+          "Arn"
+         ]
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    },
+    "ResourceId": {
+     "Ref": "ResultsAPIresults43DF0710"
+    },
+    "RestApiId": {
+     "Ref": "ResultsAPI598FCA16"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerResults/ResultsAPI/Default/results/GET/Resource"
+   }
+  },
+  "ResultsAPIresultsresultId95A11CD8": {
+   "Type": "AWS::ApiGateway::Resource",
+   "Properties": {
+    "ParentId": {
+     "Ref": "ResultsAPIresults43DF0710"
+    },
+    "PathPart": "{resultId}",
+    "RestApiId": {
+     "Ref": "ResultsAPI598FCA16"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerResults/ResultsAPI/Default/results/{resultId}/Resource"
+   }
+  },
+  "ResultsAPIresultsresultIdOPTIONS1BE51D4B": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "ApiKeyRequired": false,
+    "AuthorizationType": "NONE",
+    "HttpMethod": "OPTIONS",
+    "Integration": {
+     "IntegrationResponses": [
+      {
+       "ResponseParameters": {
+        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,Authorization'",
+        "method.response.header.Access-Control-Allow-Origin": "'*'",
+        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,PUT,POST,DELETE,PATCH,HEAD'"
+       },
+       "StatusCode": "204"
+      }
+     ],
+     "RequestTemplates": {
+      "application/json": "{ statusCode: 200 }"
+     },
+     "Type": "MOCK"
+    },
+    "MethodResponses": [
+     {
+      "ResponseParameters": {
+       "method.response.header.Access-Control-Allow-Headers": true,
+       "method.response.header.Access-Control-Allow-Origin": true,
+       "method.response.header.Access-Control-Allow-Methods": true
+      },
+      "StatusCode": "204"
+     }
+    ],
+    "ResourceId": {
+     "Ref": "ResultsAPIresultsresultId95A11CD8"
+    },
+    "RestApiId": {
+     "Ref": "ResultsAPI598FCA16"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerResults/ResultsAPI/Default/results/{resultId}/OPTIONS/Resource"
+   }
+  },
+  "ResultsAPIresultsresultIdGETApiPermissionResumeAnalyzerResultsResultsAPIB22EC9CBGETresultsresultIdF39FB0B2": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "ResultsAPILambdaF52E18ED",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:us-east-1:307711586938:",
+       {
+        "Ref": "ResultsAPI598FCA16"
+       },
+       "/",
+       {
+        "Ref": "ResultsAPIDeploymentStageprodACDDF4E0"
+       },
+       "/GET/results/*"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerResults/ResultsAPI/Default/results/{resultId}/GET/ApiPermission.ResumeAnalyzerResultsResultsAPIB22EC9CB.GET..results.{resultId}"
+   }
+  },
+  "ResultsAPIresultsresultIdGETApiPermissionTestResumeAnalyzerResultsResultsAPIB22EC9CBGETresultsresultIdDCE463C3": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "ResultsAPILambdaF52E18ED",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:us-east-1:307711586938:",
+       {
+        "Ref": "ResultsAPI598FCA16"
+       },
+       "/test-invoke-stage/GET/results/*"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerResults/ResultsAPI/Default/results/{resultId}/GET/ApiPermission.Test.ResumeAnalyzerResultsResultsAPIB22EC9CB.GET..results.{resultId}"
+   }
+  },
+  "ResultsAPIresultsresultIdGET5A30FAA3": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "COGNITO_USER_POOLS",
+    "AuthorizerId": {
+     "Ref": "ResultsCognitoAuthorizer67BA334B"
+    },
+    "HttpMethod": "GET",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":apigateway:us-east-1:lambda:path/2015-03-31/functions/",
+        {
+         "Fn::GetAtt": [
+          "ResultsAPILambdaF52E18ED",
+          "Arn"
+         ]
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    },
+    "ResourceId": {
+     "Ref": "ResultsAPIresultsresultId95A11CD8"
+    },
+    "RestApiId": {
+     "Ref": "ResultsAPI598FCA16"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerResults/ResultsAPI/Default/results/{resultId}/GET/Resource"
+   }
+  },
+  "ResultsCognitoAuthorizer67BA334B": {
+   "Type": "AWS::ApiGateway::Authorizer",
+   "Properties": {
+    "IdentitySource": "method.request.header.Authorization",
+    "Name": "ResumeAnalyzerResultsResultsCognitoAuthorizerDE6CEB15",
+    "ProviderARNs": [
+     {
+      "Fn::ImportValue": "ResumeAnalyzerAuth:ExportsOutputFnGetAttUserPool6BA7E5F2Arn686ACC00"
+     }
+    ],
+    "RestApiId": {
+     "Ref": "ResultsAPI598FCA16"
+    },
+    "Type": "COGNITO_USER_POOLS"
+   },
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerResults/ResultsCognitoAuthorizer/Resource"
+   }
+  },
+  "CDKMetadata": {
+   "Type": "AWS::CDK::Metadata",
+   "Properties": {
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/22QQVLDMAxFz9K9a0oDB0ih7DpkUlh3FEekoomViWQ6IZO7M3FDy4KVnvRt/W+v7fpxZVcLOMvSladlTYUd9gruZOAsh6HsPTRcFnZ4g6JG8/ThI4ymhqYowQ4vwTsl9pN05e0Xet1z6BzuoG3JV5P8/zTDriERYj8agsYOOV+MYs24JtfHc5FGI8kBRFDFplMxkthNcCfUDQgaaKkCxTP0dshRNG0p7rph6hwHr+YZ25r7Br1O0z/dXqGKAS6Qo8TIcf0O9cjlJM70q84mM3PlSfldsMuYa0mDHrmjb+xigGs3jrf78TGT4/wtr0HboKPJej2yv0vs/YNNFp9CtOyCV2rQ5pf6Azqu5I/EAQAA"
+   },
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerResults/CDKMetadata/Default"
+   }
+  }
+ },
+ "Outputs": {
+  "ResultsAPIEndpoint11D3E37B": {
+   "Value": {
+    "Fn::Join": [
+     "",
+     [
+      "https://",
+      {
+       "Ref": "ResultsAPI598FCA16"
+      },
+      ".execute-api.us-east-1.",
+      {
+       "Ref": "AWS::URLSuffix"
+      },
+      "/",
+      {
+       "Ref": "ResultsAPIDeploymentStageprodACDDF4E0"
+      },
+      "/"
+     ]
+    ]
+   }
+  },
+  "ResultsTableName": {
+   "Value": {
+    "Ref": "ResultsTableF0B5BF22"
+   }
+  },
+  "ResultsApiUrl": {
+   "Value": {
+    "Fn::Join": [
+     "",
+     [
+      "https://",
+      {
+       "Ref": "ResultsAPI598FCA16"
+      },
+      ".execute-api.us-east-1.",
+      {
+       "Ref": "AWS::URLSuffix"
+      },
+      "/",
+      {
+       "Ref": "ResultsAPIDeploymentStageprodACDDF4E0"
+      },
+      "/"
+     ]
+    ]
+   },
+   "Export": {
+    "Name": "ResultsApiUrl"
+   }
+  }
+ },
+ "Parameters": {
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}

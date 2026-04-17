@@ -1,0 +1,196 @@
+{
+  "/ResumeAnalyzerResults/ResultsTable": [
+    {
+      "type": "aws:cdk:hasPhysicalName",
+      "data": {
+        "Ref": "ResultsTableF0B5BF22"
+      }
+    }
+  ],
+  "/ResumeAnalyzerResults/ResultsTableName": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ResultsTableName"
+    }
+  ],
+  "/ResumeAnalyzerResults/ResultsApiUrl": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ResultsApiUrl"
+    }
+  ],
+  "/ResumeAnalyzerResults/BootstrapVersion": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "BootstrapVersion"
+    }
+  ],
+  "/ResumeAnalyzerResults/CheckBootstrapVersion": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CheckBootstrapVersion"
+    }
+  ],
+  "/ResumeAnalyzerResults/ResultsTable/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ResultsTableF0B5BF22"
+    }
+  ],
+  "/ResumeAnalyzerResults/ResultsWorkerLambda/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ResultsWorkerLambda04B600D2"
+    }
+  ],
+  "/ResumeAnalyzerResults/ResultsAPILambda/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ResultsAPILambdaF52E18ED"
+    }
+  ],
+  "/ResumeAnalyzerResults/ResultsAPI/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ResultsAPI598FCA16"
+    }
+  ],
+  "/ResumeAnalyzerResults/ResultsAPI/Account": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ResultsAPIAccount503F5229"
+    }
+  ],
+  "/ResumeAnalyzerResults/ResultsAPI/Endpoint": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ResultsAPIEndpoint11D3E37B"
+    }
+  ],
+  "/ResumeAnalyzerResults/ResultsCognitoAuthorizer/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ResultsCognitoAuthorizer67BA334B"
+    }
+  ],
+  "/ResumeAnalyzerResults/CDKMetadata/Default": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CDKMetadata"
+    }
+  ],
+  "/ResumeAnalyzerResults/ResultsWorkerLambda/ServiceRole/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ResultsWorkerLambdaServiceRole5BF9AF1E"
+    }
+  ],
+  "/ResumeAnalyzerResults/ResultsWorkerLambda/SqsEventSource:ResumeAnalyzerAnalyzerResultsQueue894D3714/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ResultsWorkerLambdaSqsEventSourceResumeAnalyzerAnalyzerResultsQueue894D3714DCDECDBF"
+    }
+  ],
+  "/ResumeAnalyzerResults/ResultsAPILambda/ServiceRole/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ResultsAPILambdaServiceRole7F0EC83F"
+    }
+  ],
+  "/ResumeAnalyzerResults/ResultsAPI/CloudWatchRole/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ResultsAPICloudWatchRole2551BF6A"
+    }
+  ],
+  "/ResumeAnalyzerResults/ResultsAPI/Deployment/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ResultsAPIDeployment308017902e8c8d952d5792a19de65be0889244f5"
+    }
+  ],
+  "/ResumeAnalyzerResults/ResultsAPI/DeploymentStage.prod/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ResultsAPIDeploymentStageprodACDDF4E0"
+    }
+  ],
+  "/ResumeAnalyzerResults/ResultsWorkerLambda/ServiceRole/DefaultPolicy/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ResultsWorkerLambdaServiceRoleDefaultPolicyEFCFE035"
+    }
+  ],
+  "/ResumeAnalyzerResults/ResultsAPILambda/ServiceRole/DefaultPolicy/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ResultsAPILambdaServiceRoleDefaultPolicy3C83DE6B"
+    }
+  ],
+  "/ResumeAnalyzerResults/ResultsAPI/Default/OPTIONS/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ResultsAPIOPTIONSE53CD002"
+    }
+  ],
+  "/ResumeAnalyzerResults/ResultsAPI/Default/results/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ResultsAPIresults43DF0710"
+    }
+  ],
+  "/ResumeAnalyzerResults/ResultsAPI/Default/results/OPTIONS/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ResultsAPIresultsOPTIONS7BFAB766"
+    }
+  ],
+  "/ResumeAnalyzerResults/ResultsAPI/Default/results/GET/ApiPermission.ResumeAnalyzerResultsResultsAPIB22EC9CB.GET..results": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ResultsAPIresultsGETApiPermissionResumeAnalyzerResultsResultsAPIB22EC9CBGETresultsEDFA1E5B"
+    }
+  ],
+  "/ResumeAnalyzerResults/ResultsAPI/Default/results/GET/ApiPermission.Test.ResumeAnalyzerResultsResultsAPIB22EC9CB.GET..results": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ResultsAPIresultsGETApiPermissionTestResumeAnalyzerResultsResultsAPIB22EC9CBGETresultsB7608133"
+    }
+  ],
+  "/ResumeAnalyzerResults/ResultsAPI/Default/results/GET/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ResultsAPIresultsGET4259F139"
+    }
+  ],
+  "/ResumeAnalyzerResults/ResultsAPI/Default/results/{resultId}/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ResultsAPIresultsresultId95A11CD8"
+    }
+  ],
+  "/ResumeAnalyzerResults/ResultsAPI/Default/results/{resultId}/OPTIONS/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ResultsAPIresultsresultIdOPTIONS1BE51D4B"
+    }
+  ],
+  "/ResumeAnalyzerResults/ResultsAPI/Default/results/{resultId}/GET/ApiPermission.ResumeAnalyzerResultsResultsAPIB22EC9CB.GET..results.{resultId}": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ResultsAPIresultsresultIdGETApiPermissionResumeAnalyzerResultsResultsAPIB22EC9CBGETresultsresultIdF39FB0B2"
+    }
+  ],
+  "/ResumeAnalyzerResults/ResultsAPI/Default/results/{resultId}/GET/ApiPermission.Test.ResumeAnalyzerResultsResultsAPIB22EC9CB.GET..results.{resultId}": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ResultsAPIresultsresultIdGETApiPermissionTestResumeAnalyzerResultsResultsAPIB22EC9CBGETresultsresultIdDCE463C3"
+    }
+  ],
+  "/ResumeAnalyzerResults/ResultsAPI/Default/results/{resultId}/GET/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ResultsAPIresultsresultIdGET5A30FAA3"
+    }
+  ]
+}

@@ -1,0 +1,733 @@
+{
+ "Resources": {
+  "AnalysisResultsBucket4193435A": {
+   "Type": "AWS::S3::Bucket",
+   "Properties": {
+    "BucketEncryption": {
+     "ServerSideEncryptionConfiguration": [
+      {
+       "ServerSideEncryptionByDefault": {
+        "SSEAlgorithm": "AES256"
+       }
+      }
+     ]
+    },
+    "PublicAccessBlockConfiguration": {
+     "BlockPublicAcls": true,
+     "BlockPublicPolicy": true,
+     "IgnorePublicAcls": true,
+     "RestrictPublicBuckets": true
+    },
+    "Tags": [
+     {
+      "Key": "aws-cdk:auto-delete-objects",
+      "Value": "true"
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerAnalyzer/AnalysisResultsBucket/Resource"
+   }
+  },
+  "AnalysisResultsBucketPolicy7B988D46": {
+   "Type": "AWS::S3::BucketPolicy",
+   "Properties": {
+    "Bucket": {
+     "Ref": "AnalysisResultsBucket4193435A"
+    },
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "s3:DeleteObject*",
+        "s3:GetBucket*",
+        "s3:List*",
+        "s3:PutBucketPolicy"
+       ],
+       "Effect": "Allow",
+       "Principal": {
+        "AWS": {
+         "Fn::GetAtt": [
+          "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092",
+          "Arn"
+         ]
+        }
+       },
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "AnalysisResultsBucket4193435A",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "AnalysisResultsBucket4193435A",
+             "Arn"
+            ]
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerAnalyzer/AnalysisResultsBucket/Policy/Resource"
+   }
+  },
+  "AnalysisResultsBucketAutoDeleteObjectsCustomResource0C95B485": {
+   "Type": "Custom::S3AutoDeleteObjects",
+   "Properties": {
+    "ServiceToken": {
+     "Fn::GetAtt": [
+      "CustomS3AutoDeleteObjectsCustomResourceProviderHandler9D90184F",
+      "Arn"
+     ]
+    },
+    "BucketName": {
+     "Ref": "AnalysisResultsBucket4193435A"
+    }
+   },
+   "DependsOn": [
+    "AnalysisResultsBucketPolicy7B988D46"
+   ],
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerAnalyzer/AnalysisResultsBucket/AutoDeleteObjectsCustomResource/Default"
+   }
+  },
+  "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Version": "2012-10-17",
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ]
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Sub": "arn:${AWS::Partition}:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerAnalyzer/Custom::S3AutoDeleteObjectsCustomResourceProvider/Role"
+   }
+  },
+  "CustomS3AutoDeleteObjectsCustomResourceProviderHandler9D90184F": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-307711586938-us-east-1",
+     "S3Key": "faa95a81ae7d7373f3e1f242268f904eb748d8d0fdd306e8a6fe515a1905a7d6.zip"
+    },
+    "Timeout": 900,
+    "MemorySize": 128,
+    "Handler": "index.handler",
+    "Role": {
+     "Fn::GetAtt": [
+      "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs22.x",
+    "Description": {
+     "Fn::Join": [
+      "",
+      [
+       "Lambda function for auto-deleting objects in ",
+       {
+        "Ref": "AnalysisResultsBucket4193435A"
+       },
+       " S3 bucket."
+      ]
+     ]
+    }
+   },
+   "DependsOn": [
+    "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerAnalyzer/Custom::S3AutoDeleteObjectsCustomResourceProvider/Handler",
+    "aws:asset:path": "asset.faa95a81ae7d7373f3e1f242268f904eb748d8d0fdd306e8a6fe515a1905a7d6",
+    "aws:asset:property": "Code"
+   }
+  },
+  "AnalysisJobsTableE812368D": {
+   "Type": "AWS::DynamoDB::Table",
+   "Properties": {
+    "AttributeDefinitions": [
+     {
+      "AttributeName": "analysisJobId",
+      "AttributeType": "S"
+     },
+     {
+      "AttributeName": "uploadId",
+      "AttributeType": "S"
+     }
+    ],
+    "BillingMode": "PAY_PER_REQUEST",
+    "GlobalSecondaryIndexes": [
+     {
+      "IndexName": "uploadId-index",
+      "KeySchema": [
+       {
+        "AttributeName": "uploadId",
+        "KeyType": "HASH"
+       }
+      ],
+      "Projection": {
+       "ProjectionType": "ALL"
+      }
+     }
+    ],
+    "KeySchema": [
+     {
+      "AttributeName": "analysisJobId",
+      "KeyType": "HASH"
+     }
+    ],
+    "TableName": "resume-analyzer-analysis-jobs"
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerAnalyzer/AnalysisJobsTable/Resource"
+   }
+  },
+  "ResultsTopicCADB6F71": {
+   "Type": "AWS::SNS::Topic",
+   "Properties": {
+    "TopicName": "resume-analyzer-results-topic"
+   },
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerAnalyzer/ResultsTopic/Resource"
+   }
+  },
+  "ResultsDLQ1C32556A": {
+   "Type": "AWS::SQS::Queue",
+   "Properties": {
+    "MessageRetentionPeriod": 1209600,
+    "QueueName": "resume-analyzer-results-dlq"
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerAnalyzer/ResultsDLQ/Resource"
+   }
+  },
+  "ResultsQueue7CAAE423": {
+   "Type": "AWS::SQS::Queue",
+   "Properties": {
+    "QueueName": "resume-analyzer-results-queue",
+    "RedrivePolicy": {
+     "deadLetterTargetArn": {
+      "Fn::GetAtt": [
+       "ResultsDLQ1C32556A",
+       "Arn"
+      ]
+     },
+     "maxReceiveCount": 3
+    },
+    "VisibilityTimeout": 120
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerAnalyzer/ResultsQueue/Resource"
+   }
+  },
+  "ResultsQueuePolicy09847F3E": {
+   "Type": "AWS::SQS::QueuePolicy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sqs:SendMessage",
+       "Condition": {
+        "ArnEquals": {
+         "aws:SourceArn": {
+          "Ref": "ResultsTopicCADB6F71"
+         }
+        }
+       },
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "sns.amazonaws.com"
+       },
+       "Resource": {
+        "Fn::GetAtt": [
+         "ResultsQueue7CAAE423",
+         "Arn"
+        ]
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "Queues": [
+     {
+      "Ref": "ResultsQueue7CAAE423"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerAnalyzer/ResultsQueue/Policy/Resource"
+   }
+  },
+  "ResultsQueueResumeAnalyzerAnalyzerResultsTopic2B49E2134E1C85C7": {
+   "Type": "AWS::SNS::Subscription",
+   "Properties": {
+    "Endpoint": {
+     "Fn::GetAtt": [
+      "ResultsQueue7CAAE423",
+      "Arn"
+     ]
+    },
+    "Protocol": "sqs",
+    "TopicArn": {
+     "Ref": "ResultsTopicCADB6F71"
+    }
+   },
+   "DependsOn": [
+    "ResultsQueuePolicy09847F3E"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerAnalyzer/ResultsQueue/ResumeAnalyzerAnalyzerResultsTopic2B49E213/Resource"
+   }
+  },
+  "NotificationDLQCDA15FAF": {
+   "Type": "AWS::SQS::Queue",
+   "Properties": {
+    "MessageRetentionPeriod": 1209600,
+    "QueueName": "resume-analyzer-notification-dlq"
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerAnalyzer/NotificationDLQ/Resource"
+   }
+  },
+  "NotificationQueue36610CC1": {
+   "Type": "AWS::SQS::Queue",
+   "Properties": {
+    "QueueName": "resume-analyzer-notification-queue",
+    "RedrivePolicy": {
+     "deadLetterTargetArn": {
+      "Fn::GetAtt": [
+       "NotificationDLQCDA15FAF",
+       "Arn"
+      ]
+     },
+     "maxReceiveCount": 3
+    },
+    "VisibilityTimeout": 60
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerAnalyzer/NotificationQueue/Resource"
+   }
+  },
+  "NotificationQueuePolicyCC060EA6": {
+   "Type": "AWS::SQS::QueuePolicy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sqs:SendMessage",
+       "Condition": {
+        "ArnEquals": {
+         "aws:SourceArn": {
+          "Ref": "ResultsTopicCADB6F71"
+         }
+        }
+       },
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "sns.amazonaws.com"
+       },
+       "Resource": {
+        "Fn::GetAtt": [
+         "NotificationQueue36610CC1",
+         "Arn"
+        ]
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "Queues": [
+     {
+      "Ref": "NotificationQueue36610CC1"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerAnalyzer/NotificationQueue/Policy/Resource"
+   }
+  },
+  "NotificationQueueResumeAnalyzerAnalyzerResultsTopic2B49E21352B8D8C9": {
+   "Type": "AWS::SNS::Subscription",
+   "Properties": {
+    "Endpoint": {
+     "Fn::GetAtt": [
+      "NotificationQueue36610CC1",
+      "Arn"
+     ]
+    },
+    "Protocol": "sqs",
+    "TopicArn": {
+     "Ref": "ResultsTopicCADB6F71"
+    }
+   },
+   "DependsOn": [
+    "NotificationQueuePolicyCC060EA6"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerAnalyzer/NotificationQueue/ResumeAnalyzerAnalyzerResultsTopic2B49E213/Resource"
+   }
+  },
+  "AnalyzerLambdaServiceRole3377689A": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerAnalyzer/AnalyzerLambda/ServiceRole/Resource"
+   }
+  },
+  "AnalyzerLambdaServiceRoleDefaultPolicy45849411": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "sqs:ChangeMessageVisibility",
+        "sqs:DeleteMessage",
+        "sqs:GetQueueAttributes",
+        "sqs:GetQueueUrl",
+        "sqs:ReceiveMessage"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::ImportValue": "ResumeAnalyzerParser:ExportsOutputFnGetAttAnalysisQueue251119DFArn84F30333"
+       }
+      },
+      {
+       "Action": [
+        "s3:GetBucket*",
+        "s3:GetObject*",
+        "s3:List*"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::ImportValue": "ResumeAnalyzerParser:ExportsOutputFnGetAttParsedOutputBucketAA98647BArn2EB7E08A"
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::ImportValue": "ResumeAnalyzerParser:ExportsOutputFnGetAttParsedOutputBucketAA98647BArn2EB7E08A"
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": [
+        "s3:Abort*",
+        "s3:DeleteObject*",
+        "s3:GetBucket*",
+        "s3:GetObject*",
+        "s3:List*",
+        "s3:PutObject",
+        "s3:PutObjectLegalHold",
+        "s3:PutObjectRetention",
+        "s3:PutObjectTagging",
+        "s3:PutObjectVersionTagging"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "AnalysisResultsBucket4193435A",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "AnalysisResultsBucket4193435A",
+             "Arn"
+            ]
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": [
+        "dynamodb:BatchGetItem",
+        "dynamodb:BatchWriteItem",
+        "dynamodb:ConditionCheckItem",
+        "dynamodb:DeleteItem",
+        "dynamodb:DescribeTable",
+        "dynamodb:GetItem",
+        "dynamodb:GetRecords",
+        "dynamodb:GetShardIterator",
+        "dynamodb:PutItem",
+        "dynamodb:Query",
+        "dynamodb:Scan",
+        "dynamodb:UpdateItem"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "AnalysisJobsTableE812368D",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "AnalysisJobsTableE812368D",
+             "Arn"
+            ]
+           },
+           "/index/*"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": "sns:Publish",
+       "Effect": "Allow",
+       "Resource": {
+        "Ref": "ResultsTopicCADB6F71"
+       }
+      },
+      {
+       "Action": "bedrock:InvokeModel",
+       "Effect": "Allow",
+       "Resource": "arn:aws:bedrock:us-east-1::foundation-model/anthropic.claude-3-haiku-20240307-v1:0"
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "AnalyzerLambdaServiceRoleDefaultPolicy45849411",
+    "Roles": [
+     {
+      "Ref": "AnalyzerLambdaServiceRole3377689A"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerAnalyzer/AnalyzerLambda/ServiceRole/DefaultPolicy/Resource"
+   }
+  },
+  "AnalyzerLambdaDB803ECF": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-307711586938-us-east-1",
+     "S3Key": "b9770b26c1ab3c51c45c11cc5cbf9d42deb8edaf35fabc0bb7a93b406cf688af.zip"
+    },
+    "Environment": {
+     "Variables": {
+      "ANALYSIS_RESULTS_BUCKET": {
+       "Ref": "AnalysisResultsBucket4193435A"
+      },
+      "ANALYSIS_JOBS_TABLE": {
+       "Ref": "AnalysisJobsTableE812368D"
+      },
+      "RESULTS_TOPIC_ARN": {
+       "Ref": "ResultsTopicCADB6F71"
+      },
+      "PARSED_OUTPUT_BUCKET": {
+       "Fn::ImportValue": "ResumeAnalyzerParser:ExportsOutputRefParsedOutputBucketAA98647B8DA044D1"
+      },
+      "BEDROCK_MODEL_ID": "anthropic.claude-3-haiku-20240307-v1:0",
+      "BEDROCK_MAX_TOKENS": "4096"
+     }
+    },
+    "Handler": "handler.handler",
+    "MemorySize": 512,
+    "Role": {
+     "Fn::GetAtt": [
+      "AnalyzerLambdaServiceRole3377689A",
+      "Arn"
+     ]
+    },
+    "Runtime": "python3.12",
+    "Timeout": 120
+   },
+   "DependsOn": [
+    "AnalyzerLambdaServiceRoleDefaultPolicy45849411",
+    "AnalyzerLambdaServiceRole3377689A"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerAnalyzer/AnalyzerLambda/Resource",
+    "aws:asset:path": "asset.b9770b26c1ab3c51c45c11cc5cbf9d42deb8edaf35fabc0bb7a93b406cf688af",
+    "aws:asset:is-bundled": false,
+    "aws:asset:property": "Code"
+   }
+  },
+  "AnalyzerLambdaSqsEventSourceResumeAnalyzerParserAnalysisQueue8154C08934CD0F93": {
+   "Type": "AWS::Lambda::EventSourceMapping",
+   "Properties": {
+    "BatchSize": 1,
+    "EventSourceArn": {
+     "Fn::ImportValue": "ResumeAnalyzerParser:ExportsOutputFnGetAttAnalysisQueue251119DFArn84F30333"
+    },
+    "FunctionName": {
+     "Ref": "AnalyzerLambdaDB803ECF"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerAnalyzer/AnalyzerLambda/SqsEventSource:ResumeAnalyzerParserAnalysisQueue8154C089/Resource"
+   }
+  },
+  "CDKMetadata": {
+   "Type": "AWS::CDK::Metadata",
+   "Properties": {
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/5VQwVICMQz9FjiXiKxevAHqzQFZbo7DdLsRC7vtuklBptN/d7YdYB1PXpqXvLyXpBOY3I9hPJBHGqlyP6p0AT5nqfZCHmnjKQM/c2qPLOYfJqE3P6z1tzbDh2Ff1vVTBpEiSK1Tx/YRK2RcFDtUTMPwLhK1tJVWp6tryv/hnQQ5S8YaTd96JgmDKE9G1rYswK9lUWE3KYIgyBD4tW20isUIcleQanXD2pqu2s+DoC8C/+rQRZsE4nu9opcGUcm6KCX4Z2fU2fGCnw5oOLeuVfgim0abbUf/rQahZQ1+ZdPyMV7nnUdRtpFEyATTLgQxd8S2XiFFr6i84F/UsrUHXWLbfZeI4pzltlunL144bhwHsTzxpzU3GdzeQTbYkdaj1hnWNcIqxR8W+FvVTAIAAA=="
+   },
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerAnalyzer/CDKMetadata/Default"
+   }
+  }
+ },
+ "Outputs": {
+  "ResultsQueueUrl": {
+   "Value": {
+    "Ref": "ResultsQueue7CAAE423"
+   }
+  },
+  "NotificationQueueUrl": {
+   "Value": {
+    "Ref": "NotificationQueue36610CC1"
+   }
+  },
+  "AnalysisResultsBucketName": {
+   "Value": {
+    "Ref": "AnalysisResultsBucket4193435A"
+   }
+  },
+  "ExportsOutputFnGetAttResultsQueue7CAAE423Arn75D58C98": {
+   "Value": {
+    "Fn::GetAtt": [
+     "ResultsQueue7CAAE423",
+     "Arn"
+    ]
+   },
+   "Export": {
+    "Name": "ResumeAnalyzerAnalyzer:ExportsOutputFnGetAttResultsQueue7CAAE423Arn75D58C98"
+   }
+  },
+  "ExportsOutputFnGetAttNotificationQueue36610CC1ArnA5D241F1": {
+   "Value": {
+    "Fn::GetAtt": [
+     "NotificationQueue36610CC1",
+     "Arn"
+    ]
+   },
+   "Export": {
+    "Name": "ResumeAnalyzerAnalyzer:ExportsOutputFnGetAttNotificationQueue36610CC1ArnA5D241F1"
+   }
+  }
+ },
+ "Parameters": {
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}
