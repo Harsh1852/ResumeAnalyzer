@@ -7,6 +7,7 @@ from stacks.analyzer_stack import AnalyzerStack
 from stacks.results_stack import ResultsStack
 from stacks.frontend_stack import FrontendStack
 from stacks.jobs_stack import JobsStack
+from stacks.applications_stack import ApplicationsStack
 
 app = cdk.App()
 env = cdk.Environment(
@@ -53,6 +54,13 @@ frontend_stack = FrontendStack(
 jobs_stack = JobsStack(
     app, "ResumeAnalyzerJobs",
     results_table=results_stack.results_table,
+    user_pool=auth_stack.user_pool,
+    env=env,
+)
+
+# Phase 2a — Applications Tracker (statuses + interview rounds)
+applications_stack = ApplicationsStack(
+    app, "ResumeAnalyzerApplications",
     user_pool=auth_stack.user_pool,
     env=env,
 )

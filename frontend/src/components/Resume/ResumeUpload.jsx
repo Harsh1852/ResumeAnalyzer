@@ -1,6 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
-import { getPresignedUrl, uploadToS3, confirmUpload, listUploads, getUpload, deleteUpload, deleteResult } from "../../services/api";
+import { useNavigate, Link } from "react-router-dom";
+import {
+  getPresignedUrl, uploadToS3, confirmUpload, listUploads, getUpload,
+  deleteUpload, deleteResult, getApplicationStats,
+} from "../../services/api";
 
 const STATUS_LABELS = {
   PENDING: "Pending",
@@ -16,22 +19,66 @@ const STATUS_COLORS = {
 };
 
 const s = {
-  page: { maxWidth: 760, margin: "40px auto", padding: "0 20px" },
-  card: { background: "#fff", borderRadius: 12, padding: "32px", boxShadow: "0 2px 12px rgba(0,0,0,.07)", marginBottom: 24 },
-  title: { margin: "0 0 20px", fontSize: 22, fontWeight: 700 },
+  page: { maxWidth: 960, margin: "32px auto", padding: "0 24px 60px" },
+  hero: {
+    background: "linear-gradient(135deg,#1e3a8a,#2563eb 60%,#3b82f6)",
+    borderRadius: 16, padding: "32px 36px", color: "#fff",
+    boxShadow: "0 8px 30px rgba(30,58,138,.25)", marginBottom: 24,
+    position: "relative", overflow: "hidden",
+  },
+  heroTitle: { fontSize: 28, fontWeight: 800, margin: 0, letterSpacing: "-.01em", lineHeight: 1.2 },
+  heroSub: { fontSize: 15, opacity: 0.9, marginTop: 8, maxWidth: 600, lineHeight: 1.5 },
+  heroMeta: { display: "flex", flexWrap: "wrap", gap: 10, marginTop: 18 },
+  heroPill: {
+    background: "rgba(255,255,255,.18)", color: "#fff",
+    padding: "6px 14px", borderRadius: 20, fontSize: 12, fontWeight: 600,
+    backdropFilter: "blur(4px)",
+  },
+  actions: {
+    display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
+    gap: 14, marginBottom: 26,
+  },
+  action: {
+    background: "#fff", borderRadius: 12, padding: "18px 20px",
+    border: "1px solid #eef1f5", boxShadow: "0 1px 6px rgba(15,23,42,.05)",
+    textDecoration: "none", color: "inherit", transition: "all .15s",
+    cursor: "pointer", display: "block",
+  },
+  actionIcon: { fontSize: 24, marginBottom: 10 },
+  actionTitle: { fontSize: 15, fontWeight: 700, color: "#0f172a", marginBottom: 4 },
+  actionDesc: { fontSize: 13, color: "#64748b", lineHeight: 1.45 },
+  card: {
+    background: "#fff", borderRadius: 14, padding: "28px 30px", marginBottom: 22,
+    border: "1px solid #eef1f5", boxShadow: "0 2px 14px rgba(15,23,42,.05)",
+  },
+  cardTitle: { margin: "0 0 18px", fontSize: 18, fontWeight: 700, color: "#0f172a" },
   dropzone: (drag) => ({
-    border: `2px dashed ${drag ? "#2563eb" : "#d1d5db"}`,
-    borderRadius: 10, padding: "48px 24px", textAlign: "center",
+    border: `2px dashed ${drag ? "#2563eb" : "#cbd5e1"}`,
+    borderRadius: 12, padding: "48px 24px", textAlign: "center",
     cursor: "pointer", background: drag ? "#eff6ff" : "#f8fafc",
-    transition: "all .2s",
+    transition: "all .18s",
   }),
-  btn: { padding: "10px 22px", background: "#2563eb", color: "#fff", border: "none", borderRadius: 8, fontSize: 15, fontWeight: 600, cursor: "pointer" },
-  btnGhost: { padding: "8px 16px", background: "transparent", color: "#2563eb", border: "1px solid #2563eb", borderRadius: 8, fontSize: 14, cursor: "pointer" },
-  row: { display: "flex", alignItems: "center", justifyContent: "space-between", padding: "14px 0", borderBottom: "1px solid #f1f5f9" },
-  badge: (status) => ({ fontSize: 12, fontWeight: 600, color: STATUS_COLORS[status] || "#6b7280", background: "transparent" }),
-  progress: { height: 4, background: "#e5e7eb", borderRadius: 2, overflow: "hidden", marginTop: 8 },
+  btnPrimary: {
+    padding: "11px 22px", background: "linear-gradient(135deg,#2563eb,#1d4ed8)", color: "#fff",
+    border: "none", borderRadius: 10, fontSize: 14, fontWeight: 600, cursor: "pointer",
+    boxShadow: "0 4px 14px rgba(37,99,235,.3)",
+  },
+  btnGhost: {
+    padding: "10px 20px", background: "transparent", color: "#2563eb",
+    border: "1.5px solid #2563eb", borderRadius: 10, fontSize: 14, fontWeight: 600, cursor: "pointer",
+  },
+  row: {
+    display: "flex", alignItems: "center", justifyContent: "space-between",
+    padding: "16px 0", borderBottom: "1px solid #f1f5f9",
+  },
+  badge: (status) => ({
+    fontSize: 12, fontWeight: 700, color: STATUS_COLORS[status] || "#6b7280",
+    background: (STATUS_COLORS[status] || "#6b7280") + "15",
+    padding: "3px 10px", borderRadius: 20,
+  }),
+  progress: { height: 4, background: "#e5e7eb", borderRadius: 2, overflow: "hidden", marginTop: 10 },
   progressBar: (p) => ({ height: "100%", width: `${p}%`, background: "#2563eb", borderRadius: 2, transition: "width .3s" }),
-  err: { color: "#dc2626", fontSize: 13, marginTop: 8 },
+  err: { color: "#dc2626", fontSize: 13, marginTop: 10 },
 };
 
 function timeAgo(iso) {
@@ -44,6 +91,26 @@ function timeAgo(iso) {
   if (hrs < 24) return `${hrs}h ago`;
   const days = Math.floor(hrs / 24);
   return days === 1 ? "yesterday" : `${days}d ago`;
+}
+
+function ActionCard({ to, icon, title, desc, accent }) {
+  const [hover, setHover] = useState(false);
+  return (
+    <Link
+      to={to}
+      style={{
+        ...s.action,
+        borderLeft: `4px solid ${accent}`,
+        ...(hover ? { transform: "translateY(-2px)", boxShadow: "0 8px 24px rgba(15,23,42,.10)" } : null),
+      }}
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
+    >
+      <div style={s.actionIcon}>{icon}</div>
+      <div style={s.actionTitle}>{title}</div>
+      <div style={s.actionDesc}>{desc}</div>
+    </Link>
+  );
 }
 
 function UploadRow({ upload, onViewReport, onDelete }) {
@@ -67,8 +134,8 @@ function UploadRow({ upload, onViewReport, onDelete }) {
   return (
     <div style={s.row}>
       <div>
-        <div style={{ fontWeight: 500 }}>{upload.fileName}</div>
-        <div style={{ display: "flex", alignItems: "center", gap: 10, marginTop: 3 }}>
+        <div style={{ fontWeight: 600, color: "#0f172a" }}>{upload.fileName}</div>
+        <div style={{ display: "flex", alignItems: "center", gap: 10, marginTop: 6 }}>
           <span style={s.badge(upload.status)}>{STATUS_LABELS[upload.status] || upload.status}</span>
           {upload.createdAt && (
             <span style={{ fontSize: 12, color: "#9ca3af" }}>{timeAgo(upload.createdAt)}</span>
@@ -77,7 +144,7 @@ function UploadRow({ upload, onViewReport, onDelete }) {
       </div>
       <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
         {done && (
-          <button style={s.btn} onClick={() => onViewReport(upload.resultId)}>View Report</button>
+          <button style={s.btnPrimary} onClick={() => onViewReport(upload.resultId)}>View Report</button>
         )}
         {failed && <span style={{ color: "#dc2626", fontSize: 13 }}>Processing failed</span>}
         {!done && !failed && (
@@ -86,7 +153,7 @@ function UploadRow({ upload, onViewReport, onDelete }) {
         <button
           onClick={handleDelete}
           disabled={deleting}
-          style={{ padding: "7px 14px", background: "none", border: "1px solid #fca5a5", color: "#dc2626", borderRadius: 8, fontSize: 13, cursor: deleting ? "default" : "pointer", opacity: deleting ? 0.6 : 1 }}
+          style={{ padding: "8px 14px", background: "none", border: "1.5px solid #fca5a5", color: "#dc2626", borderRadius: 10, fontSize: 13, fontWeight: 600, cursor: deleting ? "default" : "pointer", opacity: deleting ? 0.6 : 1 }}
         >
           {deleting ? "Deleting…" : "Delete"}
         </button>
@@ -104,39 +171,46 @@ export default function ResumeUpload() {
   const [uploadProgress, setUploadProgress] = useState(0);
   const [error, setError] = useState("");
   const [uploads, setUploads] = useState([]);
-  const [pollingIds, setPollingIds] = useState(new Set());
+  const [stats, setStats] = useState(null);
+  const intervalsRef = useRef(new Map());
 
   useEffect(() => {
     loadUploads();
+    getApplicationStats().then(setStats).catch(() => {});
+    return () => {
+      intervalsRef.current.forEach(clearInterval);
+      intervalsRef.current.clear();
+    };
   }, []);
 
   async function loadUploads() {
     try {
       const data = await listUploads();
       setUploads(data.uploads || []);
-      // Poll any in-progress uploads
-      const inProgress = (data.uploads || []).filter(
-        (u) => !["COMPLETE", "FAILED"].includes(u.status)
-      );
-      inProgress.forEach((u) => startPolling(u.uploadId));
+      (data.uploads || [])
+        .filter((u) => !["COMPLETE", "FAILED"].includes(u.status))
+        .forEach((u) => startPolling(u.uploadId));
     } catch (e) {
       console.error("Failed to load uploads", e);
     }
   }
 
   function startPolling(uploadId) {
-    if (pollingIds.has(uploadId)) return;
-    setPollingIds((prev) => new Set([...prev, uploadId]));
+    if (intervalsRef.current.has(uploadId)) return;
     const interval = setInterval(async () => {
       try {
         const upload = await getUpload(uploadId);
         setUploads((prev) => prev.map((u) => (u.uploadId === uploadId ? upload : u)));
         if (["COMPLETE", "FAILED"].includes(upload.status)) {
           clearInterval(interval);
-          setPollingIds((prev) => { const n = new Set(prev); n.delete(uploadId); return n; });
+          intervalsRef.current.delete(uploadId);
         }
-      } catch { clearInterval(interval); }
+      } catch {
+        clearInterval(interval);
+        intervalsRef.current.delete(uploadId);
+      }
     }, 4000);
+    intervalsRef.current.set(uploadId, interval);
   }
 
   function handleDrop(e) {
@@ -166,15 +240,10 @@ export default function ResumeUpload() {
     setUploadProgress(0);
     setError("");
     try {
-      // Step 1: Get presigned URL
       const { uploadId, presignedUrl } = await getPresignedUrl(selectedFile.name, selectedFile.type);
       setUploadProgress(20);
-
-      // Step 2: PUT directly to S3
       await uploadToS3(presignedUrl, selectedFile);
       setUploadProgress(70);
-
-      // Step 3: Confirm upload
       await confirmUpload(uploadId);
       setUploadProgress(100);
 
@@ -191,10 +260,52 @@ export default function ResumeUpload() {
     }
   }
 
+  const completedReports = uploads.filter((u) => u.status === "COMPLETE").length;
+
   return (
     <div style={s.page}>
+      {/* Hero */}
+      <div style={s.hero}>
+        <h1 style={s.heroTitle}>Welcome back 👋</h1>
+        <div style={s.heroSub}>
+          Upload a resume to get an AI analysis with real job listings, course recommendations, and a one-page tailored resume — then track every application in one place.
+        </div>
+        <div style={s.heroMeta}>
+          <span style={s.heroPill}>📄 {uploads.length} resume{uploads.length !== 1 ? "s" : ""} uploaded</span>
+          <span style={s.heroPill}>📊 {completedReports} report{completedReports !== 1 ? "s" : ""} ready</span>
+          {stats && <span style={s.heroPill}>📋 {stats.total} application{stats.total !== 1 ? "s" : ""} tracked</span>}
+          {stats && stats.active > 0 && <span style={s.heroPill}>⚡ {stats.active} active</span>}
+        </div>
+      </div>
+
+      {/* Quick actions */}
+      <div style={s.actions}>
+        <ActionCard
+          to="/tracker"
+          icon="📋"
+          title="Application Tracker"
+          desc="Kanban of every job you've applied to, with interview rounds and status timeline."
+          accent="#2563eb"
+        />
+        <ActionCard
+          to="/tracker/new"
+          icon="➕"
+          title="Track a new application"
+          desc="Add a job manually — even one you found outside the app."
+          accent="#16a34a"
+        />
+        <ActionCard
+          to="/profile"
+          icon="⚙️"
+          title="Account & settings"
+          desc="Update your email, change password, or delete your account."
+          accent="#7c3aed"
+        />
+      </div>
+
+      {/* Upload card */}
       <div style={s.card}>
-        <h2 style={s.title}>Upload Resume</h2>
+        <h2 style={s.cardTitle}>Upload a new resume</h2>
         <div
           style={s.dropzone(dragging)}
           onDragOver={(e) => { e.preventDefault(); setDragging(true); }}
@@ -206,15 +317,15 @@ export default function ResumeUpload() {
             onChange={(e) => e.target.files[0] && validateAndSet(e.target.files[0])} />
           {selectedFile ? (
             <div>
-              <div style={{ fontSize: 16, fontWeight: 500 }}>{selectedFile.name}</div>
+              <div style={{ fontSize: 16, fontWeight: 600, color: "#0f172a" }}>{selectedFile.name}</div>
               <div style={{ color: "#6b7280", fontSize: 13, marginTop: 4 }}>
                 {(selectedFile.size / 1024).toFixed(1)} KB
               </div>
             </div>
           ) : (
             <div>
-              <div style={{ fontSize: 36 }}>📄</div>
-              <div style={{ fontWeight: 500, marginTop: 8 }}>Drop your resume here</div>
+              <div style={{ fontSize: 42 }}>📄</div>
+              <div style={{ fontWeight: 600, marginTop: 10, color: "#0f172a" }}>Drop your resume here</div>
               <div style={{ color: "#6b7280", fontSize: 13, marginTop: 4 }}>PDF, PNG, JPG — max 10 MB</div>
             </div>
           )}
@@ -229,23 +340,24 @@ export default function ResumeUpload() {
         )}
 
         {selectedFile && !uploading && (
-          <div style={{ display: "flex", gap: 10, marginTop: 16 }}>
-            <button style={s.btn} onClick={handleUpload}>Analyze Resume</button>
+          <div style={{ display: "flex", gap: 10, marginTop: 18 }}>
+            <button style={s.btnPrimary} onClick={handleUpload}>Analyze Resume</button>
             <button style={s.btnGhost} onClick={() => setSelectedFile(null)}>Cancel</button>
           </div>
         )}
       </div>
 
+      {/* Uploads list */}
       {uploads.length > 0 && (
         <div style={s.card}>
-          <h2 style={s.title}>Your Resumes</h2>
+          <h2 style={s.cardTitle}>Your Resumes</h2>
           {uploads.map((u) => (
             <UploadRow
-            key={u.uploadId}
-            upload={u}
-            onViewReport={(id) => navigate(`/results/${id}`)}
-            onDelete={(id) => setUploads((prev) => prev.filter((x) => x.uploadId !== id))}
-          />
+              key={u.uploadId}
+              upload={u}
+              onViewReport={(id) => navigate(`/results/${id}`)}
+              onDelete={(id) => setUploads((prev) => prev.filter((x) => x.uploadId !== id))}
+            />
           ))}
         </div>
       )}

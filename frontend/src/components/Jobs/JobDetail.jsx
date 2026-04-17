@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import {
-  getJob, fetchCoursesForJob, createTailoredResume, getResult,
+  getJob, fetchCoursesForJob, createTailoredResume, getResult, createApplication,
 } from "../../services/api";
 
 const s = {
@@ -85,6 +85,8 @@ export default function JobDetail() {
   const [coursesLoading, setCoursesLoading] = useState(false);
   const [generating, setGenerating] = useState(false);
   const [error, setError] = useState("");
+  const [savingToTracker, setSavingToTracker] = useState(false);
+  const [trackedAppId, setTrackedAppId] = useState(null);
 
   useEffect(() => {
     getJob(jobId)
@@ -106,6 +108,28 @@ export default function JobDetail() {
       .then((d) => setCourses(d.courses || []))
       .catch(() => setError("Could not load course recommendations."))
       .finally(() => setCoursesLoading(false));
+  }
+
+  async function handleSaveToTracker() {
+    setSavingToTracker(true);
+    setError("");
+    try {
+      const created = await createApplication({
+        company: job.company || "",
+        jobTitle: job.title || "",
+        location: job.location || "",
+        jobUrl: job.redirectUrl || "",
+        source: "adzuna",
+        status: "Wishlist",
+        jobId: job.jobId,
+        resultId: job.resultId || "",
+      });
+      setTrackedAppId(created.applicationId);
+    } catch {
+      setError("Could not save to tracker.");
+    } finally {
+      setSavingToTracker(false);
+    }
   }
 
   async function handleGenerate() {
@@ -152,14 +176,30 @@ export default function JobDetail() {
             <span style={s.heroPill}>🎯 {job.matchPercentage}% match to your resume</span>
           )}
         </div>
-        {job.redirectUrl && (
-          <div style={{ marginTop: 18 }}>
+        <div style={{ marginTop: 18, display: "flex", gap: 10, flexWrap: "wrap" }}>
+          {job.redirectUrl && (
             <a href={job.redirectUrl} target="_blank" rel="noopener noreferrer"
                style={{ ...s.outlineBtn, background: "#fff", color: "#1e3a8a" }}>
               View original posting ↗
             </a>
-          </div>
-        )}
+          )}
+          {!trackedAppId ? (
+            <button
+              onClick={handleSaveToTracker}
+              disabled={savingToTracker}
+              style={{ ...s.outlineBtn, background: "#fff", color: "#16a34a", borderColor: "transparent", opacity: savingToTracker ? 0.7 : 1 }}
+            >
+              {savingToTracker ? "Saving…" : "📋 Save to Tracker"}
+            </button>
+          ) : (
+            <button
+              onClick={() => navigate(`/tracker/${trackedAppId}`)}
+              style={{ ...s.outlineBtn, background: "#dcfce7", color: "#15803d", borderColor: "transparent" }}
+            >
+              ✓ In Tracker → Open
+            </button>
+          )}
+        </div>
       </div>
 
       <div style={s.grid}>

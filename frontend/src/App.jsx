@@ -10,6 +10,9 @@ import ResumeUpload from "./components/Resume/ResumeUpload";
 import ReportView from "./components/Report/ReportView";
 const JobDetail = lazy(() => import("./components/Jobs/JobDetail"));
 const TailoredResumeEditor = lazy(() => import("./components/Jobs/TailoredResumeEditor"));
+const TrackerBoard = lazy(() => import("./components/Tracker/TrackerBoard"));
+const ApplicationDetail = lazy(() => import("./components/Tracker/ApplicationDetail"));
+const NewApplication = lazy(() => import("./components/Tracker/NewApplication"));
 
 const PageFallback = () => (
   <div style={{ textAlign: "center", padding: 80, color: "#64748b" }}>Loading…</div>
@@ -60,6 +63,18 @@ function Nav() {
       {/* User section */}
       {user && (
         <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+          {/* Tracker link */}
+          <Link to="/tracker" style={{
+            textDecoration: "none", color: "#fff", fontSize: 13, fontWeight: 600,
+            padding: "7px 14px", borderRadius: 8,
+            background: "rgba(255,255,255,.12)", border: "1px solid rgba(255,255,255,.2)",
+            transition: "all .15s",
+          }}
+            onMouseEnter={(e) => e.currentTarget.style.background = "rgba(255,255,255,.22)"}
+            onMouseLeave={(e) => e.currentTarget.style.background = "rgba(255,255,255,.12)"}
+          >
+            📋 Tracker
+          </Link>
           {/* User pill — links to profile */}
           <Link to="/profile" style={{ textDecoration: "none" }}>
             <div style={{
@@ -120,6 +135,9 @@ export default function App() {
         <Route path="/results/:resultId" element={<RequireAuth><ReportView /></RequireAuth>} />
         <Route path="/jobs/:jobId" element={<RequireAuth><Suspense fallback={<PageFallback />}><JobDetail /></Suspense></RequireAuth>} />
         <Route path="/tailored-resumes/:resumeId" element={<RequireAuth><Suspense fallback={<PageFallback />}><TailoredResumeEditor /></Suspense></RequireAuth>} />
+        <Route path="/tracker" element={<RequireAuth><Suspense fallback={<PageFallback />}><TrackerBoard /></Suspense></RequireAuth>} />
+        <Route path="/tracker/new" element={<RequireAuth><Suspense fallback={<PageFallback />}><NewApplication /></Suspense></RequireAuth>} />
+        <Route path="/tracker/:applicationId" element={<RequireAuth><Suspense fallback={<PageFallback />}><ApplicationDetail /></Suspense></RequireAuth>} />
         <Route path="/profile" element={<RequireAuth><Profile /></RequireAuth>} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password" element={<ResetPassword />} />

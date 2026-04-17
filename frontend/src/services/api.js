@@ -4,6 +4,7 @@ const AUTH_API = import.meta.env.VITE_AUTH_API_URL;
 const APP_API = import.meta.env.VITE_APP_API_URL;
 const RESULTS_API = import.meta.env.VITE_RESULTS_API_URL;
 const JOBS_API = import.meta.env.VITE_JOBS_API_URL;
+const APPLICATIONS_API = import.meta.env.VITE_APPLICATIONS_API_URL;
 
 function authHeaders() {
   const token = localStorage.getItem("idToken");
@@ -124,4 +125,65 @@ export const getTailoredResume = (resumeId) =>
 export const saveTailoredResume = (resumeId, markdown) =>
   axios
     .put(`${JOBS_API}/tailored-resumes/${resumeId}`, { markdown }, { headers: authHeaders() })
+    .then((r) => r.data);
+
+// ── Applications / Job Tracker ────────────────────────────────────────────────
+export const APPLICATION_STATUSES = [
+  "Wishlist",
+  "Applied",
+  "Phone Screen",
+  "Technical Interview",
+  "Onsite",
+  "Offer",
+  "Rejected",
+  "Ghosted",
+];
+
+export const INTERVIEW_OUTCOMES = ["PENDING", "PASSED", "FAILED", "NO_SHOW", "RESCHEDULED"];
+
+export const listApplications = (status) => {
+  const params = status ? { status } : {};
+  return axios
+    .get(`${APPLICATIONS_API}/applications`, { headers: authHeaders(), params })
+    .then((r) => r.data);
+};
+
+export const getApplicationStats = () =>
+  axios
+    .get(`${APPLICATIONS_API}/applications/stats`, { headers: authHeaders() })
+    .then((r) => r.data);
+
+export const getApplication = (applicationId) =>
+  axios
+    .get(`${APPLICATIONS_API}/applications/${applicationId}`, { headers: authHeaders() })
+    .then((r) => r.data);
+
+export const createApplication = (payload) =>
+  axios
+    .post(`${APPLICATIONS_API}/applications`, payload, { headers: authHeaders() })
+    .then((r) => r.data);
+
+export const updateApplication = (applicationId, patch) =>
+  axios
+    .patch(`${APPLICATIONS_API}/applications/${applicationId}`, patch, { headers: authHeaders() })
+    .then((r) => r.data);
+
+export const deleteApplication = (applicationId) =>
+  axios
+    .delete(`${APPLICATIONS_API}/applications/${applicationId}`, { headers: authHeaders() })
+    .then((r) => r.data);
+
+export const addInterviewRound = (applicationId, round) =>
+  axios
+    .post(`${APPLICATIONS_API}/applications/${applicationId}/rounds`, round, { headers: authHeaders() })
+    .then((r) => r.data);
+
+export const updateInterviewRound = (applicationId, roundId, patch) =>
+  axios
+    .patch(`${APPLICATIONS_API}/applications/${applicationId}/rounds/${roundId}`, patch, { headers: authHeaders() })
+    .then((r) => r.data);
+
+export const deleteInterviewRound = (applicationId, roundId) =>
+  axios
+    .delete(`${APPLICATIONS_API}/applications/${applicationId}/rounds/${roundId}`, { headers: authHeaders() })
     .then((r) => r.data);

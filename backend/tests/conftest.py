@@ -89,6 +89,53 @@ def jobs_tables(mocked_aws):
 
 
 @pytest.fixture
+def applications_table(mocked_aws):
+    client = boto3.client("dynamodb", region_name="us-east-1")
+    client.create_table(
+        TableName="resume-analyzer-applications",
+        KeySchema=[{"AttributeName": "applicationId", "KeyType": "HASH"}],
+        AttributeDefinitions=[
+            {"AttributeName": "applicationId", "AttributeType": "S"},
+            {"AttributeName": "userId", "AttributeType": "S"},
+            {"AttributeName": "status", "AttributeType": "S"},
+            {"AttributeName": "createdAt", "AttributeType": "S"},
+        ],
+        BillingMode="PAY_PER_REQUEST",
+        GlobalSecondaryIndexes=[
+            {
+                "IndexName": "userId-index",
+                "KeySchema": [
+                    {"AttributeName": "userId", "KeyType": "HASH"},
+                    {"AttributeName": "createdAt", "KeyType": "RANGE"},
+                ],
+                "Projection": {"ProjectionType": "ALL"},
+            },
+            {
+                "IndexName": "userId-status-index",
+                "KeySchema": [
+                    {"AttributeName": "userId", "KeyType": "HASH"},
+                    {"AttributeName": "status", "KeyType": "RANGE"},
+                ],
+                "Projection": {"ProjectionType": "ALL"},
+            },
+        ],
+    )
+    return boto3.resource("dynamodb", region_name="us-east-1").Table("resume-analyzer-applications")
+
+
+@pytest.fixture
+def applications_handler(applications_table, monkeypatch):
+    monkeypatch.setenv("APPLICATIONS_TABLE_NAME", "resume-analyzer-applications")
+
+    sys.modules.pop("handler", None)
+    path = os.path.join(LAMBDAS_DIR, "applications_service")
+    if path in sys.path:
+        sys.path.remove(path)
+    sys.path.insert(0, path)
+    return importlib.import_module("handler")
+
+
+@pytest.fixture
 def jobs_handler(jobs_tables, monkeypatch):
     """Import the jobs_service handler fresh so it picks up mocked env + tables."""
     monkeypatch.setenv("JOBS_TABLE_NAME", "resume-analyzer-jobs")

@@ -1,0 +1,334 @@
+{
+  "/ResumeAnalyzerApplications/ApplicationsTable": [
+    {
+      "type": "aws:cdk:hasPhysicalName",
+      "data": {
+        "Ref": "ApplicationsTable27AC2163"
+      }
+    }
+  ],
+  "/ResumeAnalyzerApplications/ApplicationsTableName": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ApplicationsTableName"
+    }
+  ],
+  "/ResumeAnalyzerApplications/ApplicationsApiUrl": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ApplicationsApiUrl"
+    }
+  ],
+  "/ResumeAnalyzerApplications/BootstrapVersion": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "BootstrapVersion"
+    }
+  ],
+  "/ResumeAnalyzerApplications/CheckBootstrapVersion": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CheckBootstrapVersion"
+    }
+  ],
+  "/ResumeAnalyzerApplications/ApplicationsTable/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ApplicationsTable27AC2163"
+    }
+  ],
+  "/ResumeAnalyzerApplications/ApplicationsAPILambda/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ApplicationsAPILambda52F9BEE8"
+    }
+  ],
+  "/ResumeAnalyzerApplications/ApplicationsAPI/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ApplicationsAPI54A5240F"
+    }
+  ],
+  "/ResumeAnalyzerApplications/ApplicationsAPI/Account": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ApplicationsAPIAccountA47D4FD3"
+    }
+  ],
+  "/ResumeAnalyzerApplications/ApplicationsAPI/Endpoint": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ApplicationsAPIEndpoint950F77F9"
+    }
+  ],
+  "/ResumeAnalyzerApplications/ApplicationsCognitoAuthorizer/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ApplicationsCognitoAuthorizer9BCC3694"
+    }
+  ],
+  "/ResumeAnalyzerApplications/CDKMetadata/Default": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CDKMetadata"
+    }
+  ],
+  "/ResumeAnalyzerApplications/ApplicationsAPILambda/ServiceRole/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ApplicationsAPILambdaServiceRoleDE6E1675"
+    }
+  ],
+  "/ResumeAnalyzerApplications/ApplicationsAPI/CloudWatchRole/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ApplicationsAPICloudWatchRole459F28C7"
+    }
+  ],
+  "/ResumeAnalyzerApplications/ApplicationsAPI/Deployment/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ApplicationsAPIDeploymentC5B79F16034af60d2a58086fa9a3323bd08060ea"
+    }
+  ],
+  "/ResumeAnalyzerApplications/ApplicationsAPI/DeploymentStage.prod/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ApplicationsAPIDeploymentStageprodF5D8EC32"
+    }
+  ],
+  "/ResumeAnalyzerApplications/ApplicationsAPILambda/ServiceRole/DefaultPolicy/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ApplicationsAPILambdaServiceRoleDefaultPolicy7CECEF85"
+    }
+  ],
+  "/ResumeAnalyzerApplications/ApplicationsAPI/Default/OPTIONS/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ApplicationsAPIOPTIONSB5110F5F"
+    }
+  ],
+  "/ResumeAnalyzerApplications/ApplicationsAPI/Default/applications/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ApplicationsAPIapplications1050EDD7"
+    }
+  ],
+  "/ResumeAnalyzerApplications/ApplicationsAPI/Default/applications/OPTIONS/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ApplicationsAPIapplicationsOPTIONS1ACD02E7"
+    }
+  ],
+  "/ResumeAnalyzerApplications/ApplicationsAPI/Default/applications/GET/ApiPermission.ResumeAnalyzerApplicationsApplicationsAPI5D2C8ED9.GET..applications": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ApplicationsAPIapplicationsGETApiPermissionResumeAnalyzerApplicationsApplicationsAPI5D2C8ED9GETapplicationsADF45FDD"
+    }
+  ],
+  "/ResumeAnalyzerApplications/ApplicationsAPI/Default/applications/GET/ApiPermission.Test.ResumeAnalyzerApplicationsApplicationsAPI5D2C8ED9.GET..applications": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ApplicationsAPIapplicationsGETApiPermissionTestResumeAnalyzerApplicationsApplicationsAPI5D2C8ED9GETapplications69D9AA86"
+    }
+  ],
+  "/ResumeAnalyzerApplications/ApplicationsAPI/Default/applications/GET/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ApplicationsAPIapplicationsGETFD674452"
+    }
+  ],
+  "/ResumeAnalyzerApplications/ApplicationsAPI/Default/applications/POST/ApiPermission.ResumeAnalyzerApplicationsApplicationsAPI5D2C8ED9.POST..applications": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ApplicationsAPIapplicationsPOSTApiPermissionResumeAnalyzerApplicationsApplicationsAPI5D2C8ED9POSTapplications95268BFA"
+    }
+  ],
+  "/ResumeAnalyzerApplications/ApplicationsAPI/Default/applications/POST/ApiPermission.Test.ResumeAnalyzerApplicationsApplicationsAPI5D2C8ED9.POST..applications": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ApplicationsAPIapplicationsPOSTApiPermissionTestResumeAnalyzerApplicationsApplicationsAPI5D2C8ED9POSTapplicationsF5BED6DE"
+    }
+  ],
+  "/ResumeAnalyzerApplications/ApplicationsAPI/Default/applications/POST/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ApplicationsAPIapplicationsPOST4DC00FC4"
+    }
+  ],
+  "/ResumeAnalyzerApplications/ApplicationsAPI/Default/applications/stats/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ApplicationsAPIapplicationsstats6164E5BD"
+    }
+  ],
+  "/ResumeAnalyzerApplications/ApplicationsAPI/Default/applications/{applicationId}/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ApplicationsAPIapplicationsapplicationId8BA8F891"
+    }
+  ],
+  "/ResumeAnalyzerApplications/ApplicationsAPI/Default/applications/stats/OPTIONS/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ApplicationsAPIapplicationsstatsOPTIONS74D09E10"
+    }
+  ],
+  "/ResumeAnalyzerApplications/ApplicationsAPI/Default/applications/stats/GET/ApiPermission.ResumeAnalyzerApplicationsApplicationsAPI5D2C8ED9.GET..applications.stats": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ApplicationsAPIapplicationsstatsGETApiPermissionResumeAnalyzerApplicationsApplicationsAPI5D2C8ED9GETapplicationsstats00FD773C"
+    }
+  ],
+  "/ResumeAnalyzerApplications/ApplicationsAPI/Default/applications/stats/GET/ApiPermission.Test.ResumeAnalyzerApplicationsApplicationsAPI5D2C8ED9.GET..applications.stats": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ApplicationsAPIapplicationsstatsGETApiPermissionTestResumeAnalyzerApplicationsApplicationsAPI5D2C8ED9GETapplicationsstatsCC2D971E"
+    }
+  ],
+  "/ResumeAnalyzerApplications/ApplicationsAPI/Default/applications/stats/GET/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ApplicationsAPIapplicationsstatsGETC94294EE"
+    }
+  ],
+  "/ResumeAnalyzerApplications/ApplicationsAPI/Default/applications/{applicationId}/OPTIONS/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ApplicationsAPIapplicationsapplicationIdOPTIONS182A0BF1"
+    }
+  ],
+  "/ResumeAnalyzerApplications/ApplicationsAPI/Default/applications/{applicationId}/GET/ApiPermission.ResumeAnalyzerApplicationsApplicationsAPI5D2C8ED9.GET..applications.{applicationId}": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ApplicationsAPIapplicationsapplicationIdGETApiPermissionResumeAnalyzerApplicationsApplicationsAPI5D2C8ED9GETapplicationsapplicationId251B5338"
+    }
+  ],
+  "/ResumeAnalyzerApplications/ApplicationsAPI/Default/applications/{applicationId}/GET/ApiPermission.Test.ResumeAnalyzerApplicationsApplicationsAPI5D2C8ED9.GET..applications.{applicationId}": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ApplicationsAPIapplicationsapplicationIdGETApiPermissionTestResumeAnalyzerApplicationsApplicationsAPI5D2C8ED9GETapplicationsapplicationIdB25A77C9"
+    }
+  ],
+  "/ResumeAnalyzerApplications/ApplicationsAPI/Default/applications/{applicationId}/GET/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ApplicationsAPIapplicationsapplicationIdGET4553B120"
+    }
+  ],
+  "/ResumeAnalyzerApplications/ApplicationsAPI/Default/applications/{applicationId}/PATCH/ApiPermission.ResumeAnalyzerApplicationsApplicationsAPI5D2C8ED9.PATCH..applications.{applicationId}": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ApplicationsAPIapplicationsapplicationIdPATCHApiPermissionResumeAnalyzerApplicationsApplicationsAPI5D2C8ED9PATCHapplicationsapplicationId83CAC06B"
+    }
+  ],
+  "/ResumeAnalyzerApplications/ApplicationsAPI/Default/applications/{applicationId}/PATCH/ApiPermission.Test.ResumeAnalyzerApplicationsApplicationsAPI5D2C8ED9.PATCH..applications.{applicationId}": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ApplicationsAPIapplicationsapplicationIdPATCHApiPermissionTestResumeAnalyzerApplicationsApplicationsAPI5D2C8ED9PATCHapplicationsapplicationIdF7705F53"
+    }
+  ],
+  "/ResumeAnalyzerApplications/ApplicationsAPI/Default/applications/{applicationId}/PATCH/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ApplicationsAPIapplicationsapplicationIdPATCHEB3B3857"
+    }
+  ],
+  "/ResumeAnalyzerApplications/ApplicationsAPI/Default/applications/{applicationId}/DELETE/ApiPermission.ResumeAnalyzerApplicationsApplicationsAPI5D2C8ED9.DELETE..applications.{applicationId}": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ApplicationsAPIapplicationsapplicationIdDELETEApiPermissionResumeAnalyzerApplicationsApplicationsAPI5D2C8ED9DELETEapplicationsapplicationId5564D2ED"
+    }
+  ],
+  "/ResumeAnalyzerApplications/ApplicationsAPI/Default/applications/{applicationId}/DELETE/ApiPermission.Test.ResumeAnalyzerApplicationsApplicationsAPI5D2C8ED9.DELETE..applications.{applicationId}": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ApplicationsAPIapplicationsapplicationIdDELETEApiPermissionTestResumeAnalyzerApplicationsApplicationsAPI5D2C8ED9DELETEapplicationsapplicationId351ECCF7"
+    }
+  ],
+  "/ResumeAnalyzerApplications/ApplicationsAPI/Default/applications/{applicationId}/DELETE/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ApplicationsAPIapplicationsapplicationIdDELETEF5E0FEA1"
+    }
+  ],
+  "/ResumeAnalyzerApplications/ApplicationsAPI/Default/applications/{applicationId}/rounds/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ApplicationsAPIapplicationsapplicationIdrounds06A2F6B9"
+    }
+  ],
+  "/ResumeAnalyzerApplications/ApplicationsAPI/Default/applications/{applicationId}/rounds/OPTIONS/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ApplicationsAPIapplicationsapplicationIdroundsOPTIONSBA46E992"
+    }
+  ],
+  "/ResumeAnalyzerApplications/ApplicationsAPI/Default/applications/{applicationId}/rounds/POST/ApiPermission.ResumeAnalyzerApplicationsApplicationsAPI5D2C8ED9.POST..applications.{applicationId}.rounds": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ApplicationsAPIapplicationsapplicationIdroundsPOSTApiPermissionResumeAnalyzerApplicationsApplicationsAPI5D2C8ED9POSTapplicationsapplicationIdrounds0918372D"
+    }
+  ],
+  "/ResumeAnalyzerApplications/ApplicationsAPI/Default/applications/{applicationId}/rounds/POST/ApiPermission.Test.ResumeAnalyzerApplicationsApplicationsAPI5D2C8ED9.POST..applications.{applicationId}.rounds": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ApplicationsAPIapplicationsapplicationIdroundsPOSTApiPermissionTestResumeAnalyzerApplicationsApplicationsAPI5D2C8ED9POSTapplicationsapplicationIdrounds4D03CB02"
+    }
+  ],
+  "/ResumeAnalyzerApplications/ApplicationsAPI/Default/applications/{applicationId}/rounds/POST/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ApplicationsAPIapplicationsapplicationIdroundsPOST643DB4B8"
+    }
+  ],
+  "/ResumeAnalyzerApplications/ApplicationsAPI/Default/applications/{applicationId}/rounds/{roundId}/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ApplicationsAPIapplicationsapplicationIdroundsroundId6EC749B2"
+    }
+  ],
+  "/ResumeAnalyzerApplications/ApplicationsAPI/Default/applications/{applicationId}/rounds/{roundId}/OPTIONS/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ApplicationsAPIapplicationsapplicationIdroundsroundIdOPTIONSBD21117A"
+    }
+  ],
+  "/ResumeAnalyzerApplications/ApplicationsAPI/Default/applications/{applicationId}/rounds/{roundId}/PATCH/ApiPermission.ResumeAnalyzerApplicationsApplicationsAPI5D2C8ED9.PATCH..applications.{applicationId}.rounds.{roundId}": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ApplicationsAPIapplicationsapplicationIdroundsroundIdPATCHApiPermissionResumeAnalyzerApplicationsApplicationsAPI5D2C8ED9PATCHapplicationsapplicationIdroundsroundId54FD09ED"
+    }
+  ],
+  "/ResumeAnalyzerApplications/ApplicationsAPI/Default/applications/{applicationId}/rounds/{roundId}/PATCH/ApiPermission.Test.ResumeAnalyzerApplicationsApplicationsAPI5D2C8ED9.PATCH..applications.{applicationId}.rounds.{roundId}": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ApplicationsAPIapplicationsapplicationIdroundsroundIdPATCHApiPermissionTestResumeAnalyzerApplicationsApplicationsAPI5D2C8ED9PATCHapplicationsapplicationIdroundsroundIdFE91EF2D"
+    }
+  ],
+  "/ResumeAnalyzerApplications/ApplicationsAPI/Default/applications/{applicationId}/rounds/{roundId}/PATCH/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ApplicationsAPIapplicationsapplicationIdroundsroundIdPATCH287C027F"
+    }
+  ],
+  "/ResumeAnalyzerApplications/ApplicationsAPI/Default/applications/{applicationId}/rounds/{roundId}/DELETE/ApiPermission.ResumeAnalyzerApplicationsApplicationsAPI5D2C8ED9.DELETE..applications.{applicationId}.rounds.{roundId}": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ApplicationsAPIapplicationsapplicationIdroundsroundIdDELETEApiPermissionResumeAnalyzerApplicationsApplicationsAPI5D2C8ED9DELETEapplicationsapplicationIdroundsroundId14A5077B"
+    }
+  ],
+  "/ResumeAnalyzerApplications/ApplicationsAPI/Default/applications/{applicationId}/rounds/{roundId}/DELETE/ApiPermission.Test.ResumeAnalyzerApplicationsApplicationsAPI5D2C8ED9.DELETE..applications.{applicationId}.rounds.{roundId}": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ApplicationsAPIapplicationsapplicationIdroundsroundIdDELETEApiPermissionTestResumeAnalyzerApplicationsApplicationsAPI5D2C8ED9DELETEapplicationsapplicationIdroundsroundId4954490B"
+    }
+  ],
+  "/ResumeAnalyzerApplications/ApplicationsAPI/Default/applications/{applicationId}/rounds/{roundId}/DELETE/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ApplicationsAPIapplicationsapplicationIdroundsroundIdDELETE1E02AAE0"
+    }
+  ]
+}
