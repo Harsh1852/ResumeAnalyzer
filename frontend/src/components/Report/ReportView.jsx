@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
+import { pdf } from "@react-pdf/renderer";
+import { ReportPDF } from "./ReportPDF";
 import { getResult, getResumeViewUrl, deleteUpload, deleteResult } from "../../services/api";
 import JobsSection from "../Jobs/JobsSection";
 
@@ -236,124 +238,6 @@ function SkillsCard({ highlight, develop }) {
   );
 }
 
-/* The original tall "report" layout — kept for PDF rendering only.
-   Rendered off-screen, then converted to PDF by html2pdf on download. */
-function PrintableReport({ result }) {
-  const {
-    resumeScore = 0, summary, resumeSectionsReview = {}, criticalImprovements = [],
-    topRoles = [], jobSearchStrategies = [], skillsToHighlight = [],
-    skillsToDevelop = [], keyAchievements = [],
-  } = result;
-  const p = {
-    wrap: { fontFamily: "Inter, -apple-system, sans-serif", color: "#111827", lineHeight: 1.5 },
-    h1: { fontSize: 24, fontWeight: 800, margin: "0 0 4px" },
-    sub: { fontSize: 13, color: "#6b7280", marginBottom: 18 },
-    section: { marginBottom: 18, pageBreakInside: "avoid" },
-    h2: { fontSize: 15, fontWeight: 700, margin: "0 0 10px", color: "#b8860b", borderBottom: "1px solid #e5e7eb", paddingBottom: 5 },
-    roleTitle: { fontSize: 13, fontWeight: 700, marginBottom: 4 },
-    roleMeta: { fontSize: 12, color: "#6b7280", marginBottom: 6 },
-    list: { fontSize: 12, paddingLeft: 18, margin: "4px 0", lineHeight: 1.6 },
-    companies: { fontSize: 12, color: "#6b7280", marginTop: 4 },
-    score: { fontSize: 36, fontWeight: 800, color: "#b8860b" },
-  };
-  return (
-    <div style={p.wrap}>
-      <h1 style={p.h1}>Resume Analysis Report</h1>
-      <div style={p.sub}>Score: <span style={p.score}>{resumeScore}</span> / 100</div>
-
-      {summary && (
-        <div style={p.section}>
-          <h2 style={p.h2}>Profile Summary</h2>
-          <p style={{ margin: 0, fontSize: 13 }}>{summary}</p>
-        </div>
-      )}
-
-      {keyAchievements.length > 0 && (
-        <div style={p.section}>
-          <h2 style={p.h2}>Key Achievements</h2>
-          <ul style={p.list}>
-            {keyAchievements.map((a, i) => <li key={i}>{a}</li>)}
-          </ul>
-        </div>
-      )}
-
-      {Object.keys(resumeSectionsReview).length > 0 && (
-        <div style={p.section}>
-          <h2 style={p.h2}>Resume Section Review</h2>
-          {[
-            ["professional_summary", "Professional Summary"],
-            ["work_experience", "Work Experience"],
-            ["skills_section", "Skills"],
-            ["education", "Education"],
-            ["overall_presentation", "Overall Presentation"],
-          ].map(([key, label]) => resumeSectionsReview[key] && (
-            <div key={key} style={{ marginBottom: 10 }}>
-              <div style={{ fontSize: 12, fontWeight: 700, color: "#1c1917" }}>{label}</div>
-              <div style={{ fontSize: 12, color: "#374151" }}>{resumeSectionsReview[key]}</div>
-            </div>
-          ))}
-        </div>
-      )}
-
-      {criticalImprovements.length > 0 && (
-        <div style={p.section}>
-          <h2 style={p.h2}>Critical Improvements</h2>
-          <ul style={p.list}>{criticalImprovements.map((c, i) => <li key={i}>{c}</li>)}</ul>
-        </div>
-      )}
-
-      {(skillsToHighlight.length > 0 || skillsToDevelop.length > 0) && (
-        <div style={p.section}>
-          <h2 style={p.h2}>Skills</h2>
-          {skillsToHighlight.length > 0 && (
-            <div style={{ fontSize: 12, marginBottom: 6 }}>
-              <strong>You excel at:</strong> {skillsToHighlight.join(" · ")}
-            </div>
-          )}
-          {skillsToDevelop.length > 0 && (
-            <div style={{ fontSize: 12 }}>
-              <strong>Consider developing:</strong> {skillsToDevelop.join(" · ")}
-            </div>
-          )}
-        </div>
-      )}
-
-      {topRoles.length > 0 && (
-        <div style={p.section}>
-          <h2 style={p.h2}>Top Matching Roles</h2>
-          {topRoles.map((role, i) => (
-            <div key={i} style={{ marginBottom: 12, pageBreakInside: "avoid" }}>
-              <div style={p.roleTitle}>{role.title} — {role.match_percentage}% match</div>
-              <div style={p.roleMeta}>{role.reason}</div>
-              {(role.resume_gaps || []).length > 0 && (
-                <ul style={p.list}>
-                  {role.resume_gaps.map((g, k) => <li key={k}><strong>Gap:</strong> {g}</li>)}
-                </ul>
-              )}
-              {(role.application_tips || []).length > 0 && (
-                <ul style={p.list}>
-                  {role.application_tips.map((t, k) => <li key={k}><strong>Tip:</strong> {t}</li>)}
-                </ul>
-              )}
-              {(role.target_companies || []).length > 0 && (
-                <div style={p.companies}>Target companies: {role.target_companies.join(", ")}</div>
-              )}
-            </div>
-          ))}
-        </div>
-      )}
-
-      {jobSearchStrategies.length > 0 && (
-        <div style={p.section}>
-          <h2 style={p.h2}>Job Search Strategies</h2>
-          <ol style={p.list}>
-            {jobSearchStrategies.map((j, i) => <li key={i}>{j}</li>)}
-          </ol>
-        </div>
-      )}
-    </div>
-  );
-}
 
 export default function ReportView() {
   const { resultId } = useParams();
@@ -363,6 +247,7 @@ export default function ReportView() {
   const [activeTab, setActiveTab] = useState("report");
   const [resumeUrl, setResumeUrl] = useState(null);
   const [resumeLoading, setResumeLoading] = useState(false);
+  const [downloading, setDownloading] = useState(false);
   const [deleting, setDeleting] = useState(false);
 
   useEffect(() => {
@@ -371,8 +256,24 @@ export default function ReportView() {
       .catch(() => setError("Could not load report. It may still be processing."));
   }, [resultId]);
 
-  function handleDownloadPDF() {
-    window.print();
+  async function handleDownloadPDF() {
+    setDownloading(true);
+    try {
+      const blob = await pdf(<ReportPDF result={result} />).toBlob();
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "resume-analysis-report.pdf";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    } catch (err) {
+      console.error("PDF generation failed", err);
+      alert("Could not generate PDF. Please try again.");
+    } finally {
+      setDownloading(false);
+    }
   }
 
   async function handleDelete() {
@@ -421,8 +322,8 @@ export default function ReportView() {
         <button style={s.backBtn} onClick={() => navigate("/dashboard")}>← Back to Dashboard</button>
         {activeTab === "report" && (
           <div style={s.rightBtns}>
-            <button onClick={handleDownloadPDF} style={s.btnPrimary}>
-              Download PDF
+            <button onClick={handleDownloadPDF} disabled={downloading} style={{ ...s.btnPrimary, opacity: downloading ? 0.7 : 1 }}>
+              {downloading ? "Generating…" : "Download PDF"}
             </button>
             <button onClick={handleDelete} disabled={deleting} style={s.btnDanger}>
               {deleting ? "Deleting…" : "Delete"}
@@ -545,34 +446,6 @@ export default function ReportView() {
             </div>
           )}
 
-          {/* Print-only target — hidden on screen, shown exclusively when printing */}
-          <style>{`
-            @media print {
-              * { visibility: hidden !important; }
-              [data-print-only], [data-print-only] * { visibility: visible !important; }
-              [data-print-only] {
-                position: fixed !important;
-                top: 0 !important; left: 0 !important;
-                width: 100vw !important;
-                overflow: visible !important;
-                background: #fff !important;
-                z-index: 9999 !important;
-                padding: 24px !important;
-              }
-              @page { margin: 12mm; }
-            }
-          `}</style>
-          <div
-            data-print-only
-            aria-hidden="true"
-            style={{
-              position: "absolute", left: "-9999px", top: 0,
-              width: 820, padding: 24, background: "#fff",
-              pointerEvents: "none",
-            }}
-          >
-            <PrintableReport result={result} />
-          </div>
         </>
       )}
     </div>

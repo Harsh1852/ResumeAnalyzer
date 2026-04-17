@@ -4,7 +4,8 @@
       "Bash(aws cloudformation *)",
       "Bash(python3 -c \"import json,sys; outputs=json.load\\(sys.stdin\\); [print\\(o['OutputKey'], ':', o['OutputValue']\\) for o in outputs]\")",
       "Bash(npm uninstall *)",
-      "Bash(npm run *)"
+      "Bash(npm run *)",
+      "Bash(npm install *)"
     ]
   }
 }
