@@ -90,7 +90,7 @@ class AnalyzerStack(Stack):
                 "PARSED_OUTPUT_BUCKET": parsed_output_bucket.bucket_name,
                 "BEDROCK_MODEL_ID": BEDROCK_MODEL_ID,
                 "BEDROCK_MAX_TOKENS": "8192",
-                "TAVILY_API_KEY": os.environ.get("TAVILY_API_KEY", "TAVILY_API_KEY"),
+                "TAVILY_API_KEY": os.environ.get("TAVILY_API_KEY", "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"),
             },
         )
 

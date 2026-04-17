@@ -31,11 +31,11 @@ jobs:
       - name: Build
         working-directory: frontend
         env:
-          VITE_AUTH_API_URL: https://0ioogkfo71.execute-api.us-east-1.amazonaws.com/prod
-          VITE_APP_API_URL: https://obj8kotkbh.execute-api.us-east-1.amazonaws.com/prod
-          VITE_RESULTS_API_URL: https://ixtst6qw13.execute-api.us-east-1.amazonaws.com/prod
-          VITE_JOBS_API_URL: https://m2yx44mjh6.execute-api.us-east-1.amazonaws.com/prod
-          VITE_APPLICATIONS_API_URL: https://fovtr6xdz7.execute-api.us-east-1.amazonaws.com/prod
+          VITE_AUTH_API_URL: https://y27jmbvfp1.execute-api.us-east-1.amazonaws.com/prod
+          VITE_APP_API_URL: https://h7imckxbn4.execute-api.us-east-1.amazonaws.com/prod
+          VITE_RESULTS_API_URL: https://x8ia4xnfxa.execute-api.us-east-1.amazonaws.com/prod
+          VITE_JOBS_API_URL: https://rdymnkp5gd.execute-api.us-east-1.amazonaws.com/prod
+          VITE_APPLICATIONS_API_URL: https://6on3kwyk6j.execute-api.us-east-1.amazonaws.com/prod
         run: npm run build
 
       - name: Configure AWS credentials

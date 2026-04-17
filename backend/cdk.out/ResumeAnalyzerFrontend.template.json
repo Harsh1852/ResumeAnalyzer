@@ -120,7 +120,7 @@
     "Environment": {
      "Variables": {
       "SES_FROM_ADDRESS": "cloud.neu.6620@gmail.com",
-      "FRONTEND_URL": "FRONTEND_URL",
+      "FRONTEND_URL": "https://d2jev8outj0szo.cloudfront.net",
       "COGNITO_USER_POOL_ID": {
        "Fn::ImportValue": "ResumeAnalyzerAuth:ExportsOutputRefUserPool6BA7E5F296FD7236"
       },
@@ -451,7 +451,7 @@
   "CDKMetadata": {
    "Type": "AWS::CDK::Metadata",
    "Properties": {
-    "Analytics": "v2:deflate64:H4sIAAAAAAAA/5WQTU8CMRCGfwt7LtWAMeqND70ZCByNId3ugAO7LelMUbLpf7ftKkL04mneeafz0WcgBzd38rqn3qmvq12/xlK2S1Z6J6K1amvVlJWS7ZM3mtEaMVmbk348gOGl9U7Ds9rv0WxS+bcbBKpGtgtbQ3qQ49zWqI8p7VQQNFwpImCSoxRiLtux1zvgsSIQnUwNnXppiwY/0BQPxfnx6erYmUsku6cjz3YKNTDMyi1opiK8fs37OeM8/8fsriESY2jiv9PoIHRtfbV21nCEOZw53KAZaQ1Ek+g5W6eFf9lTJHZY+m/U53kIIoOJuzYZtSe2zQIoo85gT/qiNHf2gBW4jDEt9rz3HMT8yG/WXA3lvbztbQmx77xhbEAuuvgJgQcfNh0CAAA="
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/5VQTU8CMRD9Ley5VGT14o0PvRkIezSGdLsDDnRb0pmCpNn/btpVxOjF07yZN/Pm5Y3l+H4kRwN1oqFu9kODtYwVK70X6kTraFRbN0rGp2A1o7NitrEX/HgEy5ULXsOzOhzQbhP9e9oJVK2MK2cgLeS6dAb1ObU96gSVa0UETHKSiqBSxmnQe+CpIhA9TAc9eolFi+9oi4fi2nxyTaXMFMl+dRLYzcEAw6LegWYqutdPvW8b1/0/tPuDihVDCzZLd0IbF5qNd5ZlrMqFxy3aidZANHOWvTPp4V/jORJ7rMNX1Nd914kcTMVqm6MOxK5dAeWoc7AX/INaenfEBnyOMT0OfAjcieWZ35y9KeXtnSwHO0Ic+mAZW5Crvn4A2z2LNB4CAAA="
    },
    "Metadata": {
     "aws:cdk:path": "ResumeAnalyzerFrontend/CDKMetadata/Default"

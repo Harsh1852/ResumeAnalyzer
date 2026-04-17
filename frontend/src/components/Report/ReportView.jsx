@@ -1,6 +1,5 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
-import html2pdf from "html2pdf.js";
 import { getResult, getResumeViewUrl, deleteUpload, deleteResult } from "../../services/api";
 import JobsSection from "../Jobs/JobsSection";
 
@@ -364,9 +363,7 @@ export default function ReportView() {
   const [activeTab, setActiveTab] = useState("report");
   const [resumeUrl, setResumeUrl] = useState(null);
   const [resumeLoading, setResumeLoading] = useState(false);
-  const [downloading, setDownloading] = useState(false);
   const [deleting, setDeleting] = useState(false);
-  const printRef = useRef();
 
   useEffect(() => {
     getResult(resultId)
@@ -375,46 +372,7 @@ export default function ReportView() {
   }, [resultId]);
 
   function handleDownloadPDF() {
-    if (!printRef.current) {
-      alert("PDF preview not ready. Please try again in a moment.");
-      return;
-    }
-    setDownloading(true);
-    html2pdf().set({
-      margin: 10,
-      filename: "resume-analysis-report.pdf",
-      image: { type: "jpeg", quality: 0.98 },
-      html2canvas: {
-        scale: 2,
-        useCORS: true,
-        backgroundColor: "#ffffff",
-        // html2canvas clones the DOM before rasterizing. The on-screen
-        // element is hidden via opacity/z-index to stay out of the way;
-        // in the clone we restore it to full visibility so the capture
-        // actually contains the rendered report.
-        onclone: (clonedDoc) => {
-          const el = clonedDoc.querySelector("[data-pdf-root]");
-          if (el) {
-            el.style.opacity = "1";
-            el.style.position = "static";
-            el.style.left = "auto";
-            el.style.top = "auto";
-            el.style.zIndex = "auto";
-            el.style.pointerEvents = "auto";
-            el.style.overflow = "visible";
-          }
-        },
-      },
-      jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
-      pagebreak: { mode: ["avoid-all", "css", "legacy"] },
-    })
-      .from(printRef.current)
-      .save()
-      .catch((err) => {
-        console.error("PDF generation failed", err);
-        alert("Could not generate PDF. Please try again.");
-      })
-      .finally(() => setDownloading(false));
+    window.print();
   }
 
   async function handleDelete() {
@@ -463,8 +421,8 @@ export default function ReportView() {
         <button style={s.backBtn} onClick={() => navigate("/dashboard")}>← Back to Dashboard</button>
         {activeTab === "report" && (
           <div style={s.rightBtns}>
-            <button onClick={handleDownloadPDF} disabled={downloading} style={s.btnPrimary}>
-              {downloading ? "Generating…" : "Download PDF"}
+            <button onClick={handleDownloadPDF} style={s.btnPrimary}>
+              Download PDF
             </button>
             <button onClick={handleDelete} disabled={deleting} style={s.btnDanger}>
               {deleting ? "Deleting…" : "Delete"}
@@ -587,19 +545,30 @@ export default function ReportView() {
             </div>
           )}
 
-          {/* Print target for PDF downloads. Kept in normal layout (fixed position,
-              width: 820 so html2canvas gets a full layout pass) but invisible
-              via opacity + pointer-events. Using left: -9999 tripped html2canvas
-              into capturing an empty frame. */}
+          {/* Print-only target — hidden on screen, shown exclusively when printing */}
+          <style>{`
+            @media print {
+              * { visibility: hidden !important; }
+              [data-print-only], [data-print-only] * { visibility: visible !important; }
+              [data-print-only] {
+                position: fixed !important;
+                top: 0 !important; left: 0 !important;
+                width: 100vw !important;
+                overflow: visible !important;
+                background: #fff !important;
+                z-index: 9999 !important;
+                padding: 24px !important;
+              }
+              @page { margin: 12mm; }
+            }
+          `}</style>
           <div
-            ref={printRef}
-            data-pdf-root
+            data-print-only
             aria-hidden="true"
             style={{
-              position: "fixed", top: 0, left: 0,
+              position: "absolute", left: "-9999px", top: 0,
               width: 820, padding: 24, background: "#fff",
-              opacity: 0, pointerEvents: "none",
-              zIndex: -1, overflow: "hidden",
+              pointerEvents: "none",
             }}
           >
             <PrintableReport result={result} />

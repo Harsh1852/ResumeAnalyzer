@@ -280,10 +280,10 @@
       "RESULTS_TABLE_NAME": {
        "Fn::ImportValue": "ResumeAnalyzerResults:ExportsOutputRefResultsTableF0B5BF22D7933BCD"
       },
-      "ADZUNA_APP_ID": "7d3c6878",
-      "ADZUNA_APP_KEY": "d95c5da05dcc8e2d32dbf79d802a150b",
+      "ADZUNA_APP_ID": "",
+      "ADZUNA_APP_KEY": "",
       "ADZUNA_COUNTRY": "us",
-      "TAVILY_API_KEY": "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",
+      "TAVILY_API_KEY": "",
       "BEDROCK_MODEL_ID": "anthropic.claude-3-haiku-20240307-v1:0",
       "BEDROCK_MAX_TOKENS": "4096"
      }
@@ -1679,7 +1679,7 @@
   "CDKMetadata": {
    "Type": "AWS::CDK::Metadata",
    "Properties": {
-    "Analytics": "v2:deflate64:H4sIAAAAAAAA/02PTU/DMAyGf8vuaUAbQnDsQNwQ1YDzlKamM03iKh+aStX/jpsWtpOf1379tZXbuwd5u1HnUOimKwzWcnyPSneCU8exGZyy1HDyQ9UGxNOXyzAJo2zdKDm+JKcjkptL11yBtxgCq0mgsnI80NKfY0UG9ZB9mSYRdkcVAsQgyzmwlvukO4h7FUCoHlsV4awGHgQhlj3mWRcstabkoniG3tBggZGzV4q/avMBC3ArJa8hj3+FeKJmLq70V12XrEytw0ifAXxFZEKZ2OvxB3w+4F9N06U/PzNvRNfOrrcU+xQnUQ3sdjc7+SjvN98BsfB8PVqQhyX+ApL0nbuaAQAA"
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/02PTW6DQAyFz5L9ZJqG9gCkVXZVEWnXkRlccIExwh4hirh7xSRtsnqf/fy7t/vnnd1tYJStK5ttS4WdTwquMTDKeS4nDx2XhZ0/oGjRvHz5CItpoStKsPMxeKfEfrXuOcOhIxFivxiCzs45X/qjZtySm2JdpMVIcgYRVLHpKkYSewiuQT2AoIGeKlAcYbJzjqJpT3HWDVPnOHg1r9i3PHXodc3eRSeFKh5wgRyFw+Awjn9DrblczSv9udclV+bKk/Kn4JAxt5IGrXmgHxziAf/Rstz64zPrRvLVWvUetA+6mGzSmv1DYh+fbLL5FqLtELxShza/6C8SHX6UmwEAAA=="
    },
    "Metadata": {
     "aws:cdk:path": "ResumeAnalyzerJobs/CDKMetadata/Default"

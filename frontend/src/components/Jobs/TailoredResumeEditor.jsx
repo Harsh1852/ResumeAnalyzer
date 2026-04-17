@@ -1,10 +1,9 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import MDEditor from "@uiw/react-md-editor";
 import CodeMirror from "@uiw/react-codemirror";
 import { StreamLanguage } from "@codemirror/language";
 import { stex } from "@codemirror/legacy-modes/mode/stex";
-import html2pdf from "html2pdf.js";
 import { getTailoredResume, saveTailoredResume } from "../../services/api";
 
 const s = {
@@ -66,10 +65,8 @@ export default function TailoredResumeEditor() {
   const [saving, setSaving] = useState(false);
   const [savedAt, setSavedAt] = useState(null);
   const [error, setError] = useState("");
-  const [downloading, setDownloading] = useState(false);
   const [compiling, setCompiling] = useState(false);
   const [copied, setCopied] = useState(false);
-  const printRef = useRef();
 
   useEffect(() => {
     getTailoredResume(resumeId)
@@ -92,15 +89,7 @@ export default function TailoredResumeEditor() {
   }
 
   function handleDownloadMarkdown() {
-    if (!printRef.current) return;
-    setDownloading(true);
-    html2pdf().set({
-      margin: 12,
-      filename: "tailored-resume.pdf",
-      image: { type: "jpeg", quality: 0.98 },
-      html2canvas: { scale: 2, useCORS: true },
-      jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
-    }).from(printRef.current).save().finally(() => setDownloading(false));
+    window.print();
   }
 
   async function handleCopy() {
@@ -183,8 +172,8 @@ export default function TailoredResumeEditor() {
               </button>
             </>
           ) : (
-            <button onClick={handleDownloadMarkdown} disabled={downloading} style={s.btnOutline}>
-              {downloading ? "Exporting…" : "Download PDF"}
+            <button onClick={handleDownloadMarkdown} style={s.btnOutline}>
+              Download PDF
             </button>
           )}
           <button onClick={handleSave} disabled={saving} style={{ ...s.btnPrimary, opacity: saving ? 0.7 : 1 }}>
@@ -235,13 +224,35 @@ export default function TailoredResumeEditor() {
         )}
       </div>
 
-      {/* Off-screen print target used for markdown PDF export */}
+      {/* Print-only target for markdown export */}
       {!latex && (
-        <div ref={printRef} style={{ position: "absolute", left: -9999, top: 0, width: 800, padding: 24, background: "#fff" }}>
-          <div data-color-mode="light">
-            <MDEditor.Markdown source={content} style={{ background: "#fff", color: "#0f172a" }} />
+        <>
+          <style>{`
+            @media print {
+              * { visibility: hidden !important; }
+              [data-print-only], [data-print-only] * { visibility: visible !important; }
+              [data-print-only] {
+                position: fixed !important;
+                top: 0 !important; left: 0 !important;
+                width: 100vw !important;
+                overflow: visible !important;
+                background: #fff !important;
+                z-index: 9999 !important;
+                padding: 24px !important;
+              }
+              @page { margin: 12mm; }
+            }
+          `}</style>
+          <div
+            data-print-only
+            aria-hidden="true"
+            style={{ position: "absolute", left: "-9999px", top: 0, width: 800, padding: 24, background: "#fff", pointerEvents: "none" }}
+          >
+            <div data-color-mode="light">
+              <MDEditor.Markdown source={content} style={{ background: "#fff", color: "#0f172a" }} />
+            </div>
           </div>
-        </div>
+        </>
       )}
     </div>
   );

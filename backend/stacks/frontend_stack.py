@@ -42,7 +42,7 @@ class FrontendStack(Stack):
             timeout=Duration.seconds(30),
             environment={
                 "SES_FROM_ADDRESS": SES_FROM_ADDRESS,
-                "FRONTEND_URL": "FRONTEND_URL",
+                "FRONTEND_URL": "https://d2jev8outj0szo.cloudfront.net",
                 "COGNITO_USER_POOL_ID": user_pool.user_pool_id,
                 "RESULTS_TABLE_NAME": results_table.table_name,
             },
