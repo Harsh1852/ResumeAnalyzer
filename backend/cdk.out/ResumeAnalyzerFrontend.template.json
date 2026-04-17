@@ -54,11 +54,47 @@
       },
       {
        "Action": [
+        "dynamodb:BatchGetItem",
+        "dynamodb:ConditionCheckItem",
+        "dynamodb:DescribeTable",
+        "dynamodb:GetItem",
+        "dynamodb:GetRecords",
+        "dynamodb:GetShardIterator",
+        "dynamodb:Query",
+        "dynamodb:Scan"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::ImportValue": "ResumeAnalyzerResults:ExportsOutputFnGetAttResultsTableF0B5BF22Arn1CE9057C"
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::ImportValue": "ResumeAnalyzerResults:ExportsOutputFnGetAttResultsTableF0B5BF22Arn1CE9057C"
+           },
+           "/index/*"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": [
         "ses:SendEmail",
         "ses:SendRawEmail"
        ],
        "Effect": "Allow",
        "Resource": "*"
+      },
+      {
+       "Action": "cognito-idp:AdminGetUser",
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::ImportValue": "ResumeAnalyzerAuth:ExportsOutputFnGetAttUserPool6BA7E5F2Arn686ACC00"
+       }
       }
      ],
      "Version": "2012-10-17"
@@ -79,12 +115,18 @@
    "Properties": {
     "Code": {
      "S3Bucket": "cdk-hnb659fds-assets-307711586938-us-east-1",
-     "S3Key": "8289f2afad1026364209faeb6525576c1d1115b54327b07b62c603d16bb6a84e.zip"
+     "S3Key": "afffc948dc260b0cf066d78411f93ec29123ed7582cd3be01b7ca8dae95ef54d.zip"
     },
     "Environment": {
      "Variables": {
-      "SES_FROM_ADDRESS": "noreply@example.com",
-      "FRONTEND_URL": "https://YOUR_CLOUDFRONT_DOMAIN"
+      "SES_FROM_ADDRESS": "cloud.neu.6620@gmail.com",
+      "FRONTEND_URL": "https://d1zwefpl8u2wdx.cloudfront.net",
+      "COGNITO_USER_POOL_ID": {
+       "Fn::ImportValue": "ResumeAnalyzerAuth:ExportsOutputRefUserPool6BA7E5F296FD7236"
+      },
+      "RESULTS_TABLE_NAME": {
+       "Fn::ImportValue": "ResumeAnalyzerResults:ExportsOutputRefResultsTableF0B5BF22D7933BCD"
+      }
      }
     },
     "Handler": "handler.handler",
@@ -103,7 +145,7 @@
    ],
    "Metadata": {
     "aws:cdk:path": "ResumeAnalyzerFrontend/NotificationLambda/Resource",
-    "aws:asset:path": "asset.8289f2afad1026364209faeb6525576c1d1115b54327b07b62c603d16bb6a84e",
+    "aws:asset:path": "asset.afffc948dc260b0cf066d78411f93ec29123ed7582cd3be01b7ca8dae95ef54d",
     "aws:asset:is-bundled": false,
     "aws:asset:property": "Code"
    }
@@ -439,6 +481,11 @@
    },
    "Export": {
     "Name": "CloudFrontUrl"
+   }
+  },
+  "CloudFrontDistributionId": {
+   "Value": {
+    "Ref": "Distribution830FAC52"
    }
   }
  },

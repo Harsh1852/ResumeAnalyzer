@@ -186,7 +186,7 @@
    "Properties": {
     "Code": {
      "S3Bucket": "cdk-hnb659fds-assets-307711586938-us-east-1",
-     "S3Key": "1294a870416274a70554e1334f2607fbd33c74c29805355a35a899781d7c8197.zip"
+     "S3Key": "72c62a2265b13b6e510215a979dd185af61595053d357dee22b937e61241b358.zip"
     },
     "Environment": {
      "Variables": {
@@ -214,7 +214,7 @@
    ],
    "Metadata": {
     "aws:cdk:path": "ResumeAnalyzerResults/ResultsWorkerLambda/Resource",
-    "aws:asset:path": "asset.1294a870416274a70554e1334f2607fbd33c74c29805355a35a899781d7c8197",
+    "aws:asset:path": "asset.72c62a2265b13b6e510215a979dd185af61595053d357dee22b937e61241b358",
     "aws:asset:is-bundled": false,
     "aws:asset:property": "Code"
    }
@@ -276,13 +276,17 @@
       {
        "Action": [
         "dynamodb:BatchGetItem",
+        "dynamodb:BatchWriteItem",
         "dynamodb:ConditionCheckItem",
+        "dynamodb:DeleteItem",
         "dynamodb:DescribeTable",
         "dynamodb:GetItem",
         "dynamodb:GetRecords",
         "dynamodb:GetShardIterator",
+        "dynamodb:PutItem",
         "dynamodb:Query",
-        "dynamodb:Scan"
+        "dynamodb:Scan",
+        "dynamodb:UpdateItem"
        ],
        "Effect": "Allow",
        "Resource": [
@@ -341,7 +345,7 @@
    "Properties": {
     "Code": {
      "S3Bucket": "cdk-hnb659fds-assets-307711586938-us-east-1",
-     "S3Key": "1294a870416274a70554e1334f2607fbd33c74c29805355a35a899781d7c8197.zip"
+     "S3Key": "72c62a2265b13b6e510215a979dd185af61595053d357dee22b937e61241b358.zip"
     },
     "Environment": {
      "Variables": {
@@ -369,7 +373,7 @@
    ],
    "Metadata": {
     "aws:cdk:path": "ResumeAnalyzerResults/ResultsAPILambda/Resource",
-    "aws:asset:path": "asset.1294a870416274a70554e1334f2607fbd33c74c29805355a35a899781d7c8197",
+    "aws:asset:path": "asset.72c62a2265b13b6e510215a979dd185af61595053d357dee22b937e61241b358",
     "aws:asset:is-bundled": false,
     "aws:asset:property": "Code"
    }
@@ -438,7 +442,7 @@
     "aws:cdk:path": "ResumeAnalyzerResults/ResultsAPI/Account"
    }
   },
-  "ResultsAPIDeployment308017902e8c8d952d5792a19de65be0889244f5": {
+  "ResultsAPIDeployment308017901b72f0010d8e6463670376f5fe15890a": {
    "Type": "AWS::ApiGateway::Deployment",
    "Properties": {
     "Description": "Automatically created by the RestApi construct",
@@ -448,6 +452,7 @@
    },
    "DependsOn": [
     "ResultsAPIOPTIONSE53CD002",
+    "ResultsAPIresultsresultIdDELETEFCB80B14",
     "ResultsAPIresultsresultIdGET5A30FAA3",
     "ResultsAPIresultsresultIdOPTIONS1BE51D4B",
     "ResultsAPIresultsresultId95A11CD8",
@@ -464,7 +469,7 @@
    "Type": "AWS::ApiGateway::Stage",
    "Properties": {
     "DeploymentId": {
-     "Ref": "ResultsAPIDeployment308017902e8c8d952d5792a19de65be0889244f5"
+     "Ref": "ResultsAPIDeployment308017901b72f0010d8e6463670376f5fe15890a"
     },
     "RestApiId": {
      "Ref": "ResultsAPI598FCA16"
@@ -863,6 +868,116 @@
     "aws:cdk:path": "ResumeAnalyzerResults/ResultsAPI/Default/results/{resultId}/GET/Resource"
    }
   },
+  "ResultsAPIresultsresultIdDELETEApiPermissionResumeAnalyzerResultsResultsAPIB22EC9CBDELETEresultsresultIdAED0BB2F": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "ResultsAPILambdaF52E18ED",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:us-east-1:307711586938:",
+       {
+        "Ref": "ResultsAPI598FCA16"
+       },
+       "/",
+       {
+        "Ref": "ResultsAPIDeploymentStageprodACDDF4E0"
+       },
+       "/DELETE/results/*"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerResults/ResultsAPI/Default/results/{resultId}/DELETE/ApiPermission.ResumeAnalyzerResultsResultsAPIB22EC9CB.DELETE..results.{resultId}"
+   }
+  },
+  "ResultsAPIresultsresultIdDELETEApiPermissionTestResumeAnalyzerResultsResultsAPIB22EC9CBDELETEresultsresultId1D9A81CE": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "ResultsAPILambdaF52E18ED",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:us-east-1:307711586938:",
+       {
+        "Ref": "ResultsAPI598FCA16"
+       },
+       "/test-invoke-stage/DELETE/results/*"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerResults/ResultsAPI/Default/results/{resultId}/DELETE/ApiPermission.Test.ResumeAnalyzerResultsResultsAPIB22EC9CB.DELETE..results.{resultId}"
+   }
+  },
+  "ResultsAPIresultsresultIdDELETEFCB80B14": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "COGNITO_USER_POOLS",
+    "AuthorizerId": {
+     "Ref": "ResultsCognitoAuthorizer67BA334B"
+    },
+    "HttpMethod": "DELETE",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":apigateway:us-east-1:lambda:path/2015-03-31/functions/",
+        {
+         "Fn::GetAtt": [
+          "ResultsAPILambdaF52E18ED",
+          "Arn"
+         ]
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    },
+    "ResourceId": {
+     "Ref": "ResultsAPIresultsresultId95A11CD8"
+    },
+    "RestApiId": {
+     "Ref": "ResultsAPI598FCA16"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerResults/ResultsAPI/Default/results/{resultId}/DELETE/Resource"
+   }
+  },
   "ResultsCognitoAuthorizer67BA334B": {
    "Type": "AWS::ApiGateway::Authorizer",
    "Properties": {
@@ -943,6 +1058,25 @@
    },
    "Export": {
     "Name": "ResultsApiUrl"
+   }
+  },
+  "ExportsOutputFnGetAttResultsTableF0B5BF22Arn1CE9057C": {
+   "Value": {
+    "Fn::GetAtt": [
+     "ResultsTableF0B5BF22",
+     "Arn"
+    ]
+   },
+   "Export": {
+    "Name": "ResumeAnalyzerResults:ExportsOutputFnGetAttResultsTableF0B5BF22Arn1CE9057C"
+   }
+  },
+  "ExportsOutputRefResultsTableF0B5BF22D7933BCD": {
+   "Value": {
+    "Ref": "ResultsTableF0B5BF22"
+   },
+   "Export": {
+    "Name": "ResumeAnalyzerResults:ExportsOutputRefResultsTableF0B5BF22D7933BCD"
    }
   }
  },

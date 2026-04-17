@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { getResult } from "../../services/api";
+import html2pdf from "html2pdf.js";
+import { getResult, getResumeViewUrl, deleteUpload, deleteResult } from "../../services/api";
 
 const s = {
   page: { maxWidth: 820, margin: "40px auto", padding: "0 20px 60px" },
@@ -25,6 +26,14 @@ const s = {
   tag: (color) => ({ fontSize: 13, padding: "4px 12px", background: color + "18", color, borderRadius: 20, fontWeight: 500 }),
   backBtn: { background: "none", border: "none", color: "#2563eb", cursor: "pointer", fontSize: 14, padding: 0, marginBottom: 20 },
   loading: { textAlign: "center", padding: "80px 0", color: "#6b7280", fontSize: 16 },
+  tabBar: { display: "flex", gap: 4, marginBottom: 20, background: "#f3f4f6", borderRadius: 10, padding: 4 },
+  tab: (active) => ({
+    flex: 1, padding: "8px 0", border: "none", cursor: "pointer", borderRadius: 8, fontSize: 14, fontWeight: 600,
+    background: active ? "#fff" : "transparent",
+    color: active ? "#2563eb" : "#6b7280",
+    boxShadow: active ? "0 1px 4px rgba(0,0,0,.10)" : "none",
+    transition: "all .15s",
+  }),
 };
 
 function ScoreRing({ score }) {
@@ -45,12 +54,55 @@ export default function ReportView() {
   const navigate = useNavigate();
   const [result, setResult] = useState(null);
   const [error, setError] = useState("");
+  const [activeTab, setActiveTab] = useState("report");
+  const [resumeUrl, setResumeUrl] = useState(null);
+  const [resumeLoading, setResumeLoading] = useState(false);
+  const [downloading, setDownloading] = useState(false);
+  const [deleting, setDeleting] = useState(false);
+  const reportRef = useRef();
 
   useEffect(() => {
     getResult(resultId)
       .then(setResult)
       .catch(() => setError("Could not load report. It may still be processing."));
   }, [resultId]);
+
+  function handleDownloadPDF() {
+    if (!reportRef.current) return;
+    setDownloading(true);
+    html2pdf().set({
+      margin: 10,
+      filename: "resume-analysis-report.pdf",
+      image: { type: "jpeg", quality: 0.98 },
+      html2canvas: { scale: 2, useCORS: true },
+      jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
+      pagebreak: { mode: ["avoid-all", "css", "legacy"] },
+    }).from(reportRef.current).save().finally(() => setDownloading(false));
+  }
+
+  async function handleDelete() {
+    if (!window.confirm("Delete this resume and its report? This cannot be undone.")) return;
+    setDeleting(true);
+    try {
+      await deleteResult(resultId);
+      await deleteUpload(result.uploadId);
+      navigate("/dashboard");
+    } catch {
+      alert("Delete failed. Please try again.");
+      setDeleting(false);
+    }
+  }
+
+  function handleResumeTab() {
+    setActiveTab("resume");
+    if (!resumeUrl && result?.uploadId) {
+      setResumeLoading(true);
+      getResumeViewUrl(result.uploadId)
+        .then((data) => setResumeUrl(data.viewUrl))
+        .catch(() => setResumeUrl("error"))
+        .finally(() => setResumeLoading(false));
+    }
+  }
 
   if (error) return (
     <div style={s.page}>
@@ -61,13 +113,54 @@ export default function ReportView() {
 
   if (!result) return <div style={s.loading}>Loading your report…</div>;
 
-  const { resumeScore, summary, topRoles = [], jobSearchStrategies = [],
-    skillsToHighlight = [], skillsToDevelop = [], keyAchievements = [] } = result;
+  const { resumeScore, summary, resumeSectionsReview = {}, criticalImprovements = [],
+    topRoles = [], jobSearchStrategies = [], skillsToHighlight = [],
+    skillsToDevelop = [], keyAchievements = [] } = result;
 
   return (
     <div style={s.page}>
-      <button style={s.backBtn} onClick={() => navigate("/dashboard")}>← Back to Dashboard</button>
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 20 }}>
+        <button style={s.backBtn} onClick={() => navigate("/dashboard")}>← Back to Dashboard</button>
+        {activeTab === "report" && (
+          <div style={{ display: "flex", gap: 8 }}>
+            <button
+              onClick={handleDownloadPDF}
+              disabled={downloading}
+              style={{ background: "#2563eb", color: "#fff", border: "none", borderRadius: 8, padding: "8px 18px", fontSize: 14, fontWeight: 600, cursor: downloading ? "default" : "pointer", opacity: downloading ? 0.7 : 1 }}
+            >
+              {downloading ? "Generating…" : "Download PDF"}
+            </button>
+            <button
+              onClick={handleDelete}
+              disabled={deleting}
+              style={{ background: "none", border: "1px solid #fca5a5", color: "#dc2626", borderRadius: 8, padding: "8px 18px", fontSize: 14, fontWeight: 600, cursor: deleting ? "default" : "pointer", opacity: deleting ? 0.7 : 1 }}
+            >
+              {deleting ? "Deleting…" : "Delete"}
+            </button>
+          </div>
+        )}
+      </div>
 
+      <div style={s.tabBar}>
+        <button style={s.tab(activeTab === "report")} onClick={() => setActiveTab("report")}>Analysis Report</button>
+        <button style={s.tab(activeTab === "resume")} onClick={handleResumeTab}>View Resume</button>
+      </div>
+
+      {activeTab === "resume" && (
+        <div style={s.card}>
+          {resumeLoading && <div style={{ textAlign: "center", color: "#6b7280", padding: "40px 0" }}>Loading resume...</div>}
+          {resumeUrl === "error" && <div style={{ color: "#dc2626" }}>Could not load resume file.</div>}
+          {resumeUrl && resumeUrl !== "error" && (
+            <iframe
+              src={resumeUrl}
+              title="Resume"
+              style={{ width: "100%", height: "80vh", border: "none", borderRadius: 6 }}
+            />
+          )}
+        </div>
+      )}
+
+      {activeTab === "report" && <div ref={reportRef}>
       {/* Score + Summary */}
       <div style={{ ...s.card, display: "grid", gridTemplateColumns: "140px 1fr", gap: 32, alignItems: "start" }}>
         <ScoreRing score={resumeScore || 0} />
@@ -84,6 +177,37 @@ export default function ReportView() {
           )}
         </div>
       </div>
+
+      {/* Resume Sections Review */}
+      {Object.keys(resumeSectionsReview).length > 0 && (
+        <div style={{ ...s.card, borderLeft: "4px solid #7c3aed" }}>
+          <h2 style={s.sectionTitle}>Resume Section-by-Section Review</h2>
+          {[
+            ["professional_summary", "Professional Summary"],
+            ["work_experience", "Work Experience"],
+            ["skills_section", "Skills"],
+            ["education", "Education"],
+            ["overall_presentation", "Overall Presentation"],
+          ].map(([key, label]) => resumeSectionsReview[key] ? (
+            <div key={key} style={{ marginBottom: 16 }}>
+              <div style={{ fontSize: 13, fontWeight: 700, color: "#7c3aed", marginBottom: 4 }}>{label}</div>
+              <div style={{ fontSize: 14, color: "#374151", lineHeight: 1.6 }}>{resumeSectionsReview[key]}</div>
+            </div>
+          ) : null)}
+        </div>
+      )}
+
+      {/* Critical Improvements */}
+      {criticalImprovements.length > 0 && (
+        <div style={{ ...s.card, borderLeft: "4px solid #f59e0b" }}>
+          <h2 style={s.sectionTitle}>Critical Improvements</h2>
+          <ul style={{ ...s.list, paddingLeft: 18 }}>
+            {criticalImprovements.map((item, i) => (
+              <li key={i} style={{ marginBottom: 10, color: "#374151" }}>{item}</li>
+            ))}
+          </ul>
+        </div>
+      )}
 
       {/* Skills */}
       <div style={s.card}>
@@ -107,7 +231,27 @@ export default function ReportView() {
               <div style={s.roleTitle}>{role.title}</div>
               <span style={s.matchBadge(role.match_percentage)}>{role.match_percentage}% match</span>
             </div>
-            <div style={{ color: "#6b7280", fontSize: 14, marginBottom: 8 }}>{role.reason}</div>
+            <div style={{ color: "#6b7280", fontSize: 14, marginBottom: 10 }}>{role.reason}</div>
+            {(role.resume_gaps || []).length > 0 && (
+              <div style={{ marginBottom: 10 }}>
+                <div style={{ fontSize: 12, fontWeight: 600, color: "#dc2626", marginBottom: 4 }}>Gaps to address</div>
+                <ul style={{ margin: 0, paddingLeft: 16 }}>
+                  {(role.resume_gaps || []).map((gap, k) => (
+                    <li key={k} style={{ fontSize: 13, color: "#7f1d1d", marginBottom: 3 }}>{gap}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
+            {(role.application_tips || []).length > 0 && (
+              <div style={{ marginBottom: 10 }}>
+                <div style={{ fontSize: 12, fontWeight: 600, color: "#2563eb", marginBottom: 4 }}>How to apply</div>
+                <ul style={{ margin: 0, paddingLeft: 16 }}>
+                  {(role.application_tips || []).map((tip, k) => (
+                    <li key={k} style={{ fontSize: 13, color: "#1e40af", marginBottom: 4, lineHeight: 1.5 }}>{tip}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
             <div style={{ fontSize: 13, fontWeight: 600, color: "#374151", marginBottom: 4 }}>Target Companies</div>
             <div style={s.companies}>
               {(role.target_companies || []).map((c, j) => <span key={j} style={s.chip}>{c}</span>)}
@@ -123,6 +267,7 @@ export default function ReportView() {
           {jobSearchStrategies.map((strategy, i) => <li key={i} style={{ marginBottom: 6 }}>{strategy}</li>)}
         </ol>
       </div>
+      </div>}
     </div>
   );
 }

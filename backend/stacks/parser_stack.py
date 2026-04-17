@@ -60,7 +60,7 @@ class ParserStack(Stack):
         self.analysis_queue = sqs.Queue(
             self, "AnalysisQueue",
             queue_name="resume-analyzer-analysis-queue",
-            visibility_timeout=Duration.seconds(180),
+            visibility_timeout=Duration.seconds(300),
             dead_letter_queue=sqs.DeadLetterQueue(max_receive_count=3, queue=analysis_dlq),
         )
 

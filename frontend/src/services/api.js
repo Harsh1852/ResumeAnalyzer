@@ -25,6 +25,29 @@ export const login = (email, password) =>
 export const refreshToken = (refreshToken) =>
   axios.post(`${AUTH_API}/auth/refresh`, { refreshToken }).then((r) => r.data);
 
+export const forgotPassword = (email) =>
+  axios.post(`${AUTH_API}/auth/forgot-password`, { email }).then((r) => r.data);
+
+export const confirmForgotPassword = (email, code, newPassword) =>
+  axios.post(`${AUTH_API}/auth/confirm-forgot-password`, { email, code, newPassword }).then((r) => r.data);
+
+function accessHeaders() {
+  const token = localStorage.getItem("accessToken");
+  return token ? { Authorization: `Bearer ${token}` } : {};
+}
+
+export const changePassword = (currentPassword, newPassword) =>
+  axios.post(`${AUTH_API}/auth/change-password`, { currentPassword, newPassword }, { headers: accessHeaders() }).then((r) => r.data);
+
+export const updateEmail = (newEmail) =>
+  axios.post(`${AUTH_API}/auth/update-email`, { newEmail }, { headers: accessHeaders() }).then((r) => r.data);
+
+export const verifyEmailChange = (code) =>
+  axios.post(`${AUTH_API}/auth/verify-email-change`, { code }, { headers: accessHeaders() }).then((r) => r.data);
+
+export const deleteAccount = () =>
+  axios.post(`${AUTH_API}/auth/delete-account`, {}, { headers: accessHeaders() }).then((r) => r.data);
+
 // ── Uploads ───────────────────────────────────────────────────────────────────
 export const getPresignedUrl = (fileName, contentType) =>
   axios
@@ -47,6 +70,15 @@ export const listUploads = () =>
 
 export const getUpload = (uploadId) =>
   axios.get(`${APP_API}/uploads/${uploadId}`, { headers: authHeaders() }).then((r) => r.data);
+
+export const getResumeViewUrl = (uploadId) =>
+  axios.get(`${APP_API}/uploads/${uploadId}/view-url`, { headers: authHeaders() }).then((r) => r.data);
+
+export const deleteUpload = (uploadId) =>
+  axios.delete(`${APP_API}/uploads/${uploadId}`, { headers: authHeaders() }).then((r) => r.data);
+
+export const deleteResult = (resultId) =>
+  axios.delete(`${RESULTS_API}/results/${resultId}`, { headers: authHeaders() }).then((r) => r.data);
 
 // ── Results ───────────────────────────────────────────────────────────────────
 export const getResults = (uploadId) => {

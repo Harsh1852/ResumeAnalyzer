@@ -79,6 +79,18 @@
       "data": "CDKMetadata"
     }
   ],
+  "/ResumeAnalyzerResults/Exports/Output{\"Fn::GetAtt\":[\"ResultsTableF0B5BF22\",\"Arn\"]}": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ExportsOutputFnGetAttResultsTableF0B5BF22Arn1CE9057C"
+    }
+  ],
+  "/ResumeAnalyzerResults/Exports/Output{\"Ref\":\"ResultsTableF0B5BF22\"}": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ExportsOutputRefResultsTableF0B5BF22D7933BCD"
+    }
+  ],
   "/ResumeAnalyzerResults/ResultsWorkerLambda/ServiceRole/Resource": [
     {
       "type": "aws:cdk:logicalId",
@@ -106,7 +118,7 @@
   "/ResumeAnalyzerResults/ResultsAPI/Deployment/Resource": [
     {
       "type": "aws:cdk:logicalId",
-      "data": "ResultsAPIDeployment308017902e8c8d952d5792a19de65be0889244f5"
+      "data": "ResultsAPIDeployment308017901b72f0010d8e6463670376f5fe15890a"
     }
   ],
   "/ResumeAnalyzerResults/ResultsAPI/DeploymentStage.prod/Resource": [
@@ -191,6 +203,24 @@
     {
       "type": "aws:cdk:logicalId",
       "data": "ResultsAPIresultsresultIdGET5A30FAA3"
+    }
+  ],
+  "/ResumeAnalyzerResults/ResultsAPI/Default/results/{resultId}/DELETE/ApiPermission.ResumeAnalyzerResultsResultsAPIB22EC9CB.DELETE..results.{resultId}": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ResultsAPIresultsresultIdDELETEApiPermissionResumeAnalyzerResultsResultsAPIB22EC9CBDELETEresultsresultIdAED0BB2F"
+    }
+  ],
+  "/ResumeAnalyzerResults/ResultsAPI/Default/results/{resultId}/DELETE/ApiPermission.Test.ResumeAnalyzerResultsResultsAPIB22EC9CB.DELETE..results.{resultId}": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ResultsAPIresultsresultIdDELETEApiPermissionTestResumeAnalyzerResultsResultsAPIB22EC9CBDELETEresultsresultId1D9A81CE"
+    }
+  ],
+  "/ResumeAnalyzerResults/ResultsAPI/Default/results/{resultId}/DELETE/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ResultsAPIresultsresultIdDELETEFCB80B14"
     }
   ]
 }

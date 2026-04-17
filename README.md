@@ -58,61 +58,74 @@ User → CloudFront (React SPA)
 
 ## Setup & Deployment
 
-### 1. Backend (CDK)
+### 1. Backend setup
 
 ```bash
 cd backend
 
-# Create and activate a virtual environment
 python -m venv .venv
-source .venv/bin/activate        # Windows: .venv\Scripts\activate
+source .venv/bin/activate        # Windows: .venv\Scripts\activate.bat
 
 pip install -r requirements.txt
 
-# Bootstrap CDK (once per account/region)
-cdk bootstrap --context account=YOUR_ACCOUNT_ID --context region=us-east-1
-
-# Deploy all stacks in dependency order
-cdk deploy --all --context account=YOUR_ACCOUNT_ID --context region=us-east-1
+# Bootstrap CDK once per account/region
+cdk bootstrap -c account=YOUR_ACCOUNT_ID -c region=us-east-1
 ```
 
-After deploy, note the outputs:
-- `AuthStack.AuthApiUrl`
-- `UploadStack.AppApiUrl`
-- `FrontendStack.CloudFrontUrl`
-- `FrontendStack.FrontendBucketName`
-
-### 2. Frontend
+### 2. Deploy all stacks
 
 ```bash
-cd frontend
-npm install
+cdk deploy --all --require-approval never -c account=YOUR_ACCOUNT_ID -c region=us-east-1
+```
 
-# Create environment file
+Note the following values from CDK output:
+
+| CDK Output | Use |
+|---|---|
+| `ResumeAnalyzerAuth.AuthApiUrl` | `VITE_AUTH_API_URL` in `.env.local` |
+| `ResumeAnalyzerUpload.AppApiUrl` | `VITE_APP_API_URL` in `.env.local` |
+| `ResumeAnalyzerResults.ResultsApiUrl` | `VITE_RESULTS_API_URL` in `.env.local` |
+| `ResumeAnalyzerFrontend.CloudFrontUrl` | `URL` in `.env.local` + update step below |
+| `ResumeAnalyzerFrontend.FrontendBucketName` | `FRONTEND_BUCKET_NAME` in `.env.local` |
+| `ResumeAnalyzerFrontend.CloudFrontDistributionId` | `DISTRIBUTION_ID` in `.env.local` |
+
+### 3. Update FRONTEND_URL and redeploy
+
+The SES notification email links back to your app. Update the hardcoded URL in `backend/stacks/frontend_stack.py`:
+
+```python
+"FRONTEND_URL": "https://YOUR_CLOUDFRONT_DOMAIN.cloudfront.net",
+```
+
+Then redeploy to apply it:
+
+```bash
+cdk deploy ResumeAnalyzerFrontend --require-approval never -c account=YOUR_ACCOUNT_ID -c region=us-east-1
+```
+
+### 4. Configure frontend environment
+
+```bash
+cd ../frontend
 cp .env.example .env.local
-# Edit .env.local with your deployed API URLs
-
-npm run dev          # local development
-npm run build        # production build → dist/
+# Fill in .env.local with the CDK output values from step 2
 ```
 
-### 3. Deploy Frontend to S3 + CloudFront
+### 5. Build and deploy frontend
 
 ```bash
-aws s3 sync frontend/dist/ s3://YOUR_FRONTEND_BUCKET_NAME --delete
-aws cloudfront create-invalidation --distribution-id YOUR_DIST_ID --paths "/*"
+npm install
+npm run build
+
+aws s3 sync dist/ s3://YOUR_FRONTEND_BUCKET_NAME --delete --region us-east-1
+aws cloudfront create-invalidation --distribution-id YOUR_DIST_ID --paths "/*" --region us-east-1
 ```
 
-### 4. SES Configuration
+### 6. SES configuration
 
-In the AWS console → SES → Verified identities, add and verify:
-1. Your sender email (`noreply@yourdomain.com`)
-2. Any recipient emails you want to test with (sandbox only)
-
-Set the environment variable before deploying FrontendStack:
-```bash
-export SES_FROM_ADDRESS=noreply@yourdomain.com
-```
+In the AWS console → SES → Verified identities, verify:
+1. Your sender email (set in `backend/stacks/frontend_stack.py` as `SES_FROM_ADDRESS`)
+2. Any recipient emails (required while SES is in sandbox mode)
 
 ---
 
@@ -137,8 +150,11 @@ export SES_FROM_ADDRESS=noreply@yourdomain.com
 | POST | `/uploads/confirm` | Confirm upload complete → triggers pipeline. |
 | GET | `/uploads` | List your uploaded resumes. |
 | GET | `/uploads/{uploadId}` | Get upload status (`PENDING`→`PARSING`→`ANALYZING`→`COMPLETE`). |
+| GET | `/uploads/{uploadId}/view-url` | Get presigned URL to view the original resume file. |
+| DELETE | `/uploads/{uploadId}` | Delete resume file and upload record. |
 | GET | `/results` | List analysis results (optional `?uploadId=`). |
 | GET | `/results/{resultId}` | Get full analysis report. |
+| DELETE | `/results/{resultId}` | Delete analysis report (upload record reverts to ANALYZING). |
 
 ---
 
@@ -155,12 +171,14 @@ export SES_FROM_ADDRESS=noreply@yourdomain.com
 
 ---
 
-## Report Contents (from Bedrock)
+## Report Contents (from Bedrock + Tavily)
 
-- **Resume Score** (0–100)
+- **Resume Score** (0–100) with honest rubric-based scoring
 - **Profile Summary**
-- **Top 5 Job Roles** with match %, reason, and 5 target companies each
-- **5 Job Search Strategies** tailored to the candidate
+- **Resume Section-by-Section Review** (Professional Summary, Work Experience, Skills, Education, Presentation)
+- **Critical Improvements** (top 5 actionable fixes)
+- **Top 5 Job Roles** with match %, resume gaps, application tips, and 5 target companies each
+- **7 Job Search Strategies** tailored to the candidate (informed by real-time Tavily job market data)
 - **Skills to Highlight** + **Skills to Develop**
 - **Key Achievements**
 
@@ -170,16 +188,16 @@ export SES_FROM_ADDRESS=noreply@yourdomain.com
 
 ```
 ├── backend/
-│   ├── app.py                    # CDK app entry
+│   ├── app.py                    
 │   ├── cdk.json
 │   ├── requirements.txt
 │   ├── stacks/
-│   │   ├── auth_stack.py         # Student 1
-│   │   ├── upload_stack.py       # Student 1
-│   │   ├── parser_stack.py       # Student 2
-│   │   ├── analyzer_stack.py     # Student 2
-│   │   ├── results_stack.py      # Student 3
-│   │   └── frontend_stack.py     # Student 3
+│   │   ├── auth_stack.py         
+│   │   ├── upload_stack.py       
+│   │   ├── parser_stack.py       
+│   │   ├── analyzer_stack.py     
+│   │   ├── results_stack.py      
+│   │   └── frontend_stack.py     
 │   └── lambdas/
 │       ├── auth_service/
 │       ├── upload_service/
@@ -205,7 +223,7 @@ export SES_FROM_ADDRESS=noreply@yourdomain.com
 
 ```bash
 cd backend
-cdk destroy --all --context account=YOUR_ACCOUNT_ID --context region=us-east-1
+cdk destroy --all --force -c account=YOUR_ACCOUNT_ID -c region=us-east-1
 ```
 
 > All DynamoDB tables and S3 buckets use `RemovalPolicy.DESTROY` for easy cleanup in dev/class environments.

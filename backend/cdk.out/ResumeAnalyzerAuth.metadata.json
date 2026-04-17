@@ -85,6 +85,12 @@
       "data": "ExportsOutputFnGetAttUserPool6BA7E5F2Arn686ACC00"
     }
   ],
+  "/ResumeAnalyzerAuth/Exports/Output{\"Ref\":\"UserPool6BA7E5F2\"}": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ExportsOutputRefUserPool6BA7E5F296FD7236"
+    }
+  ],
   "/ResumeAnalyzerAuth/UserPool/WebClient/Resource": [
     {
       "type": "aws:cdk:logicalId",
@@ -106,7 +112,7 @@
   "/ResumeAnalyzerAuth/AuthAPI/Deployment/Resource": [
     {
       "type": "aws:cdk:logicalId",
-      "data": "AuthAPIDeployment3117E1E9157450fd39fbe6622e00b1db68f1e0ea"
+      "data": "AuthAPIDeployment3117E1E9fa9d08e0c3d8b25119734e7bb9fb1afc"
     }
   ],
   "/ResumeAnalyzerAuth/AuthAPI/DeploymentStage.prod/Resource": [
@@ -173,6 +179,42 @@
     {
       "type": "aws:cdk:logicalId",
       "data": "AuthAPIauthlogoutDF7801EC"
+    }
+  ],
+  "/ResumeAnalyzerAuth/AuthAPI/Default/auth/forgot-password/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AuthAPIauthforgotpasswordB99B4593"
+    }
+  ],
+  "/ResumeAnalyzerAuth/AuthAPI/Default/auth/confirm-forgot-password/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AuthAPIauthconfirmforgotpassword60CE1D9E"
+    }
+  ],
+  "/ResumeAnalyzerAuth/AuthAPI/Default/auth/change-password/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AuthAPIauthchangepasswordD8F84461"
+    }
+  ],
+  "/ResumeAnalyzerAuth/AuthAPI/Default/auth/update-email/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AuthAPIauthupdateemailAAB66B36"
+    }
+  ],
+  "/ResumeAnalyzerAuth/AuthAPI/Default/auth/verify-email-change/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AuthAPIauthverifyemailchange2673C020"
+    }
+  ],
+  "/ResumeAnalyzerAuth/AuthAPI/Default/auth/delete-account/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AuthAPIauthdeleteaccount252C6346"
     }
   ],
   "/ResumeAnalyzerAuth/AuthAPI/Default/auth/register/OPTIONS/Resource": [
@@ -317,6 +359,150 @@
     {
       "type": "aws:cdk:logicalId",
       "data": "AuthAPIauthlogoutPOSTEDE5F1A6"
+    }
+  ],
+  "/ResumeAnalyzerAuth/AuthAPI/Default/auth/forgot-password/OPTIONS/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AuthAPIauthforgotpasswordOPTIONSBF7FAD25"
+    }
+  ],
+  "/ResumeAnalyzerAuth/AuthAPI/Default/auth/forgot-password/POST/ApiPermission.ResumeAnalyzerAuthAuthAPI1F7F1864.POST..auth.forgot-password": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AuthAPIauthforgotpasswordPOSTApiPermissionResumeAnalyzerAuthAuthAPI1F7F1864POSTauthforgotpasswordCC38E423"
+    }
+  ],
+  "/ResumeAnalyzerAuth/AuthAPI/Default/auth/forgot-password/POST/ApiPermission.Test.ResumeAnalyzerAuthAuthAPI1F7F1864.POST..auth.forgot-password": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AuthAPIauthforgotpasswordPOSTApiPermissionTestResumeAnalyzerAuthAuthAPI1F7F1864POSTauthforgotpassword112C7EFD"
+    }
+  ],
+  "/ResumeAnalyzerAuth/AuthAPI/Default/auth/forgot-password/POST/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AuthAPIauthforgotpasswordPOSTBDB31A35"
+    }
+  ],
+  "/ResumeAnalyzerAuth/AuthAPI/Default/auth/confirm-forgot-password/OPTIONS/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AuthAPIauthconfirmforgotpasswordOPTIONSCFC026EE"
+    }
+  ],
+  "/ResumeAnalyzerAuth/AuthAPI/Default/auth/confirm-forgot-password/POST/ApiPermission.ResumeAnalyzerAuthAuthAPI1F7F1864.POST..auth.confirm-forgot-password": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AuthAPIauthconfirmforgotpasswordPOSTApiPermissionResumeAnalyzerAuthAuthAPI1F7F1864POSTauthconfirmforgotpassword413DA3BC"
+    }
+  ],
+  "/ResumeAnalyzerAuth/AuthAPI/Default/auth/confirm-forgot-password/POST/ApiPermission.Test.ResumeAnalyzerAuthAuthAPI1F7F1864.POST..auth.confirm-forgot-password": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AuthAPIauthconfirmforgotpasswordPOSTApiPermissionTestResumeAnalyzerAuthAuthAPI1F7F1864POSTauthconfirmforgotpassword9B10F206"
+    }
+  ],
+  "/ResumeAnalyzerAuth/AuthAPI/Default/auth/confirm-forgot-password/POST/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AuthAPIauthconfirmforgotpasswordPOST5557AE6C"
+    }
+  ],
+  "/ResumeAnalyzerAuth/AuthAPI/Default/auth/change-password/OPTIONS/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AuthAPIauthchangepasswordOPTIONS3EE4FBF8"
+    }
+  ],
+  "/ResumeAnalyzerAuth/AuthAPI/Default/auth/change-password/POST/ApiPermission.ResumeAnalyzerAuthAuthAPI1F7F1864.POST..auth.change-password": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AuthAPIauthchangepasswordPOSTApiPermissionResumeAnalyzerAuthAuthAPI1F7F1864POSTauthchangepassword9EE72C09"
+    }
+  ],
+  "/ResumeAnalyzerAuth/AuthAPI/Default/auth/change-password/POST/ApiPermission.Test.ResumeAnalyzerAuthAuthAPI1F7F1864.POST..auth.change-password": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AuthAPIauthchangepasswordPOSTApiPermissionTestResumeAnalyzerAuthAuthAPI1F7F1864POSTauthchangepassword50D7DE34"
+    }
+  ],
+  "/ResumeAnalyzerAuth/AuthAPI/Default/auth/change-password/POST/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AuthAPIauthchangepasswordPOST8CE3F224"
+    }
+  ],
+  "/ResumeAnalyzerAuth/AuthAPI/Default/auth/update-email/OPTIONS/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AuthAPIauthupdateemailOPTIONS59AEF905"
+    }
+  ],
+  "/ResumeAnalyzerAuth/AuthAPI/Default/auth/update-email/POST/ApiPermission.ResumeAnalyzerAuthAuthAPI1F7F1864.POST..auth.update-email": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AuthAPIauthupdateemailPOSTApiPermissionResumeAnalyzerAuthAuthAPI1F7F1864POSTauthupdateemail95796011"
+    }
+  ],
+  "/ResumeAnalyzerAuth/AuthAPI/Default/auth/update-email/POST/ApiPermission.Test.ResumeAnalyzerAuthAuthAPI1F7F1864.POST..auth.update-email": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AuthAPIauthupdateemailPOSTApiPermissionTestResumeAnalyzerAuthAuthAPI1F7F1864POSTauthupdateemailB32BC57D"
+    }
+  ],
+  "/ResumeAnalyzerAuth/AuthAPI/Default/auth/update-email/POST/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AuthAPIauthupdateemailPOST44CF0D16"
+    }
+  ],
+  "/ResumeAnalyzerAuth/AuthAPI/Default/auth/verify-email-change/OPTIONS/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AuthAPIauthverifyemailchangeOPTIONS0D1A375A"
+    }
+  ],
+  "/ResumeAnalyzerAuth/AuthAPI/Default/auth/verify-email-change/POST/ApiPermission.ResumeAnalyzerAuthAuthAPI1F7F1864.POST..auth.verify-email-change": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AuthAPIauthverifyemailchangePOSTApiPermissionResumeAnalyzerAuthAuthAPI1F7F1864POSTauthverifyemailchangeA690483F"
+    }
+  ],
+  "/ResumeAnalyzerAuth/AuthAPI/Default/auth/verify-email-change/POST/ApiPermission.Test.ResumeAnalyzerAuthAuthAPI1F7F1864.POST..auth.verify-email-change": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AuthAPIauthverifyemailchangePOSTApiPermissionTestResumeAnalyzerAuthAuthAPI1F7F1864POSTauthverifyemailchange02EB8E3E"
+    }
+  ],
+  "/ResumeAnalyzerAuth/AuthAPI/Default/auth/verify-email-change/POST/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AuthAPIauthverifyemailchangePOSTF63E4593"
+    }
+  ],
+  "/ResumeAnalyzerAuth/AuthAPI/Default/auth/delete-account/OPTIONS/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AuthAPIauthdeleteaccountOPTIONS771D70B7"
+    }
+  ],
+  "/ResumeAnalyzerAuth/AuthAPI/Default/auth/delete-account/POST/ApiPermission.ResumeAnalyzerAuthAuthAPI1F7F1864.POST..auth.delete-account": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AuthAPIauthdeleteaccountPOSTApiPermissionResumeAnalyzerAuthAuthAPI1F7F1864POSTauthdeleteaccountBF996F10"
+    }
+  ],
+  "/ResumeAnalyzerAuth/AuthAPI/Default/auth/delete-account/POST/ApiPermission.Test.ResumeAnalyzerAuthAuthAPI1F7F1864.POST..auth.delete-account": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AuthAPIauthdeleteaccountPOSTApiPermissionTestResumeAnalyzerAuthAuthAPI1F7F1864POSTauthdeleteaccount03FA2083"
+    }
+  ],
+  "/ResumeAnalyzerAuth/AuthAPI/Default/auth/delete-account/POST/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AuthAPIauthdeleteaccountPOSTE4F92FF2"
     }
   ]
 }

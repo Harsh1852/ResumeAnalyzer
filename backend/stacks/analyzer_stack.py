@@ -81,7 +81,7 @@ class AnalyzerStack(Stack):
             runtime=lambda_.Runtime.PYTHON_3_12,
             handler="handler.handler",
             code=lambda_.Code.from_asset(os.path.join(LAMBDA_DIR, "analyzer_service")),
-            timeout=Duration.seconds(120),
+            timeout=Duration.seconds(240),
             memory_size=512,
             environment={
                 "ANALYSIS_RESULTS_BUCKET": self.analysis_results_bucket.bucket_name,
@@ -89,7 +89,8 @@ class AnalyzerStack(Stack):
                 "RESULTS_TOPIC_ARN": self.results_topic.topic_arn,
                 "PARSED_OUTPUT_BUCKET": parsed_output_bucket.bucket_name,
                 "BEDROCK_MODEL_ID": BEDROCK_MODEL_ID,
-                "BEDROCK_MAX_TOKENS": "4096",
+                "BEDROCK_MAX_TOKENS": "8192",
+                "TAVILY_API_KEY": os.environ.get("TAVILY_API_KEY", "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"),
             },
         )
 
@@ -105,7 +106,11 @@ class AnalyzerStack(Stack):
         self.analyzer_lambda.add_to_role_policy(iam.PolicyStatement(
             effect=iam.Effect.ALLOW,
             actions=["bedrock:InvokeModel"],
-            resources=[f"arn:aws:bedrock:{self.region}::foundation-model/{BEDROCK_MODEL_ID}"],
+            resources=[
+                f"arn:aws:bedrock:{self.region}::foundation-model/{BEDROCK_MODEL_ID}",
+                f"arn:aws:bedrock:{self.region}::foundation-model/anthropic.claude-3-5-sonnet-20241022-v2:0",
+                f"arn:aws:bedrock:{self.region}::foundation-model/anthropic.claude-3-haiku-20240307-v1:0",
+            ],
         ))
 
         CfnOutput(self, "ResultsQueueUrl", value=self.results_queue.queue_url)

@@ -17,6 +17,12 @@
       "data": "CloudFrontUrl"
     }
   ],
+  "/ResumeAnalyzerFrontend/CloudFrontDistributionId": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CloudFrontDistributionId"
+    }
+  ],
   "/ResumeAnalyzerFrontend/BootstrapVersion": [
     {
       "type": "aws:cdk:logicalId",

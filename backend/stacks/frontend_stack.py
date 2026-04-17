@@ -13,16 +13,21 @@ from aws_cdk import (
     aws_cloudfront_origins as origins,
     aws_iam as iam,
     aws_sqs as sqs,
+    aws_cognito as cognito,
 )
 from constructs import Construct
 
 LAMBDA_DIR = os.path.join(os.path.dirname(__file__), "..", "lambdas")
+
+SES_FROM_ADDRESS = "cloud.neu.6620@gmail.com"
 
 
 class FrontendStack(Stack):
     def __init__(
         self, scope: Construct, construct_id: str,
         notification_queue: sqs.Queue,
+        user_pool: cognito.UserPool,
+        results_table,
         **kwargs,
     ) -> None:
         super().__init__(scope, construct_id, **kwargs)
@@ -35,17 +40,26 @@ class FrontendStack(Stack):
             code=lambda_.Code.from_asset(os.path.join(LAMBDA_DIR, "notification_service")),
             timeout=Duration.seconds(30),
             environment={
-                "SES_FROM_ADDRESS": os.environ.get("SES_FROM_ADDRESS", "noreply@example.com"),
-                "FRONTEND_URL": "https://YOUR_CLOUDFRONT_DOMAIN",
+                "SES_FROM_ADDRESS": SES_FROM_ADDRESS,
+                "FRONTEND_URL": "https://d1zwefpl8u2wdx.cloudfront.net",
+                "COGNITO_USER_POOL_ID": user_pool.user_pool_id,
+                "RESULTS_TABLE_NAME": results_table.table_name,
             },
         )
         self.notification_lambda.add_event_source(
             lambda_events.SqsEventSource(notification_queue, batch_size=1)
         )
+        results_table.grant_read_data(self.notification_lambda)
+
         self.notification_lambda.add_to_role_policy(iam.PolicyStatement(
             effect=iam.Effect.ALLOW,
             actions=["ses:SendEmail", "ses:SendRawEmail"],
             resources=["*"],
+        ))
+        self.notification_lambda.add_to_role_policy(iam.PolicyStatement(
+            effect=iam.Effect.ALLOW,
+            actions=["cognito-idp:AdminGetUser"],
+            resources=[user_pool.user_pool_arn],
         ))
 
         # ── Frontend S3 Bucket ──
@@ -90,3 +104,4 @@ class FrontendStack(Stack):
 
         CfnOutput(self, "FrontendBucketName", value=self.frontend_bucket.bucket_name)
         CfnOutput(self, "CloudFrontUrl", value=f"https://{self.distribution.distribution_domain_name}", export_name="CloudFrontUrl")
+        CfnOutput(self, "CloudFrontDistributionId", value=self.distribution.distribution_id)

@@ -80,6 +80,34 @@ class AuthStack(Stack):
             },
         )
         self.users_table.grant_read_write_data(self.auth_lambda)
+
+        # Account deletion — access other stacks' resources without circular CDK dependency.
+        # Bucket names are resolved at Lambda runtime via CloudFormation SDK.
+        self.auth_lambda.add_to_role_policy(iam.PolicyStatement(
+            effect=iam.Effect.ALLOW,
+            actions=["cloudformation:DescribeStacks"],
+            resources=["*"],
+        ))
+        self.auth_lambda.add_to_role_policy(iam.PolicyStatement(
+            effect=iam.Effect.ALLOW,
+            actions=["s3:DeleteObject", "s3:ListBucket", "s3:ListObjectsV2"],
+            resources=["*"],
+        ))
+        self.auth_lambda.add_to_role_policy(iam.PolicyStatement(
+            effect=iam.Effect.ALLOW,
+            actions=["dynamodb:Query", "dynamodb:DeleteItem"],
+            resources=[
+                self.format_arn(service="dynamodb", resource="table/resume-analyzer-uploads"),
+                self.format_arn(service="dynamodb", resource="table/resume-analyzer-uploads/index/*"),
+                self.format_arn(service="dynamodb", resource="table/resume-analyzer-results"),
+                self.format_arn(service="dynamodb", resource="table/resume-analyzer-results/index/*"),
+                self.format_arn(service="dynamodb", resource="table/resume-analyzer-parse-jobs"),
+                self.format_arn(service="dynamodb", resource="table/resume-analyzer-parse-jobs/index/*"),
+                self.format_arn(service="dynamodb", resource="table/resume-analyzer-analysis-jobs"),
+                self.format_arn(service="dynamodb", resource="table/resume-analyzer-analysis-jobs/index/*"),
+            ],
+        ))
+
         self.auth_lambda.add_to_role_policy(iam.PolicyStatement(
             effect=iam.Effect.ALLOW,
             actions=[
@@ -89,6 +117,12 @@ class AuthStack(Stack):
                 "cognito-idp:ResendConfirmationCode",
                 "cognito-idp:GlobalSignOut",
                 "cognito-idp:GetUser",
+                "cognito-idp:ForgotPassword",
+                "cognito-idp:ConfirmForgotPassword",
+                "cognito-idp:ChangePassword",
+                "cognito-idp:UpdateUserAttributes",
+                "cognito-idp:VerifyUserAttribute",
+                "cognito-idp:DeleteUser",
             ],
             resources=[self.user_pool.user_pool_arn],
         ))
@@ -106,7 +140,11 @@ class AuthStack(Stack):
         )
         auth_resource = self.auth_api.root.add_resource("auth")
         auth_integration = apigw.LambdaIntegration(self.auth_lambda)
-        for route in ["register", "verify", "resend-otp", "login", "refresh", "logout"]:
+        for route in [
+            "register", "verify", "resend-otp", "login", "refresh", "logout",
+            "forgot-password", "confirm-forgot-password",
+            "change-password", "update-email", "verify-email-change", "delete-account",
+        ]:
             auth_resource.add_resource(route).add_method("POST", auth_integration)
 
         CfnOutput(self, "AuthApiUrl", value=self.auth_api.url, export_name="AuthApiUrl")

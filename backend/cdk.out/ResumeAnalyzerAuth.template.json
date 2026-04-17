@@ -224,12 +224,133 @@
       },
       {
        "Action": [
+        "cloudformation:DescribeStacks",
+        "s3:DeleteObject",
+        "s3:ListBucket",
+        "s3:ListObjectsV2"
+       ],
+       "Effect": "Allow",
+       "Resource": "*"
+      },
+      {
+       "Action": [
+        "dynamodb:DeleteItem",
+        "dynamodb:Query"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::Join": [
+          "",
+          [
+           "arn:",
+           {
+            "Ref": "AWS::Partition"
+           },
+           ":dynamodb:us-east-1:307711586938:table/resume-analyzer-analysis-jobs"
+          ]
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           "arn:",
+           {
+            "Ref": "AWS::Partition"
+           },
+           ":dynamodb:us-east-1:307711586938:table/resume-analyzer-analysis-jobs/index/*"
+          ]
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           "arn:",
+           {
+            "Ref": "AWS::Partition"
+           },
+           ":dynamodb:us-east-1:307711586938:table/resume-analyzer-parse-jobs"
+          ]
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           "arn:",
+           {
+            "Ref": "AWS::Partition"
+           },
+           ":dynamodb:us-east-1:307711586938:table/resume-analyzer-parse-jobs/index/*"
+          ]
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           "arn:",
+           {
+            "Ref": "AWS::Partition"
+           },
+           ":dynamodb:us-east-1:307711586938:table/resume-analyzer-results"
+          ]
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           "arn:",
+           {
+            "Ref": "AWS::Partition"
+           },
+           ":dynamodb:us-east-1:307711586938:table/resume-analyzer-results/index/*"
+          ]
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           "arn:",
+           {
+            "Ref": "AWS::Partition"
+           },
+           ":dynamodb:us-east-1:307711586938:table/resume-analyzer-uploads"
+          ]
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           "arn:",
+           {
+            "Ref": "AWS::Partition"
+           },
+           ":dynamodb:us-east-1:307711586938:table/resume-analyzer-uploads/index/*"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": [
+        "cognito-idp:ChangePassword",
+        "cognito-idp:ConfirmForgotPassword",
         "cognito-idp:ConfirmSignUp",
+        "cognito-idp:DeleteUser",
+        "cognito-idp:ForgotPassword",
         "cognito-idp:GetUser",
         "cognito-idp:GlobalSignOut",
         "cognito-idp:InitiateAuth",
         "cognito-idp:ResendConfirmationCode",
-        "cognito-idp:SignUp"
+        "cognito-idp:SignUp",
+        "cognito-idp:UpdateUserAttributes",
+        "cognito-idp:VerifyUserAttribute"
        ],
        "Effect": "Allow",
        "Resource": {
@@ -258,7 +379,7 @@
    "Properties": {
     "Code": {
      "S3Bucket": "cdk-hnb659fds-assets-307711586938-us-east-1",
-     "S3Key": "9399ab530c7f8814815d4b6202cb06617d048d3507249f9b156f57d521419e30.zip"
+     "S3Key": "52c595a4c036bb3d4ba2a0cd1520b214e54013efd98fa579464da9635e24b87b.zip"
     },
     "Environment": {
      "Variables": {
@@ -289,7 +410,7 @@
    ],
    "Metadata": {
     "aws:cdk:path": "ResumeAnalyzerAuth/AuthLambda/Resource",
-    "aws:asset:path": "asset.9399ab530c7f8814815d4b6202cb06617d048d3507249f9b156f57d521419e30",
+    "aws:asset:path": "asset.52c595a4c036bb3d4ba2a0cd1520b214e54013efd98fa579464da9635e24b87b",
     "aws:asset:is-bundled": false,
     "aws:asset:property": "Code"
    }
@@ -358,7 +479,7 @@
     "aws:cdk:path": "ResumeAnalyzerAuth/AuthAPI/Account"
    }
   },
-  "AuthAPIDeployment3117E1E9157450fd39fbe6622e00b1db68f1e0ea": {
+  "AuthAPIDeployment3117E1E9fa9d08e0c3d8b25119734e7bb9fb1afc": {
    "Type": "AWS::ApiGateway::Deployment",
    "Properties": {
     "Description": "Automatically created by the RestApi construct",
@@ -367,6 +488,18 @@
     }
    },
    "DependsOn": [
+    "AuthAPIauthchangepasswordOPTIONS3EE4FBF8",
+    "AuthAPIauthchangepasswordPOST8CE3F224",
+    "AuthAPIauthchangepasswordD8F84461",
+    "AuthAPIauthconfirmforgotpasswordOPTIONSCFC026EE",
+    "AuthAPIauthconfirmforgotpasswordPOST5557AE6C",
+    "AuthAPIauthconfirmforgotpassword60CE1D9E",
+    "AuthAPIauthdeleteaccountOPTIONS771D70B7",
+    "AuthAPIauthdeleteaccountPOSTE4F92FF2",
+    "AuthAPIauthdeleteaccount252C6346",
+    "AuthAPIauthforgotpasswordOPTIONSBF7FAD25",
+    "AuthAPIauthforgotpasswordPOSTBDB31A35",
+    "AuthAPIauthforgotpasswordB99B4593",
     "AuthAPIauthloginOPTIONS6D79DB20",
     "AuthAPIauthloginPOSTD7F30675",
     "AuthAPIauthloginB6A67AE7",
@@ -384,6 +517,12 @@
     "AuthAPIauthresendotpPOST34A51E82",
     "AuthAPIauthresendotpF3A726A4",
     "AuthAPIauth787FE475",
+    "AuthAPIauthupdateemailOPTIONS59AEF905",
+    "AuthAPIauthupdateemailPOST44CF0D16",
+    "AuthAPIauthupdateemailAAB66B36",
+    "AuthAPIauthverifyemailchangeOPTIONS0D1A375A",
+    "AuthAPIauthverifyemailchangePOSTF63E4593",
+    "AuthAPIauthverifyemailchange2673C020",
     "AuthAPIauthverifyOPTIONSC5AFBD0D",
     "AuthAPIauthverifyPOSTE3DE5E56",
     "AuthAPIauthverify7101CB73",
@@ -398,7 +537,7 @@
    "Type": "AWS::ApiGateway::Stage",
    "Properties": {
     "DeploymentId": {
-     "Ref": "AuthAPIDeployment3117E1E9157450fd39fbe6622e00b1db68f1e0ea"
+     "Ref": "AuthAPIDeployment3117E1E9fa9d08e0c3d8b25119734e7bb9fb1afc"
     },
     "RestApiId": {
      "Ref": "AuthAPI72934D14"
@@ -1509,6 +1648,996 @@
     "aws:cdk:path": "ResumeAnalyzerAuth/AuthAPI/Default/auth/logout/POST/Resource"
    }
   },
+  "AuthAPIauthforgotpasswordB99B4593": {
+   "Type": "AWS::ApiGateway::Resource",
+   "Properties": {
+    "ParentId": {
+     "Ref": "AuthAPIauth787FE475"
+    },
+    "PathPart": "forgot-password",
+    "RestApiId": {
+     "Ref": "AuthAPI72934D14"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerAuth/AuthAPI/Default/auth/forgot-password/Resource"
+   }
+  },
+  "AuthAPIauthforgotpasswordOPTIONSBF7FAD25": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "ApiKeyRequired": false,
+    "AuthorizationType": "NONE",
+    "HttpMethod": "OPTIONS",
+    "Integration": {
+     "IntegrationResponses": [
+      {
+       "ResponseParameters": {
+        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,Authorization'",
+        "method.response.header.Access-Control-Allow-Origin": "'*'",
+        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,PUT,POST,DELETE,PATCH,HEAD'"
+       },
+       "StatusCode": "204"
+      }
+     ],
+     "RequestTemplates": {
+      "application/json": "{ statusCode: 200 }"
+     },
+     "Type": "MOCK"
+    },
+    "MethodResponses": [
+     {
+      "ResponseParameters": {
+       "method.response.header.Access-Control-Allow-Headers": true,
+       "method.response.header.Access-Control-Allow-Origin": true,
+       "method.response.header.Access-Control-Allow-Methods": true
+      },
+      "StatusCode": "204"
+     }
+    ],
+    "ResourceId": {
+     "Ref": "AuthAPIauthforgotpasswordB99B4593"
+    },
+    "RestApiId": {
+     "Ref": "AuthAPI72934D14"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerAuth/AuthAPI/Default/auth/forgot-password/OPTIONS/Resource"
+   }
+  },
+  "AuthAPIauthforgotpasswordPOSTApiPermissionResumeAnalyzerAuthAuthAPI1F7F1864POSTauthforgotpasswordCC38E423": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "AuthLambda6BB8C88C",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:us-east-1:307711586938:",
+       {
+        "Ref": "AuthAPI72934D14"
+       },
+       "/",
+       {
+        "Ref": "AuthAPIDeploymentStageprod376488D9"
+       },
+       "/POST/auth/forgot-password"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerAuth/AuthAPI/Default/auth/forgot-password/POST/ApiPermission.ResumeAnalyzerAuthAuthAPI1F7F1864.POST..auth.forgot-password"
+   }
+  },
+  "AuthAPIauthforgotpasswordPOSTApiPermissionTestResumeAnalyzerAuthAuthAPI1F7F1864POSTauthforgotpassword112C7EFD": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "AuthLambda6BB8C88C",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:us-east-1:307711586938:",
+       {
+        "Ref": "AuthAPI72934D14"
+       },
+       "/test-invoke-stage/POST/auth/forgot-password"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerAuth/AuthAPI/Default/auth/forgot-password/POST/ApiPermission.Test.ResumeAnalyzerAuthAuthAPI1F7F1864.POST..auth.forgot-password"
+   }
+  },
+  "AuthAPIauthforgotpasswordPOSTBDB31A35": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "NONE",
+    "HttpMethod": "POST",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":apigateway:us-east-1:lambda:path/2015-03-31/functions/",
+        {
+         "Fn::GetAtt": [
+          "AuthLambda6BB8C88C",
+          "Arn"
+         ]
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    },
+    "ResourceId": {
+     "Ref": "AuthAPIauthforgotpasswordB99B4593"
+    },
+    "RestApiId": {
+     "Ref": "AuthAPI72934D14"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerAuth/AuthAPI/Default/auth/forgot-password/POST/Resource"
+   }
+  },
+  "AuthAPIauthconfirmforgotpassword60CE1D9E": {
+   "Type": "AWS::ApiGateway::Resource",
+   "Properties": {
+    "ParentId": {
+     "Ref": "AuthAPIauth787FE475"
+    },
+    "PathPart": "confirm-forgot-password",
+    "RestApiId": {
+     "Ref": "AuthAPI72934D14"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerAuth/AuthAPI/Default/auth/confirm-forgot-password/Resource"
+   }
+  },
+  "AuthAPIauthconfirmforgotpasswordOPTIONSCFC026EE": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "ApiKeyRequired": false,
+    "AuthorizationType": "NONE",
+    "HttpMethod": "OPTIONS",
+    "Integration": {
+     "IntegrationResponses": [
+      {
+       "ResponseParameters": {
+        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,Authorization'",
+        "method.response.header.Access-Control-Allow-Origin": "'*'",
+        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,PUT,POST,DELETE,PATCH,HEAD'"
+       },
+       "StatusCode": "204"
+      }
+     ],
+     "RequestTemplates": {
+      "application/json": "{ statusCode: 200 }"
+     },
+     "Type": "MOCK"
+    },
+    "MethodResponses": [
+     {
+      "ResponseParameters": {
+       "method.response.header.Access-Control-Allow-Headers": true,
+       "method.response.header.Access-Control-Allow-Origin": true,
+       "method.response.header.Access-Control-Allow-Methods": true
+      },
+      "StatusCode": "204"
+     }
+    ],
+    "ResourceId": {
+     "Ref": "AuthAPIauthconfirmforgotpassword60CE1D9E"
+    },
+    "RestApiId": {
+     "Ref": "AuthAPI72934D14"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerAuth/AuthAPI/Default/auth/confirm-forgot-password/OPTIONS/Resource"
+   }
+  },
+  "AuthAPIauthconfirmforgotpasswordPOSTApiPermissionResumeAnalyzerAuthAuthAPI1F7F1864POSTauthconfirmforgotpassword413DA3BC": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "AuthLambda6BB8C88C",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:us-east-1:307711586938:",
+       {
+        "Ref": "AuthAPI72934D14"
+       },
+       "/",
+       {
+        "Ref": "AuthAPIDeploymentStageprod376488D9"
+       },
+       "/POST/auth/confirm-forgot-password"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerAuth/AuthAPI/Default/auth/confirm-forgot-password/POST/ApiPermission.ResumeAnalyzerAuthAuthAPI1F7F1864.POST..auth.confirm-forgot-password"
+   }
+  },
+  "AuthAPIauthconfirmforgotpasswordPOSTApiPermissionTestResumeAnalyzerAuthAuthAPI1F7F1864POSTauthconfirmforgotpassword9B10F206": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "AuthLambda6BB8C88C",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:us-east-1:307711586938:",
+       {
+        "Ref": "AuthAPI72934D14"
+       },
+       "/test-invoke-stage/POST/auth/confirm-forgot-password"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerAuth/AuthAPI/Default/auth/confirm-forgot-password/POST/ApiPermission.Test.ResumeAnalyzerAuthAuthAPI1F7F1864.POST..auth.confirm-forgot-password"
+   }
+  },
+  "AuthAPIauthconfirmforgotpasswordPOST5557AE6C": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "NONE",
+    "HttpMethod": "POST",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":apigateway:us-east-1:lambda:path/2015-03-31/functions/",
+        {
+         "Fn::GetAtt": [
+          "AuthLambda6BB8C88C",
+          "Arn"
+         ]
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    },
+    "ResourceId": {
+     "Ref": "AuthAPIauthconfirmforgotpassword60CE1D9E"
+    },
+    "RestApiId": {
+     "Ref": "AuthAPI72934D14"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerAuth/AuthAPI/Default/auth/confirm-forgot-password/POST/Resource"
+   }
+  },
+  "AuthAPIauthchangepasswordD8F84461": {
+   "Type": "AWS::ApiGateway::Resource",
+   "Properties": {
+    "ParentId": {
+     "Ref": "AuthAPIauth787FE475"
+    },
+    "PathPart": "change-password",
+    "RestApiId": {
+     "Ref": "AuthAPI72934D14"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerAuth/AuthAPI/Default/auth/change-password/Resource"
+   }
+  },
+  "AuthAPIauthchangepasswordOPTIONS3EE4FBF8": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "ApiKeyRequired": false,
+    "AuthorizationType": "NONE",
+    "HttpMethod": "OPTIONS",
+    "Integration": {
+     "IntegrationResponses": [
+      {
+       "ResponseParameters": {
+        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,Authorization'",
+        "method.response.header.Access-Control-Allow-Origin": "'*'",
+        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,PUT,POST,DELETE,PATCH,HEAD'"
+       },
+       "StatusCode": "204"
+      }
+     ],
+     "RequestTemplates": {
+      "application/json": "{ statusCode: 200 }"
+     },
+     "Type": "MOCK"
+    },
+    "MethodResponses": [
+     {
+      "ResponseParameters": {
+       "method.response.header.Access-Control-Allow-Headers": true,
+       "method.response.header.Access-Control-Allow-Origin": true,
+       "method.response.header.Access-Control-Allow-Methods": true
+      },
+      "StatusCode": "204"
+     }
+    ],
+    "ResourceId": {
+     "Ref": "AuthAPIauthchangepasswordD8F84461"
+    },
+    "RestApiId": {
+     "Ref": "AuthAPI72934D14"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerAuth/AuthAPI/Default/auth/change-password/OPTIONS/Resource"
+   }
+  },
+  "AuthAPIauthchangepasswordPOSTApiPermissionResumeAnalyzerAuthAuthAPI1F7F1864POSTauthchangepassword9EE72C09": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "AuthLambda6BB8C88C",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:us-east-1:307711586938:",
+       {
+        "Ref": "AuthAPI72934D14"
+       },
+       "/",
+       {
+        "Ref": "AuthAPIDeploymentStageprod376488D9"
+       },
+       "/POST/auth/change-password"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerAuth/AuthAPI/Default/auth/change-password/POST/ApiPermission.ResumeAnalyzerAuthAuthAPI1F7F1864.POST..auth.change-password"
+   }
+  },
+  "AuthAPIauthchangepasswordPOSTApiPermissionTestResumeAnalyzerAuthAuthAPI1F7F1864POSTauthchangepassword50D7DE34": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "AuthLambda6BB8C88C",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:us-east-1:307711586938:",
+       {
+        "Ref": "AuthAPI72934D14"
+       },
+       "/test-invoke-stage/POST/auth/change-password"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerAuth/AuthAPI/Default/auth/change-password/POST/ApiPermission.Test.ResumeAnalyzerAuthAuthAPI1F7F1864.POST..auth.change-password"
+   }
+  },
+  "AuthAPIauthchangepasswordPOST8CE3F224": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "NONE",
+    "HttpMethod": "POST",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":apigateway:us-east-1:lambda:path/2015-03-31/functions/",
+        {
+         "Fn::GetAtt": [
+          "AuthLambda6BB8C88C",
+          "Arn"
+         ]
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    },
+    "ResourceId": {
+     "Ref": "AuthAPIauthchangepasswordD8F84461"
+    },
+    "RestApiId": {
+     "Ref": "AuthAPI72934D14"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerAuth/AuthAPI/Default/auth/change-password/POST/Resource"
+   }
+  },
+  "AuthAPIauthupdateemailAAB66B36": {
+   "Type": "AWS::ApiGateway::Resource",
+   "Properties": {
+    "ParentId": {
+     "Ref": "AuthAPIauth787FE475"
+    },
+    "PathPart": "update-email",
+    "RestApiId": {
+     "Ref": "AuthAPI72934D14"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerAuth/AuthAPI/Default/auth/update-email/Resource"
+   }
+  },
+  "AuthAPIauthupdateemailOPTIONS59AEF905": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "ApiKeyRequired": false,
+    "AuthorizationType": "NONE",
+    "HttpMethod": "OPTIONS",
+    "Integration": {
+     "IntegrationResponses": [
+      {
+       "ResponseParameters": {
+        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,Authorization'",
+        "method.response.header.Access-Control-Allow-Origin": "'*'",
+        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,PUT,POST,DELETE,PATCH,HEAD'"
+       },
+       "StatusCode": "204"
+      }
+     ],
+     "RequestTemplates": {
+      "application/json": "{ statusCode: 200 }"
+     },
+     "Type": "MOCK"
+    },
+    "MethodResponses": [
+     {
+      "ResponseParameters": {
+       "method.response.header.Access-Control-Allow-Headers": true,
+       "method.response.header.Access-Control-Allow-Origin": true,
+       "method.response.header.Access-Control-Allow-Methods": true
+      },
+      "StatusCode": "204"
+     }
+    ],
+    "ResourceId": {
+     "Ref": "AuthAPIauthupdateemailAAB66B36"
+    },
+    "RestApiId": {
+     "Ref": "AuthAPI72934D14"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerAuth/AuthAPI/Default/auth/update-email/OPTIONS/Resource"
+   }
+  },
+  "AuthAPIauthupdateemailPOSTApiPermissionResumeAnalyzerAuthAuthAPI1F7F1864POSTauthupdateemail95796011": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "AuthLambda6BB8C88C",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:us-east-1:307711586938:",
+       {
+        "Ref": "AuthAPI72934D14"
+       },
+       "/",
+       {
+        "Ref": "AuthAPIDeploymentStageprod376488D9"
+       },
+       "/POST/auth/update-email"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerAuth/AuthAPI/Default/auth/update-email/POST/ApiPermission.ResumeAnalyzerAuthAuthAPI1F7F1864.POST..auth.update-email"
+   }
+  },
+  "AuthAPIauthupdateemailPOSTApiPermissionTestResumeAnalyzerAuthAuthAPI1F7F1864POSTauthupdateemailB32BC57D": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "AuthLambda6BB8C88C",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:us-east-1:307711586938:",
+       {
+        "Ref": "AuthAPI72934D14"
+       },
+       "/test-invoke-stage/POST/auth/update-email"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerAuth/AuthAPI/Default/auth/update-email/POST/ApiPermission.Test.ResumeAnalyzerAuthAuthAPI1F7F1864.POST..auth.update-email"
+   }
+  },
+  "AuthAPIauthupdateemailPOST44CF0D16": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "NONE",
+    "HttpMethod": "POST",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":apigateway:us-east-1:lambda:path/2015-03-31/functions/",
+        {
+         "Fn::GetAtt": [
+          "AuthLambda6BB8C88C",
+          "Arn"
+         ]
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    },
+    "ResourceId": {
+     "Ref": "AuthAPIauthupdateemailAAB66B36"
+    },
+    "RestApiId": {
+     "Ref": "AuthAPI72934D14"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerAuth/AuthAPI/Default/auth/update-email/POST/Resource"
+   }
+  },
+  "AuthAPIauthverifyemailchange2673C020": {
+   "Type": "AWS::ApiGateway::Resource",
+   "Properties": {
+    "ParentId": {
+     "Ref": "AuthAPIauth787FE475"
+    },
+    "PathPart": "verify-email-change",
+    "RestApiId": {
+     "Ref": "AuthAPI72934D14"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerAuth/AuthAPI/Default/auth/verify-email-change/Resource"
+   }
+  },
+  "AuthAPIauthverifyemailchangeOPTIONS0D1A375A": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "ApiKeyRequired": false,
+    "AuthorizationType": "NONE",
+    "HttpMethod": "OPTIONS",
+    "Integration": {
+     "IntegrationResponses": [
+      {
+       "ResponseParameters": {
+        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,Authorization'",
+        "method.response.header.Access-Control-Allow-Origin": "'*'",
+        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,PUT,POST,DELETE,PATCH,HEAD'"
+       },
+       "StatusCode": "204"
+      }
+     ],
+     "RequestTemplates": {
+      "application/json": "{ statusCode: 200 }"
+     },
+     "Type": "MOCK"
+    },
+    "MethodResponses": [
+     {
+      "ResponseParameters": {
+       "method.response.header.Access-Control-Allow-Headers": true,
+       "method.response.header.Access-Control-Allow-Origin": true,
+       "method.response.header.Access-Control-Allow-Methods": true
+      },
+      "StatusCode": "204"
+     }
+    ],
+    "ResourceId": {
+     "Ref": "AuthAPIauthverifyemailchange2673C020"
+    },
+    "RestApiId": {
+     "Ref": "AuthAPI72934D14"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerAuth/AuthAPI/Default/auth/verify-email-change/OPTIONS/Resource"
+   }
+  },
+  "AuthAPIauthverifyemailchangePOSTApiPermissionResumeAnalyzerAuthAuthAPI1F7F1864POSTauthverifyemailchangeA690483F": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "AuthLambda6BB8C88C",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:us-east-1:307711586938:",
+       {
+        "Ref": "AuthAPI72934D14"
+       },
+       "/",
+       {
+        "Ref": "AuthAPIDeploymentStageprod376488D9"
+       },
+       "/POST/auth/verify-email-change"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerAuth/AuthAPI/Default/auth/verify-email-change/POST/ApiPermission.ResumeAnalyzerAuthAuthAPI1F7F1864.POST..auth.verify-email-change"
+   }
+  },
+  "AuthAPIauthverifyemailchangePOSTApiPermissionTestResumeAnalyzerAuthAuthAPI1F7F1864POSTauthverifyemailchange02EB8E3E": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "AuthLambda6BB8C88C",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:us-east-1:307711586938:",
+       {
+        "Ref": "AuthAPI72934D14"
+       },
+       "/test-invoke-stage/POST/auth/verify-email-change"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerAuth/AuthAPI/Default/auth/verify-email-change/POST/ApiPermission.Test.ResumeAnalyzerAuthAuthAPI1F7F1864.POST..auth.verify-email-change"
+   }
+  },
+  "AuthAPIauthverifyemailchangePOSTF63E4593": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "NONE",
+    "HttpMethod": "POST",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":apigateway:us-east-1:lambda:path/2015-03-31/functions/",
+        {
+         "Fn::GetAtt": [
+          "AuthLambda6BB8C88C",
+          "Arn"
+         ]
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    },
+    "ResourceId": {
+     "Ref": "AuthAPIauthverifyemailchange2673C020"
+    },
+    "RestApiId": {
+     "Ref": "AuthAPI72934D14"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerAuth/AuthAPI/Default/auth/verify-email-change/POST/Resource"
+   }
+  },
+  "AuthAPIauthdeleteaccount252C6346": {
+   "Type": "AWS::ApiGateway::Resource",
+   "Properties": {
+    "ParentId": {
+     "Ref": "AuthAPIauth787FE475"
+    },
+    "PathPart": "delete-account",
+    "RestApiId": {
+     "Ref": "AuthAPI72934D14"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerAuth/AuthAPI/Default/auth/delete-account/Resource"
+   }
+  },
+  "AuthAPIauthdeleteaccountOPTIONS771D70B7": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "ApiKeyRequired": false,
+    "AuthorizationType": "NONE",
+    "HttpMethod": "OPTIONS",
+    "Integration": {
+     "IntegrationResponses": [
+      {
+       "ResponseParameters": {
+        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,Authorization'",
+        "method.response.header.Access-Control-Allow-Origin": "'*'",
+        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,PUT,POST,DELETE,PATCH,HEAD'"
+       },
+       "StatusCode": "204"
+      }
+     ],
+     "RequestTemplates": {
+      "application/json": "{ statusCode: 200 }"
+     },
+     "Type": "MOCK"
+    },
+    "MethodResponses": [
+     {
+      "ResponseParameters": {
+       "method.response.header.Access-Control-Allow-Headers": true,
+       "method.response.header.Access-Control-Allow-Origin": true,
+       "method.response.header.Access-Control-Allow-Methods": true
+      },
+      "StatusCode": "204"
+     }
+    ],
+    "ResourceId": {
+     "Ref": "AuthAPIauthdeleteaccount252C6346"
+    },
+    "RestApiId": {
+     "Ref": "AuthAPI72934D14"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerAuth/AuthAPI/Default/auth/delete-account/OPTIONS/Resource"
+   }
+  },
+  "AuthAPIauthdeleteaccountPOSTApiPermissionResumeAnalyzerAuthAuthAPI1F7F1864POSTauthdeleteaccountBF996F10": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "AuthLambda6BB8C88C",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:us-east-1:307711586938:",
+       {
+        "Ref": "AuthAPI72934D14"
+       },
+       "/",
+       {
+        "Ref": "AuthAPIDeploymentStageprod376488D9"
+       },
+       "/POST/auth/delete-account"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerAuth/AuthAPI/Default/auth/delete-account/POST/ApiPermission.ResumeAnalyzerAuthAuthAPI1F7F1864.POST..auth.delete-account"
+   }
+  },
+  "AuthAPIauthdeleteaccountPOSTApiPermissionTestResumeAnalyzerAuthAuthAPI1F7F1864POSTauthdeleteaccount03FA2083": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "AuthLambda6BB8C88C",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:us-east-1:307711586938:",
+       {
+        "Ref": "AuthAPI72934D14"
+       },
+       "/test-invoke-stage/POST/auth/delete-account"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerAuth/AuthAPI/Default/auth/delete-account/POST/ApiPermission.Test.ResumeAnalyzerAuthAuthAPI1F7F1864.POST..auth.delete-account"
+   }
+  },
+  "AuthAPIauthdeleteaccountPOSTE4F92FF2": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "NONE",
+    "HttpMethod": "POST",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":apigateway:us-east-1:lambda:path/2015-03-31/functions/",
+        {
+         "Fn::GetAtt": [
+          "AuthLambda6BB8C88C",
+          "Arn"
+         ]
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    },
+    "ResourceId": {
+     "Ref": "AuthAPIauthdeleteaccount252C6346"
+    },
+    "RestApiId": {
+     "Ref": "AuthAPI72934D14"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ResumeAnalyzerAuth/AuthAPI/Default/auth/delete-account/POST/Resource"
+   }
+  },
   "CDKMetadata": {
    "Type": "AWS::CDK::Metadata",
    "Properties": {
@@ -1592,6 +2721,14 @@
    },
    "Export": {
     "Name": "ResumeAnalyzerAuth:ExportsOutputFnGetAttUserPool6BA7E5F2Arn686ACC00"
+   }
+  },
+  "ExportsOutputRefUserPool6BA7E5F296FD7236": {
+   "Value": {
+    "Ref": "UserPool6BA7E5F2"
+   },
+   "Export": {
+    "Name": "ResumeAnalyzerAuth:ExportsOutputRefUserPool6BA7E5F296FD7236"
    }
   }
  },

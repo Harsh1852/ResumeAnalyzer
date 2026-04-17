@@ -20,10 +20,12 @@ export default function Login() {
   const [form, setForm] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
   const [verified, setVerified] = useState(false);
+  const [successMsg, setSuccessMsg] = useState("");
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (location.state?.verified) setVerified(true);
+    if (location.state?.message) setSuccessMsg(location.state.message);
     if (localStorage.getItem("idToken")) navigate("/dashboard", { replace: true });
   }, []);
 
@@ -54,12 +56,16 @@ export default function Login() {
       <div style={s.card}>
         <h1 style={s.title}>Sign In</h1>
         {verified && <p style={s.ok}>Email verified! You can now sign in.</p>}
+        {successMsg && <p style={s.ok}>{successMsg}</p>}
         {error && <p style={s.err}>{error}</p>}
         <form onSubmit={handleSubmit}>
           <label style={s.label}>Email</label>
           <input style={s.input} type="email" placeholder="jane@example.com" required value={form.email}
             onChange={(e) => setForm({ ...form, email: e.target.value })} />
-          <label style={s.label}>Password</label>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 6 }}>
+            <label style={{ ...s.label, marginBottom: 0 }}>Password</label>
+            <Link to="/forgot-password" style={{ fontSize: 13, color: "#2563eb" }}>Forgot password?</Link>
+          </div>
           <input style={s.input} type="password" placeholder="••••••••" required value={form.password}
             onChange={(e) => setForm({ ...form, password: e.target.value })} />
           <button style={s.btn} type="submit" disabled={loading}>

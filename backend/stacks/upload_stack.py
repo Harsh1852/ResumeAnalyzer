@@ -6,6 +6,7 @@ import os
 from aws_cdk import (
     Stack, RemovalPolicy, Duration, CfnOutput,
     aws_dynamodb as dynamodb,
+    aws_iam as iam,
     aws_lambda as lambda_,
     aws_apigateway as apigw,
     aws_s3 as s3,
@@ -89,6 +90,28 @@ class UploadStack(Stack):
         self.resume_bucket.grant_read_write(self.upload_lambda)
         self.parse_queue.grant_send_messages(self.upload_lambda)
 
+        # Full pipeline cleanup on upload delete — bucket names resolved at runtime via CloudFormation
+        self.upload_lambda.add_to_role_policy(iam.PolicyStatement(
+            effect=iam.Effect.ALLOW,
+            actions=["cloudformation:DescribeStacks"],
+            resources=["*"],
+        ))
+        self.upload_lambda.add_to_role_policy(iam.PolicyStatement(
+            effect=iam.Effect.ALLOW,
+            actions=["s3:DeleteObject", "s3:ListObjectsV2", "s3:DeleteObjects"],
+            resources=["*"],
+        ))
+        self.upload_lambda.add_to_role_policy(iam.PolicyStatement(
+            effect=iam.Effect.ALLOW,
+            actions=["dynamodb:Query", "dynamodb:DeleteItem"],
+            resources=[
+                self.format_arn(service="dynamodb", resource="table/resume-analyzer-parse-jobs"),
+                self.format_arn(service="dynamodb", resource="table/resume-analyzer-parse-jobs/index/*"),
+                self.format_arn(service="dynamodb", resource="table/resume-analyzer-analysis-jobs"),
+                self.format_arn(service="dynamodb", resource="table/resume-analyzer-analysis-jobs/index/*"),
+            ],
+        ))
+
         # ── App API Gateway (shared by Results stack) ──
         self.app_api = apigw.RestApi(
             self, "AppAPI",
@@ -121,7 +144,16 @@ class UploadStack(Stack):
             "POST", upload_integration,
             authorizer=self.cognito_authorizer,
             authorization_type=apigw.AuthorizationType.COGNITO)
-        uploads.add_resource("{uploadId}").add_method(
+        upload_id_resource = uploads.add_resource("{uploadId}")
+        upload_id_resource.add_method(
+            "GET", upload_integration,
+            authorizer=self.cognito_authorizer,
+            authorization_type=apigw.AuthorizationType.COGNITO)
+        upload_id_resource.add_method(
+            "DELETE", upload_integration,
+            authorizer=self.cognito_authorizer,
+            authorization_type=apigw.AuthorizationType.COGNITO)
+        upload_id_resource.add_resource("view-url").add_method(
             "GET", upload_integration,
             authorizer=self.cognito_authorizer,
             authorization_type=apigw.AuthorizationType.COGNITO)

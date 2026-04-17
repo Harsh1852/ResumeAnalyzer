@@ -43,6 +43,8 @@ results_stack = ResultsStack(
 frontend_stack = FrontendStack(
     app, "ResumeAnalyzerFrontend",
     notification_queue=analyzer_stack.notification_queue,
+    user_pool=auth_stack.user_pool,
+    results_table=results_stack.results_table,
     env=env,
 )
 

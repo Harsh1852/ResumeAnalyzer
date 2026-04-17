@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { getPresignedUrl, uploadToS3, confirmUpload, listUploads, getUpload } from "../../services/api";
+import { getPresignedUrl, uploadToS3, confirmUpload, listUploads, getUpload, deleteUpload, deleteResult } from "../../services/api";
 
 const STATUS_LABELS = {
   PENDING: "Pending",
@@ -34,16 +34,48 @@ const s = {
   err: { color: "#dc2626", fontSize: 13, marginTop: 8 },
 };
 
-function UploadRow({ upload, onViewReport }) {
+function timeAgo(iso) {
+  if (!iso) return "";
+  const diff = Date.now() - new Date(iso).getTime();
+  const mins = Math.floor(diff / 60000);
+  if (mins < 1) return "just now";
+  if (mins < 60) return `${mins}m ago`;
+  const hrs = Math.floor(mins / 60);
+  if (hrs < 24) return `${hrs}h ago`;
+  const days = Math.floor(hrs / 24);
+  return days === 1 ? "yesterday" : `${days}d ago`;
+}
+
+function UploadRow({ upload, onViewReport, onDelete }) {
+  const [deleting, setDeleting] = useState(false);
   const done = upload.status === "COMPLETE";
   const failed = upload.status === "FAILED";
+
+  async function handleDelete() {
+    if (!window.confirm(`Delete "${upload.fileName}" and its report? This cannot be undone.`)) return;
+    setDeleting(true);
+    try {
+      await deleteUpload(upload.uploadId);
+      if (upload.resultId) await deleteResult(upload.resultId).catch(() => {});
+      onDelete(upload.uploadId);
+    } catch {
+      alert("Delete failed. Please try again.");
+      setDeleting(false);
+    }
+  }
+
   return (
     <div style={s.row}>
       <div>
         <div style={{ fontWeight: 500 }}>{upload.fileName}</div>
-        <div style={s.badge(upload.status)}>{STATUS_LABELS[upload.status] || upload.status}</div>
+        <div style={{ display: "flex", alignItems: "center", gap: 10, marginTop: 3 }}>
+          <span style={s.badge(upload.status)}>{STATUS_LABELS[upload.status] || upload.status}</span>
+          {upload.createdAt && (
+            <span style={{ fontSize: 12, color: "#9ca3af" }}>{timeAgo(upload.createdAt)}</span>
+          )}
+        </div>
       </div>
-      <div style={{ display: "flex", gap: 8 }}>
+      <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
         {done && (
           <button style={s.btn} onClick={() => onViewReport(upload.resultId)}>View Report</button>
         )}
@@ -51,6 +83,13 @@ function UploadRow({ upload, onViewReport }) {
         {!done && !failed && (
           <span style={{ fontSize: 13, color: "#6b7280" }}>Processing…</span>
         )}
+        <button
+          onClick={handleDelete}
+          disabled={deleting}
+          style={{ padding: "7px 14px", background: "none", border: "1px solid #fca5a5", color: "#dc2626", borderRadius: 8, fontSize: 13, cursor: deleting ? "default" : "pointer", opacity: deleting ? 0.6 : 1 }}
+        >
+          {deleting ? "Deleting…" : "Delete"}
+        </button>
       </div>
     </div>
   );
@@ -201,7 +240,12 @@ export default function ResumeUpload() {
         <div style={s.card}>
           <h2 style={s.title}>Your Resumes</h2>
           {uploads.map((u) => (
-            <UploadRow key={u.uploadId} upload={u} onViewReport={(id) => navigate(`/results/${id}`)} />
+            <UploadRow
+            key={u.uploadId}
+            upload={u}
+            onViewReport={(id) => navigate(`/results/${id}`)}
+            onDelete={(id) => setUploads((prev) => prev.filter((x) => x.uploadId !== id))}
+          />
           ))}
         </div>
       )}

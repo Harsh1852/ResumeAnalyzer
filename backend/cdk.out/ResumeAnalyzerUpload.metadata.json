@@ -202,7 +202,7 @@
   "/ResumeAnalyzerUpload/AppAPI/Deployment/Resource": [
     {
       "type": "aws:cdk:logicalId",
-      "data": "AppAPIDeployment7B521F5203cb2e00d5a3bd5ad60cd391fc24fd17"
+      "data": "AppAPIDeployment7B521F52a44b860972875e353014a5c79be0f308"
     }
   ],
   "/ResumeAnalyzerUpload/AppAPI/DeploymentStage.prod/Resource": [
@@ -347,6 +347,54 @@
     {
       "type": "aws:cdk:logicalId",
       "data": "AppAPIuploadsuploadIdGET426D8854"
+    }
+  ],
+  "/ResumeAnalyzerUpload/AppAPI/Default/uploads/{uploadId}/DELETE/ApiPermission.ResumeAnalyzerUploadAppAPI3924F12E.DELETE..uploads.{uploadId}": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AppAPIuploadsuploadIdDELETEApiPermissionResumeAnalyzerUploadAppAPI3924F12EDELETEuploadsuploadIdCECEC29B"
+    }
+  ],
+  "/ResumeAnalyzerUpload/AppAPI/Default/uploads/{uploadId}/DELETE/ApiPermission.Test.ResumeAnalyzerUploadAppAPI3924F12E.DELETE..uploads.{uploadId}": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AppAPIuploadsuploadIdDELETEApiPermissionTestResumeAnalyzerUploadAppAPI3924F12EDELETEuploadsuploadIdAAAA15BD"
+    }
+  ],
+  "/ResumeAnalyzerUpload/AppAPI/Default/uploads/{uploadId}/DELETE/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AppAPIuploadsuploadIdDELETE0EEF4186"
+    }
+  ],
+  "/ResumeAnalyzerUpload/AppAPI/Default/uploads/{uploadId}/view-url/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AppAPIuploadsuploadIdviewurl4B07B5ED"
+    }
+  ],
+  "/ResumeAnalyzerUpload/AppAPI/Default/uploads/{uploadId}/view-url/OPTIONS/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AppAPIuploadsuploadIdviewurlOPTIONSB6ECA499"
+    }
+  ],
+  "/ResumeAnalyzerUpload/AppAPI/Default/uploads/{uploadId}/view-url/GET/ApiPermission.ResumeAnalyzerUploadAppAPI3924F12E.GET..uploads.{uploadId}.view-url": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AppAPIuploadsuploadIdviewurlGETApiPermissionResumeAnalyzerUploadAppAPI3924F12EGETuploadsuploadIdviewurl695CD551"
+    }
+  ],
+  "/ResumeAnalyzerUpload/AppAPI/Default/uploads/{uploadId}/view-url/GET/ApiPermission.Test.ResumeAnalyzerUploadAppAPI3924F12E.GET..uploads.{uploadId}.view-url": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AppAPIuploadsuploadIdviewurlGETApiPermissionTestResumeAnalyzerUploadAppAPI3924F12EGETuploadsuploadIdviewurl2FD9F402"
+    }
+  ],
+  "/ResumeAnalyzerUpload/AppAPI/Default/uploads/{uploadId}/view-url/GET/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AppAPIuploadsuploadIdviewurlGETB60E9408"
     }
   ]
 }

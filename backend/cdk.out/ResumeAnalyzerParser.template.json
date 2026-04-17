@@ -239,7 +239,7 @@
      },
      "maxReceiveCount": 3
     },
-    "VisibilityTimeout": 180
+    "VisibilityTimeout": 300
    },
    "UpdateReplacePolicy": "Delete",
    "DeletionPolicy": "Delete",

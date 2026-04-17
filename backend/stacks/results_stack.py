@@ -77,8 +77,8 @@ class ResultsStack(Stack):
                 "UPLOADS_TABLE_NAME": uploads_table.table_name,
             },
         )
-        self.results_table.grant_read_data(self.results_api_lambda)
-        uploads_table.grant_read_data(self.results_api_lambda)
+        self.results_table.grant_read_write_data(self.results_api_lambda)
+        uploads_table.grant_read_write_data(self.results_api_lambda)
 
         # ── Own API Gateway (avoids cross-stack cycle with UploadStack) ──
         self.results_api = apigw.RestApi(
@@ -100,8 +100,13 @@ class ResultsStack(Stack):
         results_resource.add_method("GET", results_integration,
                                     authorizer=authorizer,
                                     authorization_type=apigw.AuthorizationType.COGNITO)
-        results_resource.add_resource("{resultId}").add_method(
+        result_id_resource = results_resource.add_resource("{resultId}")
+        result_id_resource.add_method(
             "GET", results_integration,
+            authorizer=authorizer,
+            authorization_type=apigw.AuthorizationType.COGNITO)
+        result_id_resource.add_method(
+            "DELETE", results_integration,
             authorizer=authorizer,
             authorization_type=apigw.AuthorizationType.COGNITO)
 

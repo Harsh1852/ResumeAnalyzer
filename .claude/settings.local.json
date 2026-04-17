@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install *)",
+      "Bash(cdk diff *)",
+      "Bash(aws s3 *)"
+    ]
+  }
+}

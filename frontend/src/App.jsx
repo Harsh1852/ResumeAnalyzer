@@ -3,34 +3,95 @@ import { BrowserRouter, Routes, Route, Navigate, Link, useNavigate } from "react
 import Register from "./components/Auth/Register";
 import VerifyOTP from "./components/Auth/VerifyOTP";
 import Login from "./components/Auth/Login";
+import ForgotPassword from "./components/Auth/ForgotPassword";
+import ResetPassword from "./components/Auth/ResetPassword";
+import Profile from "./components/Auth/Profile";
 import ResumeUpload from "./components/Resume/ResumeUpload";
 import ReportView from "./components/Report/ReportView";
 
-const s = {
-  nav: {
-    display: "flex", justifyContent: "space-between", alignItems: "center",
-    padding: "0 24px", height: 56, background: "#2563eb", color: "#fff",
-  },
-  navTitle: { fontWeight: 700, fontSize: 18, color: "#fff" },
-  navBtn: {
-    background: "rgba(255,255,255,.15)", border: "none", color: "#fff",
-    padding: "6px 14px", borderRadius: 6, cursor: "pointer", fontSize: 14,
-  },
-};
+function getUserInfo() {
+  const token = localStorage.getItem("idToken");
+  if (!token) return null;
+  try {
+    const payload = JSON.parse(atob(token.split(".")[1]));
+    return {
+      email: payload.email || "",
+      name: payload.name || payload["cognito:username"] || "",
+    };
+  } catch { return null; }
+}
 
 function Nav() {
   const navigate = useNavigate();
   const token = localStorage.getItem("idToken");
+  const user = token ? getUserInfo() : null;
 
   function logout() {
     localStorage.clear();
     navigate("/login");
   }
 
+  const initials = user?.name
+    ? user.name.split(" ").map((w) => w[0]).slice(0, 2).join("").toUpperCase()
+    : user?.email?.[0]?.toUpperCase() || "U";
+
+  const firstName = user?.name?.split(" ")[0] || user?.email?.split("@")[0] || "";
+
   return (
-    <nav style={s.nav}>
-      <Link to="/dashboard" style={s.navTitle}>Resume Analyzer</Link>
-      {token && <button style={s.navBtn} onClick={logout}>Logout</button>}
+    <nav className="no-print" style={{
+      display: "flex", alignItems: "center", justifyContent: "space-between",
+      padding: "0 28px", height: 62,
+      background: "linear-gradient(90deg,#1e3a8a,#1d4ed8)",
+      boxShadow: "0 2px 10px rgba(0,0,0,.2)",
+    }}>
+      {/* Brand */}
+      <Link to="/dashboard" style={{ textDecoration: "none" }}>
+        <span style={{ fontWeight: 700, fontSize: 18, color: "#fff", letterSpacing: "-0.2px" }}>
+          Resume Analyzer
+        </span>
+      </Link>
+
+      {/* User section */}
+      {user && (
+        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+          {/* User pill — links to profile */}
+          <Link to="/profile" style={{ textDecoration: "none" }}>
+            <div style={{
+              display: "flex", alignItems: "center", gap: 9,
+              background: "rgba(255,255,255,.12)", border: "1px solid rgba(255,255,255,.2)",
+              borderRadius: 40, padding: "5px 14px 5px 6px", cursor: "pointer",
+              transition: "background .15s",
+            }}
+            onMouseEnter={(e) => e.currentTarget.style.background = "rgba(255,255,255,.22)"}
+            onMouseLeave={(e) => e.currentTarget.style.background = "rgba(255,255,255,.12)"}
+            >
+              <div style={{
+                width: 30, height: 30, borderRadius: "50%",
+                background: "rgba(255,255,255,.25)",
+                display: "flex", alignItems: "center", justifyContent: "center",
+                fontWeight: 700, fontSize: 12, color: "#fff", flexShrink: 0,
+              }}>
+                {initials}
+              </div>
+              <div style={{ fontSize: 13, fontWeight: 600, color: "#fff" }}>{firstName}</div>
+            </div>
+          </Link>
+
+          {/* Sign out */}
+          <button
+            onClick={logout}
+            style={{
+              background: "rgba(255,255,255,.12)", border: "1px solid rgba(255,255,255,.25)",
+              color: "#fff", padding: "7px 16px", borderRadius: 8,
+              cursor: "pointer", fontSize: 13, fontWeight: 500, transition: "all .15s",
+            }}
+            onMouseEnter={(e) => { e.currentTarget.style.background = "rgba(255,255,255,.28)"; e.currentTarget.style.borderColor = "rgba(255,255,255,.5)"; }}
+            onMouseLeave={(e) => { e.currentTarget.style.background = "rgba(255,255,255,.12)"; e.currentTarget.style.borderColor = "rgba(255,255,255,.25)"; }}
+          >
+            Sign out
+          </button>
+        </div>
+      )}
     </nav>
   );
 }
@@ -51,6 +112,9 @@ export default function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/dashboard" element={<RequireAuth><ResumeUpload /></RequireAuth>} />
         <Route path="/results/:resultId" element={<RequireAuth><ReportView /></RequireAuth>} />
+        <Route path="/profile" element={<RequireAuth><Profile /></RequireAuth>} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
       </Routes>
     </BrowserRouter>
   );
