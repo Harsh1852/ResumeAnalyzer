@@ -1,0 +1,15 @@
+{
+  "ResumeAnalyzerAuth": {
+    "ExportsOutputFnGetAttUserPool6BA7E5F2Arn686ACC00": "arn:aws:cognito-idp:us-east-1:307711586938:userpool/us-east-1_kLvw6PIqM",
+    "UserPoolClientId": "3q7jhiouc8e44pfto014g90gro",
+    "UserPoolId": "us-east-1_kLvw6PIqM",
+    "AuthAPIEndpointF35601F4": "https://0ioogkfo71.execute-api.us-east-1.amazonaws.com/prod/",
+    "ExportsOutputRefUserPool6BA7E5F296FD7236": "us-east-1_kLvw6PIqM",
+    "AuthApiUrl": "https://0ioogkfo71.execute-api.us-east-1.amazonaws.com/prod/"
+  },
+  "ResumeAnalyzerApplications": {
+    "ApplicationsTableName": "resume-analyzer-applications",
+    "ApplicationsApiUrl": "https://fovtr6xdz7.execute-api.us-east-1.amazonaws.com/prod/",
+    "ApplicationsAPIEndpoint950F77F9": "https://fovtr6xdz7.execute-api.us-east-1.amazonaws.com/prod/"
+  }
+}

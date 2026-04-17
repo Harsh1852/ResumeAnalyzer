@@ -309,6 +309,119 @@ def test_infer_missing_skills_falls_back_to_first_three(jobs_handler):
     assert result == ["Kubernetes", "Rust", "GraphQL"]
 
 
+def test_validate_latex_accepts_well_formed(jobs_handler):
+    tex = (
+        r"\documentclass{article}"
+        "\n" r"\begin{document}" "\nHello\n" r"\end{document}"
+    )
+    jobs_handler.validate_latex(tex)
+
+
+def test_validate_latex_rejects_missing_documentclass(jobs_handler):
+    import pytest
+    with pytest.raises(ValueError):
+        jobs_handler.validate_latex(r"\begin{document}Hello\end{document}")
+
+
+def test_validate_latex_rejects_unbalanced_environments(jobs_handler):
+    import pytest
+    tex = r"\documentclass{article}" + "\n" + r"\begin{document}" + "\n" + r"\begin{itemize}" + "\n" + r"\end{document}"
+    with pytest.raises(ValueError):
+        jobs_handler.validate_latex(tex)
+
+
+def test_create_tailored_resume_latex_default_template(jobs_handler, jobs_tables):
+    _seed_result(jobs_tables["results"])
+    _seed_job(jobs_tables["jobs"])
+
+    # A minimal but valid LaTeX output that Bedrock might produce
+    fake_tex = (
+        r"\documentclass[letterpaper,11pt]{article}"
+        "\n" r"\begin{document}"
+        "\n" r"\section{Experience}" "\nTailored content" "\n"
+        r"\end{document}"
+    )
+    with patch.object(jobs_handler, "invoke_bedrock_tailor_latex",
+                      return_value=fake_tex) as mock_latex, \
+         patch.object(jobs_handler, "invoke_bedrock_tailor") as mock_md:
+        resp = jobs_handler.api_handler(
+            _event("POST", "/jobs/{jobId}/tailored-resume",
+                   path_params={"jobId": "job-1"},
+                   body={"resumeText": "Original resume text", "format": "latex"}),
+            None,
+        )
+        mock_latex.assert_called_once()
+        mock_md.assert_not_called()
+        # Called with the default template (non-empty 4th arg)
+        assert jobs_handler.DEFAULT_LATEX_TEMPLATE in mock_latex.call_args.args \
+               or len(mock_latex.call_args.args[3]) > 500
+
+    body = json.loads(resp["body"])
+    assert resp["statusCode"] == 200
+    assert body["format"] == "latex"
+    assert body["markdown"].startswith(r"\documentclass")
+
+
+def test_create_tailored_resume_latex_user_template(jobs_handler, jobs_tables):
+    _seed_result(jobs_tables["results"])
+    _seed_job(jobs_tables["jobs"])
+
+    user_template = r"\documentclass{article}" + "\n" + r"\begin{document}" + "\nUSER TEMPLATE\n" + r"\end{document}"
+    fake_tex = r"\documentclass{article}" + "\n" + r"\begin{document}" + "\nTailored\n" + r"\end{document}"
+
+    with patch.object(jobs_handler, "invoke_bedrock_tailor_latex", return_value=fake_tex) as mock_latex:
+        resp = jobs_handler.api_handler(
+            _event("POST", "/jobs/{jobId}/tailored-resume",
+                   path_params={"jobId": "job-1"},
+                   body={"resumeText": "Resume", "format": "latex", "referenceLatex": user_template}),
+            None,
+        )
+        # User template was passed through (not the default)
+        assert mock_latex.call_args.args[3] == user_template
+
+    assert resp["statusCode"] == 200
+    assert json.loads(resp["body"])["format"] == "latex"
+
+
+def test_create_tailored_resume_caches_per_format(jobs_handler, jobs_tables):
+    """A user can generate both a markdown and a latex version for the same job."""
+    _seed_result(jobs_tables["results"])
+    _seed_job(jobs_tables["jobs"])
+
+    with patch.object(jobs_handler, "invoke_bedrock_tailor", return_value="# Markdown"), \
+         patch.object(jobs_handler, "invoke_bedrock_tailor_latex",
+                      return_value=r"\documentclass{article}" + "\n" + r"\begin{document}" + "\nTex\n" + r"\end{document}"):
+        md_resp = jobs_handler.api_handler(
+            _event("POST", "/jobs/{jobId}/tailored-resume",
+                   path_params={"jobId": "job-1"},
+                   body={"resumeText": "R", "format": "markdown"}),
+            None,
+        )
+        latex_resp = jobs_handler.api_handler(
+            _event("POST", "/jobs/{jobId}/tailored-resume",
+                   path_params={"jobId": "job-1"},
+                   body={"resumeText": "R", "format": "latex"}),
+            None,
+        )
+    md_body = json.loads(md_resp["body"])
+    latex_body = json.loads(latex_resp["body"])
+    assert md_body["resumeId"] != latex_body["resumeId"]
+    assert md_body["format"] == "markdown"
+    assert latex_body["format"] == "latex"
+
+
+def test_create_tailored_resume_rejects_invalid_format(jobs_handler, jobs_tables):
+    _seed_result(jobs_tables["results"])
+    _seed_job(jobs_tables["jobs"])
+    resp = jobs_handler.api_handler(
+        _event("POST", "/jobs/{jobId}/tailored-resume",
+               path_params={"jobId": "job-1"},
+               body={"resumeText": "R", "format": "pdf"}),
+        None,
+    )
+    assert resp["statusCode"] == 400
+
+
 def test_get_tailored_resume_forbids_other_user(jobs_handler, jobs_tables):
     _seed_result(jobs_tables["results"])
     _seed_job(jobs_tables["jobs"])

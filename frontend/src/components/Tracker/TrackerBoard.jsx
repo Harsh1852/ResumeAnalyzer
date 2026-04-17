@@ -22,13 +22,13 @@ const s = {
     display: "flex", alignItems: "center", justifyContent: "space-between",
     marginBottom: 22,
   },
-  title: { fontSize: 26, fontWeight: 800, margin: 0, color: "#0f172a", letterSpacing: "-.01em" },
+  title: { fontSize: 28, fontWeight: 800, margin: 0, color: "#09090b", letterSpacing: "-0.02em" },
   subtitle: { fontSize: 14, color: "#64748b", marginTop: 4 },
   primaryBtn: {
-    background: "linear-gradient(135deg,#2563eb,#1d4ed8)", color: "#fff",
+    background: "linear-gradient(135deg,#6366f1,#8b5cf6)", color: "#fff",
     border: "none", borderRadius: 10, padding: "11px 20px", fontSize: 14,
-    fontWeight: 600, cursor: "pointer", boxShadow: "0 4px 14px rgba(37,99,235,.3)",
-    textDecoration: "none", display: "inline-block",
+    fontWeight: 600, cursor: "pointer", boxShadow: "0 4px 14px rgba(99,102,241,.35)",
+    textDecoration: "none", display: "inline-block", letterSpacing: "-0.005em",
   },
   statsRow: {
     display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(170px, 1fr))", gap: 14,

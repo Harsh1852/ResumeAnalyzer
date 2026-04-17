@@ -112,10 +112,14 @@ export const fetchCoursesForJob = (jobId) =>
     .post(`${JOBS_API}/jobs/${jobId}/courses`, {}, { headers: authHeaders() })
     .then((r) => r.data);
 
-export const createTailoredResume = (jobId, resumeText) =>
-  axios
-    .post(`${JOBS_API}/jobs/${jobId}/tailored-resume`, { resumeText }, { headers: authHeaders() })
+export const createTailoredResume = (jobId, resumeText, opts = {}) => {
+  const payload = { resumeText };
+  if (opts.format) payload.format = opts.format;
+  if (opts.referenceLatex) payload.referenceLatex = opts.referenceLatex;
+  return axios
+    .post(`${JOBS_API}/jobs/${jobId}/tailored-resume`, payload, { headers: authHeaders() })
     .then((r) => r.data);
+};
 
 export const getTailoredResume = (resumeId) =>
   axios

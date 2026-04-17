@@ -4,16 +4,46 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Resume Analyzer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
+      :root {
+        --accent-start: #6366f1;
+        --accent-end: #8b5cf6;
+        --bg: #fafafa;
+        --card: #ffffff;
+        --text: #09090b;
+        --text-muted: #71717a;
+        --border: rgba(9, 9, 11, 0.08);
+      }
       *, *::before, *::after { box-sizing: border-box; }
+      html, body { scroll-behavior: smooth; }
       body {
         margin: 0;
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-        background: #f8fafc;
-        color: #1e293b;
+        font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        letter-spacing: -0.005em;
       }
-      a { color: #2563eb; text-decoration: none; }
+      a { color: var(--accent-start); text-decoration: none; }
       a:hover { text-decoration: underline; }
+      /* Polished scrollbar */
+      ::-webkit-scrollbar { width: 10px; height: 10px; }
+      ::-webkit-scrollbar-track { background: transparent; }
+      ::-webkit-scrollbar-thumb {
+        background: rgba(9, 9, 11, 0.15);
+        border-radius: 10px;
+        border: 2px solid var(--bg);
+      }
+      ::-webkit-scrollbar-thumb:hover { background: rgba(9, 9, 11, 0.25); }
+      /* Subtle text selection */
+      ::selection {
+        background: rgba(139, 92, 246, 0.25);
+        color: #09090b;
+      }
     </style>
   </head>
   <body>

@@ -37,22 +37,6 @@ MAX_TOKENS = int(os.environ.get("BEDROCK_MAX_TOKENS", "4096"))
 
 JOBS_PER_ROLE = 3
 
-VALID_FORMATS = {"markdown", "latex"}
-
-_LATEX_TEMPLATE_PATH = os.path.join(os.path.dirname(__file__), "default_resume.tex")
-
-
-def _load_default_latex_template() -> str:
-    """Load the bundled Jake Gutierrez template. Cached after first read."""
-    try:
-        with open(_LATEX_TEMPLATE_PATH, "r") as fh:
-            return fh.read()
-    except OSError:
-        return ""
-
-
-DEFAULT_LATEX_TEMPLATE = _load_default_latex_template()
-
 
 # ── Response helpers ──────────────────────────────────────────────────────────
 
@@ -162,75 +146,18 @@ Target job description:
 Return only the markdown resume."""
 
 
-TAILOR_PROMPT_LATEX = r"""You are editing a LaTeX resume file to target a specific job. Your goal is to produce a complete, compilable .tex document that preserves the template's EXACT layout while tailoring the content to the job description.
-
-HARD RULES — breaking any of these invalidates the output:
-1. Preserve the ENTIRE preamble (everything before \begin{{document}}) byte-for-byte. Do not change packages, margins, custom commands, \newcommand definitions, \titleformat, or any style directives.
-2. Preserve every \documentclass, \usepackage, \newcommand, \begin{{...}}, \end{{...}}, \section{{...}}, \resumeSubHeadingListStart/End, \resumeItemListStart/End.
-3. Only edit text that is visible content: bullet strings inside \resumeItem{{...}}, role titles inside \resumeSubheading{{}}{{}}{{}}{{}}, project names inside \resumeProjectHeading{{}}{{}}, skill lists, and the header (name, contact links).
-4. Never fabricate companies, dates, or degrees. Use the candidate's real history from their resume text below. If the reference template has placeholder companies (e.g. "Company Name", "State University"), REPLACE them with the candidate's real data.
-5. LaTeX escape rules inside text content: use \% for %, \& for &, \_ for _, \$ for $, \# for #, \textbackslash{{}} for literal backslash. Never escape inside commands or macros.
-6. The output MUST begin with \documentclass and end with \end{{document}}.
-7. Keep the resume to one page — target total body content around {target_words} words. Trim or add experience bullets as needed.
-8. Tailor wording of bullets to echo the JD's language where the candidate legitimately has that experience. Do not invent skills.
-9. Do NOT wrap the output in code fences. Do NOT include commentary, apology, or explanation. Output ONLY the raw .tex file content.
-
-CANDIDATE'S EXISTING RESUME (plain text, use this for factual content):
----
-{resume_text}
----
-
-TARGET JOB DESCRIPTION:
----
-{job_description}
----
-
-REFERENCE LATEX TEMPLATE (preserve its structure exactly; fill with candidate's real content):
----
-{latex_template}
----
-
-Return the complete tailored .tex file, starting with \documentclass and ending with \end{{document}}."""
-
-
-def _strip_code_fences(text: str) -> str:
-    """Remove leading/trailing ```lang fences if Bedrock wrapped output in them."""
-    text = text.strip()
-    if not text.startswith("```"):
-        return text
-    parts = text.split("```")
-    if len(parts) < 3:
-        return text
-    body = parts[1]
-    for lang in ("markdown", "latex", "tex"):
-        if body.startswith(lang):
-            body = body[len(lang):].lstrip("\n")
-            break
-    return body.strip()
-
-
-def validate_latex(tex: str) -> None:
-    """Raise ValueError if the output is obviously not a compilable LaTeX file."""
-    if not tex:
-        raise ValueError("Empty LaTeX output")
-    if r"\documentclass" not in tex[:200]:
-        raise ValueError("LaTeX output must start with \\documentclass")
-    if r"\begin{document}" not in tex:
-        raise ValueError("LaTeX output missing \\begin{document}")
-    if r"\end{document}" not in tex:
-        raise ValueError("LaTeX output missing \\end{document}")
-    # Balance \begin{...} against \end{...}
-    begins = tex.count(r"\begin{")
-    ends = tex.count(r"\end{")
-    if begins != ends:
-        raise ValueError(f"Unbalanced environments: {begins} \\begin vs {ends} \\end")
-
-
-def _call_bedrock(prompt: str, temperature: float = 0.4) -> str:
+def invoke_bedrock_tailor(resume_text: str, job_description: str, target_words: int) -> str:
+    max_words = int(target_words * 1.15)
+    prompt = TAILOR_PROMPT.format(
+        resume_text=resume_text[:10000],
+        job_description=job_description[:4000],
+        target_words=target_words,
+        max_words=max_words,
+    )
     request_body = json.dumps({
         "anthropic_version": "bedrock-2023-05-31",
         "max_tokens": MAX_TOKENS,
-        "temperature": temperature,
+        "temperature": 0.4,
         "messages": [{"role": "user", "content": prompt}],
     })
     response = bedrock.invoke_model(
@@ -240,43 +167,14 @@ def _call_bedrock(prompt: str, temperature: float = 0.4) -> str:
         body=request_body,
     )
     response_body = json.loads(response["body"].read())
-    return response_body["content"][0]["text"].strip()
-
-
-def invoke_bedrock_tailor(resume_text: str, job_description: str, target_words: int) -> str:
-    max_words = int(target_words * 1.15)
-    prompt = TAILOR_PROMPT.format(
-        resume_text=resume_text[:10000],
-        job_description=job_description[:4000],
-        target_words=target_words,
-        max_words=max_words,
-    )
-    return _strip_code_fences(_call_bedrock(prompt))
-
-
-def invoke_bedrock_tailor_latex(resume_text: str, job_description: str,
-                                 target_words: int, latex_template: str) -> str:
-    """LaTeX variant. Validates output and retries once on obvious structural errors."""
-    prompt = TAILOR_PROMPT_LATEX.format(
-        resume_text=resume_text[:10000],
-        job_description=job_description[:4000],
-        target_words=target_words,
-        latex_template=latex_template[:12000],
-    )
-    tex = _strip_code_fences(_call_bedrock(prompt, temperature=0.3))
-    try:
-        validate_latex(tex)
-        return tex
-    except ValueError as first_err:
-        # One retry with a stricter framing
-        retry_prompt = prompt + (
-            "\n\nIMPORTANT: Your previous attempt failed validation: "
-            f"{first_err}. Output ONLY the complete .tex file starting with "
-            r"\documentclass and ending with \end{document}."
-        )
-        tex = _strip_code_fences(_call_bedrock(retry_prompt, temperature=0.2))
-        validate_latex(tex)  # will raise if still broken
-        return tex
+    text = response_body["content"][0]["text"].strip()
+    if text.startswith("```"):
+        parts = text.split("```")
+        if len(parts) >= 2:
+            text = parts[1]
+            if text.startswith("markdown"):
+                text = text[len("markdown"):].lstrip("\n")
+    return text.strip()
 
 
 # ── Domain helpers ────────────────────────────────────────────────────────────
@@ -485,21 +383,10 @@ def create_tailored_resume(event: dict) -> dict:
     job_id = (event.get("pathParameters") or {}).get("jobId", "")
     if not job_id:
         return respond(400, {"error": "jobId is required"})
-
     body = parse_body(event)
     resume_text = body.get("resumeText") or ""
     if not resume_text.strip():
         return respond(400, {"error": "resumeText is required"})
-
-    fmt = (body.get("format") or "markdown").lower()
-    if fmt not in VALID_FORMATS:
-        return respond(400, {"error": f"format must be one of {sorted(VALID_FORMATS)}"})
-
-    reference_latex = body.get("referenceLatex") or ""
-    if fmt == "latex" and not reference_latex.strip():
-        reference_latex = DEFAULT_LATEX_TEMPLATE
-    if fmt == "latex" and not reference_latex.strip():
-        return respond(500, {"error": "Default LaTeX template unavailable"})
 
     resp = JOBS_TABLE.get_item(Key={"jobId": job_id})
     job = resp.get("Item")
@@ -508,27 +395,18 @@ def create_tailored_resume(event: dict) -> dict:
     if job.get("userId") != user_id:
         return respond(403, {"error": "Forbidden"})
 
-    # Cache: one tailored resume per (user, job, format). Different format = new row.
+    # Reuse an existing tailored resume for this (user, job) if one exists
     existing = TAILORED_RESUMES_TABLE.query(
         IndexName="jobId-index",
         KeyConditionExpression=Key("jobId").eq(job_id),
     )
     for item in existing.get("Items", []):
-        if item.get("userId") == user_id and (item.get("format") or "markdown") == fmt:
+        if item.get("userId") == user_id:
             return respond(200, item)
 
     target_words = max(280, min(600, _word_count(resume_text)))
     try:
-        if fmt == "latex":
-            content = invoke_bedrock_tailor_latex(
-                resume_text, job.get("description", ""), target_words, reference_latex,
-            )
-        else:
-            content = invoke_bedrock_tailor(resume_text, job.get("description", ""), target_words)
-    except ValueError as e:
-        # LaTeX validation failed even after retry
-        print(f"Tailor validation failed: {e}")
-        return respond(502, {"error": f"Generated content failed validation: {e}"})
+        markdown = invoke_bedrock_tailor(resume_text, job.get("description", ""), target_words)
     except Exception as e:
         print(f"Bedrock tailor failed: {e}")
         return respond(502, {"error": "Failed to generate tailored resume"})
@@ -540,10 +418,9 @@ def create_tailored_resume(event: dict) -> dict:
         "userId": user_id,
         "jobId": job_id,
         "resultId": job.get("resultId", ""),
-        "format": fmt,
-        "markdown": content,  # field name retained for schema compatibility; holds .tex when format=latex
+        "markdown": markdown,
         "targetWords": target_words,
-        "wordCount": _word_count(content),
+        "wordCount": _word_count(markdown),
         "createdAt": now,
         "updatedAt": now,
     }

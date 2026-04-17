@@ -9,6 +9,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@codemirror/legacy-modes": "^6.4.1",
+    "@uiw/codemirror-extensions-langs": "^4.23.0",
+    "@uiw/react-codemirror": "^4.23.0",
     "@uiw/react-md-editor": "^4.0.5",
     "axios": "^1.7.2",
     "html2pdf.js": "^0.14.0",

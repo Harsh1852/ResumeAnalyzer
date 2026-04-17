@@ -266,8 +266,8 @@
    "Type": "AWS::Lambda::Function",
    "Properties": {
     "Code": {
-     "S3Bucket": "cdk-hnb659fds-assets-307711586938-us-east-1",
-     "S3Key": "186069abfee0d7be4154e7d2ba5686b91caf4a4af94bbb1a00f571502a38d736.zip"
+     "S3Bucket": "cdk-hnb659fds-assets-YOUR_AWS_ACCOUNT_ID-us-east-1",
+     "S3Key": "2e377361a551848e5b4e050bedb684d4321ee7ab588b820652a2236a0d1a743b.zip"
     },
     "Environment": {
      "Variables": {
@@ -280,10 +280,10 @@
       "RESULTS_TABLE_NAME": {
        "Fn::ImportValue": "ResumeAnalyzerResults:ExportsOutputRefResultsTableF0B5BF22D7933BCD"
       },
-      "ADZUNA_APP_ID": "7d3c6878",
-      "ADZUNA_APP_KEY": "d95c5da05dcc8e2d32dbf79d802a150b",
+      "ADZUNA_APP_ID": "t",
+      "ADZUNA_APP_KEY": "t",
       "ADZUNA_COUNTRY": "us",
-      "TAVILY_API_KEY": "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",
+      "TAVILY_API_KEY": "t",
       "BEDROCK_MODEL_ID": "anthropic.claude-3-haiku-20240307-v1:0",
       "BEDROCK_MAX_TOKENS": "4096"
      }
@@ -305,7 +305,7 @@
    ],
    "Metadata": {
     "aws:cdk:path": "ResumeAnalyzerJobs/JobsAPILambda/Resource",
-    "aws:asset:path": "asset.186069abfee0d7be4154e7d2ba5686b91caf4a4af94bbb1a00f571502a38d736",
+    "aws:asset:path": "asset.2e377361a551848e5b4e050bedb684d4321ee7ab588b820652a2236a0d1a743b",
     "aws:asset:is-bundled": false,
     "aws:asset:property": "Code"
    }
@@ -555,7 +555,7 @@
        {
         "Ref": "AWS::Partition"
        },
-       ":execute-api:us-east-1:307711586938:",
+       ":execute-api:us-east-1:YOUR_AWS_ACCOUNT_ID:",
        {
         "Ref": "JobsAPIDF0E9567"
        },
@@ -591,7 +591,7 @@
        {
         "Ref": "AWS::Partition"
        },
-       ":execute-api:us-east-1:307711586938:",
+       ":execute-api:us-east-1:YOUR_AWS_ACCOUNT_ID:",
        {
         "Ref": "JobsAPIDF0E9567"
        },
@@ -723,7 +723,7 @@
        {
         "Ref": "AWS::Partition"
        },
-       ":execute-api:us-east-1:307711586938:",
+       ":execute-api:us-east-1:YOUR_AWS_ACCOUNT_ID:",
        {
         "Ref": "JobsAPIDF0E9567"
        },
@@ -759,7 +759,7 @@
        {
         "Ref": "AWS::Partition"
        },
-       ":execute-api:us-east-1:307711586938:",
+       ":execute-api:us-east-1:YOUR_AWS_ACCOUNT_ID:",
        {
         "Ref": "JobsAPIDF0E9567"
        },
@@ -891,7 +891,7 @@
        {
         "Ref": "AWS::Partition"
        },
-       ":execute-api:us-east-1:307711586938:",
+       ":execute-api:us-east-1:YOUR_AWS_ACCOUNT_ID:",
        {
         "Ref": "JobsAPIDF0E9567"
        },
@@ -927,7 +927,7 @@
        {
         "Ref": "AWS::Partition"
        },
-       ":execute-api:us-east-1:307711586938:",
+       ":execute-api:us-east-1:YOUR_AWS_ACCOUNT_ID:",
        {
         "Ref": "JobsAPIDF0E9567"
        },
@@ -1059,7 +1059,7 @@
        {
         "Ref": "AWS::Partition"
        },
-       ":execute-api:us-east-1:307711586938:",
+       ":execute-api:us-east-1:YOUR_AWS_ACCOUNT_ID:",
        {
         "Ref": "JobsAPIDF0E9567"
        },
@@ -1095,7 +1095,7 @@
        {
         "Ref": "AWS::Partition"
        },
-       ":execute-api:us-east-1:307711586938:",
+       ":execute-api:us-east-1:YOUR_AWS_ACCOUNT_ID:",
        {
         "Ref": "JobsAPIDF0E9567"
        },
@@ -1227,7 +1227,7 @@
        {
         "Ref": "AWS::Partition"
        },
-       ":execute-api:us-east-1:307711586938:",
+       ":execute-api:us-east-1:YOUR_AWS_ACCOUNT_ID:",
        {
         "Ref": "JobsAPIDF0E9567"
        },
@@ -1263,7 +1263,7 @@
        {
         "Ref": "AWS::Partition"
        },
-       ":execute-api:us-east-1:307711586938:",
+       ":execute-api:us-east-1:YOUR_AWS_ACCOUNT_ID:",
        {
         "Ref": "JobsAPIDF0E9567"
        },
@@ -1456,7 +1456,7 @@
        {
         "Ref": "AWS::Partition"
        },
-       ":execute-api:us-east-1:307711586938:",
+       ":execute-api:us-east-1:YOUR_AWS_ACCOUNT_ID:",
        {
         "Ref": "JobsAPIDF0E9567"
        },
@@ -1492,7 +1492,7 @@
        {
         "Ref": "AWS::Partition"
        },
-       ":execute-api:us-east-1:307711586938:",
+       ":execute-api:us-east-1:YOUR_AWS_ACCOUNT_ID:",
        {
         "Ref": "JobsAPIDF0E9567"
        },
@@ -1566,7 +1566,7 @@
        {
         "Ref": "AWS::Partition"
        },
-       ":execute-api:us-east-1:307711586938:",
+       ":execute-api:us-east-1:YOUR_AWS_ACCOUNT_ID:",
        {
         "Ref": "JobsAPIDF0E9567"
        },
@@ -1602,7 +1602,7 @@
        {
         "Ref": "AWS::Partition"
        },
-       ":execute-api:us-east-1:307711586938:",
+       ":execute-api:us-east-1:YOUR_AWS_ACCOUNT_ID:",
        {
         "Ref": "JobsAPIDF0E9567"
        },

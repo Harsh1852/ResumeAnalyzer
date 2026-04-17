@@ -166,7 +166,7 @@
    "Type": "AWS::Lambda::Function",
    "Properties": {
     "Code": {
-     "S3Bucket": "cdk-hnb659fds-assets-307711586938-us-east-1",
+     "S3Bucket": "cdk-hnb659fds-assets-YOUR_AWS_ACCOUNT_ID-us-east-1",
      "S3Key": "9e494f028a41863d1c74da7a83cdbfb770194a9f83ccccebe803c552eb1cde59.zip"
     },
     "Environment": {
@@ -441,7 +441,7 @@
        {
         "Ref": "AWS::Partition"
        },
-       ":execute-api:us-east-1:307711586938:",
+       ":execute-api:us-east-1:YOUR_AWS_ACCOUNT_ID:",
        {
         "Ref": "ApplicationsAPI54A5240F"
        },
@@ -477,7 +477,7 @@
        {
         "Ref": "AWS::Partition"
        },
-       ":execute-api:us-east-1:307711586938:",
+       ":execute-api:us-east-1:YOUR_AWS_ACCOUNT_ID:",
        {
         "Ref": "ApplicationsAPI54A5240F"
        },
@@ -551,7 +551,7 @@
        {
         "Ref": "AWS::Partition"
        },
-       ":execute-api:us-east-1:307711586938:",
+       ":execute-api:us-east-1:YOUR_AWS_ACCOUNT_ID:",
        {
         "Ref": "ApplicationsAPI54A5240F"
        },
@@ -587,7 +587,7 @@
        {
         "Ref": "AWS::Partition"
        },
-       ":execute-api:us-east-1:307711586938:",
+       ":execute-api:us-east-1:YOUR_AWS_ACCOUNT_ID:",
        {
         "Ref": "ApplicationsAPI54A5240F"
        },
@@ -719,7 +719,7 @@
        {
         "Ref": "AWS::Partition"
        },
-       ":execute-api:us-east-1:307711586938:",
+       ":execute-api:us-east-1:YOUR_AWS_ACCOUNT_ID:",
        {
         "Ref": "ApplicationsAPI54A5240F"
        },
@@ -755,7 +755,7 @@
        {
         "Ref": "AWS::Partition"
        },
-       ":execute-api:us-east-1:307711586938:",
+       ":execute-api:us-east-1:YOUR_AWS_ACCOUNT_ID:",
        {
         "Ref": "ApplicationsAPI54A5240F"
        },
@@ -887,7 +887,7 @@
        {
         "Ref": "AWS::Partition"
        },
-       ":execute-api:us-east-1:307711586938:",
+       ":execute-api:us-east-1:YOUR_AWS_ACCOUNT_ID:",
        {
         "Ref": "ApplicationsAPI54A5240F"
        },
@@ -923,7 +923,7 @@
        {
         "Ref": "AWS::Partition"
        },
-       ":execute-api:us-east-1:307711586938:",
+       ":execute-api:us-east-1:YOUR_AWS_ACCOUNT_ID:",
        {
         "Ref": "ApplicationsAPI54A5240F"
        },
@@ -997,7 +997,7 @@
        {
         "Ref": "AWS::Partition"
        },
-       ":execute-api:us-east-1:307711586938:",
+       ":execute-api:us-east-1:YOUR_AWS_ACCOUNT_ID:",
        {
         "Ref": "ApplicationsAPI54A5240F"
        },
@@ -1033,7 +1033,7 @@
        {
         "Ref": "AWS::Partition"
        },
-       ":execute-api:us-east-1:307711586938:",
+       ":execute-api:us-east-1:YOUR_AWS_ACCOUNT_ID:",
        {
         "Ref": "ApplicationsAPI54A5240F"
        },
@@ -1107,7 +1107,7 @@
        {
         "Ref": "AWS::Partition"
        },
-       ":execute-api:us-east-1:307711586938:",
+       ":execute-api:us-east-1:YOUR_AWS_ACCOUNT_ID:",
        {
         "Ref": "ApplicationsAPI54A5240F"
        },
@@ -1143,7 +1143,7 @@
        {
         "Ref": "AWS::Partition"
        },
-       ":execute-api:us-east-1:307711586938:",
+       ":execute-api:us-east-1:YOUR_AWS_ACCOUNT_ID:",
        {
         "Ref": "ApplicationsAPI54A5240F"
        },
@@ -1275,7 +1275,7 @@
        {
         "Ref": "AWS::Partition"
        },
-       ":execute-api:us-east-1:307711586938:",
+       ":execute-api:us-east-1:YOUR_AWS_ACCOUNT_ID:",
        {
         "Ref": "ApplicationsAPI54A5240F"
        },
@@ -1311,7 +1311,7 @@
        {
         "Ref": "AWS::Partition"
        },
-       ":execute-api:us-east-1:307711586938:",
+       ":execute-api:us-east-1:YOUR_AWS_ACCOUNT_ID:",
        {
         "Ref": "ApplicationsAPI54A5240F"
        },
@@ -1443,7 +1443,7 @@
        {
         "Ref": "AWS::Partition"
        },
-       ":execute-api:us-east-1:307711586938:",
+       ":execute-api:us-east-1:YOUR_AWS_ACCOUNT_ID:",
        {
         "Ref": "ApplicationsAPI54A5240F"
        },
@@ -1479,7 +1479,7 @@
        {
         "Ref": "AWS::Partition"
        },
-       ":execute-api:us-east-1:307711586938:",
+       ":execute-api:us-east-1:YOUR_AWS_ACCOUNT_ID:",
        {
         "Ref": "ApplicationsAPI54A5240F"
        },
@@ -1553,7 +1553,7 @@
        {
         "Ref": "AWS::Partition"
        },
-       ":execute-api:us-east-1:307711586938:",
+       ":execute-api:us-east-1:YOUR_AWS_ACCOUNT_ID:",
        {
         "Ref": "ApplicationsAPI54A5240F"
        },
@@ -1589,7 +1589,7 @@
        {
         "Ref": "AWS::Partition"
        },
-       ":execute-api:us-east-1:307711586938:",
+       ":execute-api:us-east-1:YOUR_AWS_ACCOUNT_ID:",
        {
         "Ref": "ApplicationsAPI54A5240F"
        },

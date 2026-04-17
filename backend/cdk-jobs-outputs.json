@@ -1,0 +1,47 @@
+{
+  "ResumeAnalyzerAuth": {
+    "ExportsOutputFnGetAttUserPool6BA7E5F2Arn686ACC00": "arn:aws:cognito-idp:us-east-1:307711586938:userpool/us-east-1_kLvw6PIqM",
+    "UserPoolClientId": "3q7jhiouc8e44pfto014g90gro",
+    "UserPoolId": "us-east-1_kLvw6PIqM",
+    "AuthAPIEndpointF35601F4": "https://0ioogkfo71.execute-api.us-east-1.amazonaws.com/prod/",
+    "ExportsOutputRefUserPool6BA7E5F296FD7236": "us-east-1_kLvw6PIqM",
+    "AuthApiUrl": "https://0ioogkfo71.execute-api.us-east-1.amazonaws.com/prod/"
+  },
+  "ResumeAnalyzerUpload": {
+    "ExportsOutputFnGetAttParseQueue0ACEB52BArn775BC820": "arn:aws:sqs:us-east-1:307711586938:resume-analyzer-parse-queue",
+    "AppApiUrl": "https://obj8kotkbh.execute-api.us-east-1.amazonaws.com/prod/",
+    "ResumeBucketName": "resumeanalyzerupload-resumebucketd07ccf44-phugmtmhdeg4",
+    "AppAPIEndpoint76843F3A": "https://obj8kotkbh.execute-api.us-east-1.amazonaws.com/prod/",
+    "ExportsOutputRefUploadsTableFE9AB9DB426D5B83": "resume-analyzer-uploads",
+    "ExportsOutputFnGetAttUploadsTableFE9AB9DBArn838D3DB7": "arn:aws:dynamodb:us-east-1:307711586938:table/resume-analyzer-uploads",
+    "ExportsOutputRefResumeBucketD07CCF44BCFE2CBB": "resumeanalyzerupload-resumebucketd07ccf44-phugmtmhdeg4",
+    "ExportsOutputFnGetAttResumeBucketD07CCF44Arn6D9D8E81": "arn:aws:s3:::resumeanalyzerupload-resumebucketd07ccf44-phugmtmhdeg4"
+  },
+  "ResumeAnalyzerParser": {
+    "ExportsOutputFnGetAttAnalysisQueue251119DFArn84F30333": "arn:aws:sqs:us-east-1:307711586938:resume-analyzer-analysis-queue",
+    "ExportsOutputFnGetAttParsedOutputBucketAA98647BArn2EB7E08A": "arn:aws:s3:::resumeanalyzerparser-parsedoutputbucketaa98647b-b3hchkansitu",
+    "AnalysisQueueUrl": "https://sqs.us-east-1.amazonaws.com/307711586938/resume-analyzer-analysis-queue",
+    "ExportsOutputRefParsedOutputBucketAA98647B8DA044D1": "resumeanalyzerparser-parsedoutputbucketaa98647b-b3hchkansitu",
+    "ParsedOutputBucketName": "resumeanalyzerparser-parsedoutputbucketaa98647b-b3hchkansitu"
+  },
+  "ResumeAnalyzerAnalyzer": {
+    "NotificationQueueUrl": "https://sqs.us-east-1.amazonaws.com/307711586938/resume-analyzer-notification-queue",
+    "ResultsQueueUrl": "https://sqs.us-east-1.amazonaws.com/307711586938/resume-analyzer-results-queue",
+    "AnalysisResultsBucketName": "resumeanalyzeranalyzer-analysisresultsbucket419343-zf9a8itlftwp",
+    "ExportsOutputFnGetAttResultsQueue7CAAE423Arn75D58C98": "arn:aws:sqs:us-east-1:307711586938:resume-analyzer-results-queue",
+    "ExportsOutputFnGetAttNotificationQueue36610CC1ArnA5D241F1": "arn:aws:sqs:us-east-1:307711586938:resume-analyzer-notification-queue"
+  },
+  "ResumeAnalyzerResults": {
+    "ResultsTableName": "resume-analyzer-results",
+    "ExportsOutputRefResultsTableF0B5BF22D7933BCD": "resume-analyzer-results",
+    "ResultsAPIEndpoint11D3E37B": "https://ixtst6qw13.execute-api.us-east-1.amazonaws.com/prod/",
+    "ExportsOutputFnGetAttResultsTableF0B5BF22Arn1CE9057C": "arn:aws:dynamodb:us-east-1:307711586938:table/resume-analyzer-results",
+    "ResultsApiUrl": "https://ixtst6qw13.execute-api.us-east-1.amazonaws.com/prod/"
+  },
+  "ResumeAnalyzerJobs": {
+    "TailoredResumesTableName": "resume-analyzer-tailored-resumes",
+    "JobsApiUrl": "https://m2yx44mjh6.execute-api.us-east-1.amazonaws.com/prod/",
+    "JobsTableName": "resume-analyzer-jobs",
+    "JobsAPIEndpoint0ECAA6F6": "https://m2yx44mjh6.execute-api.us-east-1.amazonaws.com/prod/"
+  }
+}

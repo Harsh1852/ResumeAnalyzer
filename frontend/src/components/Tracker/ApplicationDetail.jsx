@@ -49,9 +49,10 @@ const s = {
     display: "flex", alignItems: "center", gap: 8,
   },
   btnPrimary: {
-    background: "linear-gradient(135deg,#2563eb,#1d4ed8)", color: "#fff",
+    background: "linear-gradient(135deg,#6366f1,#8b5cf6)", color: "#fff",
     border: "none", borderRadius: 10, padding: "10px 18px", fontSize: 13,
-    fontWeight: 600, cursor: "pointer", boxShadow: "0 2px 8px rgba(37,99,235,.25)",
+    fontWeight: 600, cursor: "pointer", boxShadow: "0 2px 10px rgba(99,102,241,.3)",
+    letterSpacing: "-0.005em",
   },
   btnGhost: {
     background: "none", border: "1.5px solid #cbd5e1", color: "#475569",

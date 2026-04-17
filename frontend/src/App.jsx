@@ -49,13 +49,25 @@ function Nav() {
   return (
     <nav className="no-print" style={{
       display: "flex", alignItems: "center", justifyContent: "space-between",
-      padding: "0 28px", height: 62,
-      background: "linear-gradient(90deg,#1e3a8a,#1d4ed8)",
-      boxShadow: "0 2px 10px rgba(0,0,0,.2)",
+      padding: "0 32px", height: 64,
+      background: "rgba(9, 9, 11, 0.85)",
+      backdropFilter: "blur(20px)",
+      WebkitBackdropFilter: "blur(20px)",
+      borderBottom: "1px solid rgba(255,255,255,0.08)",
+      position: "sticky", top: 0, zIndex: 50,
     }}>
       {/* Brand */}
-      <Link to="/dashboard" style={{ textDecoration: "none" }}>
-        <span style={{ fontWeight: 700, fontSize: 18, color: "#fff", letterSpacing: "-0.2px" }}>
+      <Link to="/dashboard" style={{ textDecoration: "none", display: "flex", alignItems: "center", gap: 10 }}>
+        <div style={{
+          width: 28, height: 28, borderRadius: 8,
+          background: "linear-gradient(135deg,#6366f1,#8b5cf6)",
+          display: "flex", alignItems: "center", justifyContent: "center",
+          fontWeight: 800, fontSize: 14, color: "#fff",
+          boxShadow: "0 2px 8px rgba(139,92,246,.4)",
+        }}>R</div>
+        <span style={{
+          fontWeight: 700, fontSize: 16, color: "#fff", letterSpacing: "-0.3px",
+        }}>
           Resume Analyzer
         </span>
       </Link>
@@ -65,36 +77,39 @@ function Nav() {
         <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
           {/* Tracker link */}
           <Link to="/tracker" style={{
-            textDecoration: "none", color: "#fff", fontSize: 13, fontWeight: 600,
+            textDecoration: "none", color: "#e4e4e7", fontSize: 13, fontWeight: 500,
             padding: "7px 14px", borderRadius: 8,
-            background: "rgba(255,255,255,.12)", border: "1px solid rgba(255,255,255,.2)",
+            background: "rgba(255,255,255,.06)",
+            border: "1px solid rgba(255,255,255,.08)",
             transition: "all .15s",
           }}
-            onMouseEnter={(e) => e.currentTarget.style.background = "rgba(255,255,255,.22)"}
-            onMouseLeave={(e) => e.currentTarget.style.background = "rgba(255,255,255,.12)"}
+            onMouseEnter={(e) => { e.currentTarget.style.background = "rgba(255,255,255,.12)"; e.currentTarget.style.color = "#fff"; }}
+            onMouseLeave={(e) => { e.currentTarget.style.background = "rgba(255,255,255,.06)"; e.currentTarget.style.color = "#e4e4e7"; }}
           >
-            📋 Tracker
+            Tracker
           </Link>
           {/* User pill — links to profile */}
           <Link to="/profile" style={{ textDecoration: "none" }}>
             <div style={{
               display: "flex", alignItems: "center", gap: 9,
-              background: "rgba(255,255,255,.12)", border: "1px solid rgba(255,255,255,.2)",
-              borderRadius: 40, padding: "5px 14px 5px 6px", cursor: "pointer",
-              transition: "background .15s",
+              background: "rgba(255,255,255,.06)",
+              border: "1px solid rgba(255,255,255,.08)",
+              borderRadius: 40, padding: "4px 14px 4px 5px", cursor: "pointer",
+              transition: "all .15s",
             }}
-            onMouseEnter={(e) => e.currentTarget.style.background = "rgba(255,255,255,.22)"}
-            onMouseLeave={(e) => e.currentTarget.style.background = "rgba(255,255,255,.12)"}
+            onMouseEnter={(e) => e.currentTarget.style.background = "rgba(255,255,255,.12)"}
+            onMouseLeave={(e) => e.currentTarget.style.background = "rgba(255,255,255,.06)"}
             >
               <div style={{
-                width: 30, height: 30, borderRadius: "50%",
-                background: "rgba(255,255,255,.25)",
+                width: 28, height: 28, borderRadius: "50%",
+                background: "linear-gradient(135deg,#6366f1,#8b5cf6)",
                 display: "flex", alignItems: "center", justifyContent: "center",
-                fontWeight: 700, fontSize: 12, color: "#fff", flexShrink: 0,
+                fontWeight: 700, fontSize: 11, color: "#fff", flexShrink: 0,
+                boxShadow: "0 2px 6px rgba(139,92,246,.3)",
               }}>
                 {initials}
               </div>
-              <div style={{ fontSize: 13, fontWeight: 600, color: "#fff" }}>{firstName}</div>
+              <div style={{ fontSize: 13, fontWeight: 500, color: "#e4e4e7" }}>{firstName}</div>
             </div>
           </Link>
 
@@ -102,12 +117,13 @@ function Nav() {
           <button
             onClick={logout}
             style={{
-              background: "rgba(255,255,255,.12)", border: "1px solid rgba(255,255,255,.25)",
-              color: "#fff", padding: "7px 16px", borderRadius: 8,
+              background: "rgba(255,255,255,.06)",
+              border: "1px solid rgba(255,255,255,.08)",
+              color: "#e4e4e7", padding: "7px 14px", borderRadius: 8,
               cursor: "pointer", fontSize: 13, fontWeight: 500, transition: "all .15s",
             }}
-            onMouseEnter={(e) => { e.currentTarget.style.background = "rgba(255,255,255,.28)"; e.currentTarget.style.borderColor = "rgba(255,255,255,.5)"; }}
-            onMouseLeave={(e) => { e.currentTarget.style.background = "rgba(255,255,255,.12)"; e.currentTarget.style.borderColor = "rgba(255,255,255,.25)"; }}
+            onMouseEnter={(e) => { e.currentTarget.style.background = "rgba(255,255,255,.12)"; e.currentTarget.style.color = "#fff"; }}
+            onMouseLeave={(e) => { e.currentTarget.style.background = "rgba(255,255,255,.06)"; e.currentTarget.style.color = "#e4e4e7"; }}
           >
             Sign out
           </button>

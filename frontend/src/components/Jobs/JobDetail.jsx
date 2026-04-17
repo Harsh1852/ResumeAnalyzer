@@ -17,9 +17,10 @@ const s = {
     border: "1px solid #eef1f5",
   },
   hero: {
-    background: "linear-gradient(135deg,#0f172a,#1e3a8a)",
-    color: "#fff", borderRadius: 14, padding: "28px 32px", marginBottom: 20,
-    boxShadow: "0 4px 20px rgba(30,58,138,.25)",
+    background: "radial-gradient(circle at 20% 0%, #6366f1 0%, #4f46e5 30%, #09090b 80%)",
+    color: "#fff", borderRadius: 18, padding: "30px 34px", marginBottom: 22,
+    boxShadow: "0 10px 40px rgba(99,102,241,.18), 0 2px 8px rgba(0,0,0,0.05)",
+    border: "1px solid rgba(255,255,255,0.06)",
   },
   heroTitle: { fontSize: 26, fontWeight: 800, margin: 0, lineHeight: 1.25 },
   heroCompany: { fontSize: 15, opacity: 0.85, marginTop: 6, fontWeight: 500 },
@@ -34,10 +35,10 @@ const s = {
   },
   jd: { fontSize: 14, color: "#334155", lineHeight: 1.7, whiteSpace: "pre-wrap" },
   primaryBtn: {
-    background: "linear-gradient(135deg,#2563eb,#1d4ed8)", color: "#fff",
+    background: "linear-gradient(135deg,#6366f1,#8b5cf6)", color: "#fff",
     border: "none", borderRadius: 10, padding: "12px 20px", fontSize: 14,
     fontWeight: 600, cursor: "pointer", width: "100%",
-    boxShadow: "0 4px 14px rgba(37,99,235,.3)",
+    boxShadow: "0 4px 14px rgba(99,102,241,.35)", letterSpacing: "-0.005em",
   },
   outlineBtn: {
     background: "#fff", color: "#2563eb", border: "1.5px solid #2563eb",
@@ -87,6 +88,8 @@ export default function JobDetail() {
   const [error, setError] = useState("");
   const [savingToTracker, setSavingToTracker] = useState(false);
   const [trackedAppId, setTrackedAppId] = useState(null);
+  const [resumeFormat, setResumeFormat] = useState("markdown"); // "markdown" | "latex-default" | "latex-custom"
+  const [customLatex, setCustomLatex] = useState("");
 
   useEffect(() => {
     getJob(jobId)
@@ -142,10 +145,25 @@ export default function JobDetail() {
         setGenerating(false);
         return;
       }
-      const tailored = await createTailoredResume(jobId, resumeText);
+      if (resumeFormat === "latex-custom" && customLatex.trim().length < 100) {
+        setError("Please paste your LaTeX template (at least 100 chars) — or pick the default template.");
+        setGenerating(false);
+        return;
+      }
+      const opts = {};
+      if (resumeFormat === "latex-default") {
+        opts.format = "latex";
+      } else if (resumeFormat === "latex-custom") {
+        opts.format = "latex";
+        opts.referenceLatex = customLatex;
+      } else {
+        opts.format = "markdown";
+      }
+      const tailored = await createTailoredResume(jobId, resumeText, opts);
       navigate(`/tailored-resumes/${tailored.resumeId}`);
     } catch (e) {
-      setError("Tailored resume generation failed. Please try again.");
+      const msg = e?.response?.data?.error || "Tailored resume generation failed. Please try again.";
+      setError(msg);
       setGenerating(false);
     }
   }
@@ -227,6 +245,53 @@ export default function JobDetail() {
             <div style={{ fontSize: 13, color: "#475569", marginBottom: 14, lineHeight: 1.5 }}>
               Generate a one-page resume rewritten to match this specific job description. You can edit the result.
             </div>
+
+            <div style={{ marginBottom: 14 }}>
+              <div style={{ fontSize: 11, fontWeight: 700, color: "#475569", textTransform: "uppercase", letterSpacing: ".06em", marginBottom: 8 }}>
+                Output format
+              </div>
+              {[
+                { v: "markdown", t: "📝 Markdown", d: "Simple, easy to edit" },
+                { v: "latex-default", t: "📄 LaTeX — default template", d: "Clean single-page PDF via Overleaf" },
+                { v: "latex-custom", t: "📄 LaTeX — paste my own", d: "Use your existing .tex as the style" },
+              ].map((opt) => (
+                <label key={opt.v} style={{
+                  display: "flex", alignItems: "flex-start", gap: 10,
+                  padding: "9px 11px", borderRadius: 8, cursor: "pointer",
+                  border: `1.5px solid ${resumeFormat === opt.v ? "#2563eb" : "#e2e8f0"}`,
+                  background: resumeFormat === opt.v ? "#eff6ff" : "#fff",
+                  marginBottom: 6, transition: "all .15s",
+                }}>
+                  <input
+                    type="radio"
+                    name="resumeFormat"
+                    value={opt.v}
+                    checked={resumeFormat === opt.v}
+                    onChange={() => setResumeFormat(opt.v)}
+                    style={{ marginTop: 2, accentColor: "#2563eb" }}
+                  />
+                  <div>
+                    <div style={{ fontSize: 13, fontWeight: 600, color: "#0f172a" }}>{opt.t}</div>
+                    <div style={{ fontSize: 11, color: "#64748b", marginTop: 1 }}>{opt.d}</div>
+                  </div>
+                </label>
+              ))}
+            </div>
+
+            {resumeFormat === "latex-custom" && (
+              <textarea
+                placeholder="Paste your complete .tex file here — preamble through \end{document}…"
+                value={customLatex}
+                onChange={(e) => setCustomLatex(e.target.value)}
+                style={{
+                  width: "100%", minHeight: 130, marginBottom: 12,
+                  padding: "10px 12px", borderRadius: 8, border: "1.5px solid #e2e8f0",
+                  fontSize: 12, fontFamily: "ui-monospace, SFMono-Regular, Consolas, monospace",
+                  resize: "vertical", background: "#f8fafc",
+                }}
+              />
+            )}
+
             <button
               onClick={handleGenerate}
               disabled={generating}

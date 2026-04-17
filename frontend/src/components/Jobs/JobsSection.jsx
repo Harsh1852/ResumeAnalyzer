@@ -15,11 +15,11 @@ const s = {
   title: { fontSize: 18, fontWeight: 700, margin: 0, color: "#0f172a" },
   subtitle: { fontSize: 13, color: "#64748b", marginTop: 4 },
   btn: (primary) => ({
-    background: primary ? "linear-gradient(135deg,#2563eb,#1d4ed8)" : "#fff",
-    color: primary ? "#fff" : "#2563eb",
-    border: primary ? "none" : "1.5px solid #2563eb",
+    background: primary ? "linear-gradient(135deg,#6366f1,#8b5cf6)" : "#fff",
+    color: primary ? "#fff" : "#6366f1",
+    border: primary ? "none" : "1.5px solid #6366f1",
     borderRadius: 10, padding: "9px 18px", fontSize: 13, fontWeight: 600,
-    cursor: "pointer", transition: "all .15s", boxShadow: primary ? "0 2px 8px rgba(37,99,235,.25)" : "none",
+    cursor: "pointer", transition: "all .15s", boxShadow: primary ? "0 2px 10px rgba(99,102,241,.3)" : "none",
   }),
   group: { marginBottom: 22 },
   groupTitle: {
