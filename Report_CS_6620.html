@@ -1,0 +1,1360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Resume Analyzer — Cloud Computing Project Report</title>
+<style>
+  /* ── Fonts ── */
+  @import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Source+Code+Pro:wght@400;500&family=Inter:wght@400;500;600;700&display=swap');
+
+  /* ── Reset ── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  /* ── Root variables ── */
+  :root {
+    --blue:    #1a3a6b;
+    --accent:  #2563eb;
+    --light:   #eff4ff;
+    --border:  #c7d7f0;
+    --code-bg: #f5f7fa;
+    --text:    #1a1a2e;
+    --muted:   #4a5568;
+    --rule:    #d0daea;
+  }
+
+  /* ── Page setup ── */
+  body {
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-size: 10.5pt;
+    line-height: 1.65;
+    color: var(--text);
+    background: #fff;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 48px 56px;
+  }
+
+  /* ── Cover page ── */
+  .cover {
+    min-height: 96vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border: 2px solid var(--blue);
+    padding: 56px 56px;
+    margin-bottom: 0;
+    position: relative;
+    page-break-after: always;
+  }
+  .cover-stripe {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 8px;
+    background: var(--blue);
+  }
+  .cover-logo {
+    font-family: 'Inter', sans-serif;
+    font-size: 11pt;
+    font-weight: 600;
+    color: var(--blue);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 48px;
+  }
+  .cover h1 {
+    font-family: 'Inter', sans-serif;
+    font-size: 26pt;
+    font-weight: 700;
+    color: var(--blue);
+    line-height: 1.2;
+    margin-bottom: 12px;
+  }
+  .cover h2 {
+    font-family: 'Inter', sans-serif;
+    font-size: 14pt;
+    font-weight: 400;
+    color: var(--muted);
+    border: none;
+    margin-bottom: 40px;
+  }
+  .cover hr {
+    border: none;
+    border-top: 1px solid var(--rule);
+    margin: 32px 0;
+  }
+  .cover-meta {
+    font-family: 'Inter', sans-serif;
+    font-size: 10pt;
+    color: var(--muted);
+    line-height: 2;
+  }
+  .cover-meta strong {
+    color: var(--text);
+    font-weight: 600;
+  }
+  .cover-bottom {
+    position: absolute;
+    bottom: 40px;
+    left: 56px; right: 56px;
+    font-family: 'Inter', sans-serif;
+    font-size: 9pt;
+    color: var(--muted);
+    display: flex;
+    justify-content: space-between;
+    border-top: 1px solid var(--rule);
+    padding-top: 12px;
+  }
+
+  /* ── Table of contents ── */
+  .toc { page-break-after: always; }
+  .toc h2 { margin-bottom: 20px; }
+  .toc ol { padding-left: 20px; }
+  .toc li { margin: 6px 0; font-size: 10pt; }
+  .toc li a { color: var(--accent); text-decoration: none; }
+  .toc li a:hover { text-decoration: underline; }
+  .toc .toc-section { font-weight: 600; font-family: 'Inter', sans-serif; }
+  .toc .toc-sub { padding-left: 16px; font-weight: 400; }
+
+  /* ── Section headings ── */
+  h2 {
+    font-family: 'Inter', sans-serif;
+    font-size: 15pt;
+    font-weight: 700;
+    color: var(--blue);
+    margin-top: 40px;
+    margin-bottom: 14px;
+    padding-bottom: 6px;
+    border-bottom: 2px solid var(--border);
+  }
+  h3 {
+    font-family: 'Inter', sans-serif;
+    font-size: 11.5pt;
+    font-weight: 600;
+    color: var(--text);
+    margin-top: 24px;
+    margin-bottom: 10px;
+  }
+  h4 {
+    font-family: 'Inter', sans-serif;
+    font-size: 10.5pt;
+    font-weight: 600;
+    color: var(--muted);
+    margin-top: 18px;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  /* ── Body text ── */
+  p { margin-bottom: 12px; }
+  a { color: var(--accent); }
+  strong { font-weight: 600; }
+  em { font-style: italic; }
+
+  ul, ol {
+    padding-left: 22px;
+    margin-bottom: 12px;
+  }
+  li { margin-bottom: 5px; }
+  li ul, li ol { margin-top: 4px; margin-bottom: 4px; }
+
+  /* ── Abstract box ── */
+  .abstract {
+    background: var(--light);
+    border-left: 4px solid var(--blue);
+    padding: 18px 22px;
+    margin: 20px 0 32px;
+    border-radius: 0 4px 4px 0;
+  }
+  .abstract p { margin: 0; font-style: italic; font-size: 10pt; }
+
+  /* ── Info / callout boxes ── */
+  .callout {
+    background: #f0f7ff;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 14px 18px;
+    margin: 16px 0;
+    font-size: 9.5pt;
+  }
+  .callout strong { color: var(--blue); }
+
+  /* ── Tables ── */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0 24px;
+    font-size: 9.5pt;
+    font-family: 'Inter', sans-serif;
+  }
+  thead tr { background: var(--blue); color: #fff; }
+  thead th {
+    padding: 8px 12px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 9pt;
+    letter-spacing: 0.3px;
+  }
+  tbody tr:nth-child(even) { background: #f7f9fd; }
+  tbody tr:hover { background: var(--light); }
+  tbody td {
+    padding: 7px 12px;
+    border-bottom: 1px solid #e2e8f0;
+    vertical-align: top;
+  }
+  td code, th code { font-size: 8.5pt; }
+
+  /* ── Code blocks ── */
+  pre {
+    background: var(--code-bg);
+    border: 1px solid #dde3ec;
+    border-radius: 5px;
+    padding: 14px 16px;
+    font-family: 'Source Code Pro', 'Courier New', monospace;
+    font-size: 8.5pt;
+    line-height: 1.55;
+    overflow-x: auto;
+    margin: 14px 0 20px;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+  code {
+    font-family: 'Source Code Pro', 'Courier New', monospace;
+    font-size: 8.5pt;
+    background: var(--code-bg);
+    border: 1px solid #dde3ec;
+    border-radius: 3px;
+    padding: 1px 5px;
+  }
+  pre code { background: none; border: none; padding: 0; font-size: inherit; }
+
+  /* ── Diagrams (ASCII pipeline) ── */
+  .diagram {
+    background: #0f1f3d;
+    color: #a8d8ff;
+    border-radius: 6px;
+    padding: 18px 20px;
+    font-family: 'Source Code Pro', monospace;
+    font-size: 8pt;
+    line-height: 1.6;
+    margin: 16px 0 24px;
+    white-space: pre;
+    overflow-x: auto;
+  }
+
+  /* ── Microservice cards ── */
+  .ms-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin: 16px 0 24px;
+  }
+  .ms-card {
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 14px 16px;
+    background: #fafcff;
+  }
+  .ms-card-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+  }
+  .ms-num {
+    background: var(--blue);
+    color: #fff;
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Inter', sans-serif;
+    font-size: 9pt;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .ms-title {
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 10pt;
+    color: var(--blue);
+  }
+  .ms-card p {
+    font-size: 9pt;
+    margin: 0;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+  .ms-stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-top: 8px;
+  }
+  .ms-tag {
+    font-family: 'Inter', sans-serif;
+    font-size: 7.5pt;
+    background: var(--light);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    padding: 1px 6px;
+    color: var(--blue);
+    font-weight: 500;
+  }
+
+  /* ── Key-value pairs ── */
+  .kv-list {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 4px 16px;
+    font-size: 9.5pt;
+    margin: 12px 0 20px;
+  }
+  .kv-key {
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    color: var(--blue);
+    white-space: nowrap;
+  }
+
+  /* ── Section dividers ── */
+  .section-break { page-break-before: always; }
+
+  /* ── Figure captions ── */
+  .caption {
+    text-align: center;
+    font-size: 8.5pt;
+    color: var(--muted);
+    margin-top: -12px;
+    margin-bottom: 20px;
+    font-style: italic;
+  }
+
+  /* ── Footnote-style references ── */
+  .ref-list { font-size: 9pt; }
+  .ref-list li { margin-bottom: 8px; }
+
+  /* ── Page numbers (print only) ── */
+  @media print {
+    body {
+      padding: 0;
+      max-width: 100%;
+      font-size: 10pt;
+    }
+    @page {
+      size: A4;
+      margin: 22mm 22mm 22mm 22mm;
+    }
+    @page :first { margin: 0; }
+    h2 { page-break-after: avoid; }
+    h3 { page-break-after: avoid; }
+    pre, table, .ms-grid { page-break-inside: avoid; }
+    .cover { page-break-after: always; border: none; min-height: 100vh; margin: 0; }
+    .toc { page-break-after: always; }
+    .section-break { page-break-before: always; }
+    a { color: var(--accent); }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════════
+     COVER PAGE
+════════════════════════════════════════════════════════════ -->
+<div class="cover">
+  <div class="cover-stripe"></div>
+
+  <div class="cover-logo">Northeastern University &nbsp;·&nbsp; Khoury College of Computer Sciences</div>
+
+  <h1>Resume Analyzer</h1>
+  <h2>An Event-Driven Microservices Platform on AWS for AI-Powered Career Intelligence</h2>
+
+  <hr>
+
+  <div class="cover-meta">
+    <div><strong>Course</strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; CS 6620 — Cloud Computing</div>
+    <div><strong>Semester</strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Spring 2026</div>
+    <br>
+    <div><strong>Team Members</strong></div>
+    <div style="padding-left:16px; margin-top:4px;">
+      &nbsp;·&nbsp; Auth &amp; Upload Services<br>
+      &nbsp;·&nbsp; Parser &amp; Analyzer Services<br>
+      &nbsp;·&nbsp; Results, Notification, Jobs &amp; Applications Services
+    </div>
+  </div>
+  <br>
+  <div class="cover-bottom">
+    <span>CS 6620 Cloud Computing — Group Project</span>
+    <span>Spring 2026</span>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════════
+     TABLE OF CONTENTS
+════════════════════════════════════════════════════════════ -->
+<div class="toc">
+  <h2>Table of Contents</h2>
+  <ol>
+    <li class="toc-section"><a href="#abstract">Abstract</a></li>
+    <li class="toc-section"><a href="#intro">Introduction</a></li>
+    <li class="toc-section"><a href="#arch">System Architecture</a>
+      <ol>
+        <li class="toc-sub"><a href="#arch-overview">High-Level Design</a></li>
+        <li class="toc-sub"><a href="#arch-pipeline">Event-Driven Processing Pipeline</a></li>
+        <li class="toc-sub"><a href="#arch-stack">Technology Stack</a></li>
+      </ol>
+    </li>
+    <li class="toc-section"><a href="#microservices">Microservice Design</a>
+      <ol>
+        <li class="toc-sub"><a href="#ms-auth">Authentication Service</a></li>
+        <li class="toc-sub"><a href="#ms-upload">Upload Service</a></li>
+        <li class="toc-sub"><a href="#ms-parser">Parser Service</a></li>
+        <li class="toc-sub"><a href="#ms-analyzer">Analyzer Service</a></li>
+        <li class="toc-sub"><a href="#ms-results">Results Service</a></li>
+        <li class="toc-sub"><a href="#ms-notification">Notification Service</a></li>
+        <li class="toc-sub"><a href="#ms-jobs">Jobs Service</a></li>
+        <li class="toc-sub"><a href="#ms-applications">Applications Service</a></li>
+      </ol>
+    </li>
+    <li class="toc-section"><a href="#data">Data Architecture</a></li>
+    <li class="toc-section"><a href="#messaging">Messaging &amp; Resilience</a></li>
+    <li class="toc-section"><a href="#frontend">Frontend Architecture</a></li>
+    <li class="toc-section"><a href="#security">Security Model</a></li>
+    <li class="toc-section"><a href="#cicd">CI/CD Pipeline</a></li>
+    <li class="toc-section"><a href="#integrations">Third-Party Integrations</a></li>
+    <li class="toc-section"><a href="#discussion">Discussion: Design Decisions &amp; Trade-offs</a></li>
+    <li class="toc-section"><a href="#conclusion">Conclusion</a></li>
+    <li class="toc-section"><a href="#references">References</a></li>
+  </ol>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════════
+     ABSTRACT
+════════════════════════════════════════════════════════════ -->
+<h2 id="abstract">Abstract</h2>
+<div class="abstract">
+  <p>
+    This report presents the design, implementation, and evaluation of <em>Resume Analyzer</em>, a cloud-native
+    career intelligence platform built entirely on Amazon Web Services. The system accepts resume uploads
+    (PDF or image), extracts text via AWS Textract and pypdf, and invokes Amazon Bedrock's Claude 3 Haiku
+    model to produce a scored, structured analysis covering role fit, skill gaps, and job-search strategies
+    enriched with real-time web data from the Tavily API. Post-analysis features include live job-board
+    search via Adzuna, AI-generated tailored resumes in Markdown or LaTeX, and a Kanban-style application
+    tracker. The system is composed of eight independent microservices orchestrated entirely through
+    event-driven messaging (Amazon SQS + SNS), deployed via AWS CDK v2 Python, and served by a React 18
+    single-page application distributed through Amazon CloudFront. This report documents the full
+    architecture, data design, security model, and key engineering trade-offs.
+  </p>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════════
+     1. INTRODUCTION
+════════════════════════════════════════════════════════════ -->
+<h2 id="intro">1. Introduction</h2>
+
+<p>
+  Modern job seekers face an increasingly competitive market in which resume quality and targeting
+  precision have an outsized impact on outcomes. Generic resume feedback tools either lack current
+  market awareness or require expensive human coaching. Large language models offer an opportunity to
+  deliver expert-caliber, context-aware feedback at near-zero marginal cost.
+</p>
+<p>
+  This project builds <strong>Resume Analyzer</strong>: a fully serverless, event-driven platform that
+  accepts a user's resume, extracts its text, enriches analysis with live labour-market signals, and
+  delivers a scored report with actionable recommendations, live job listings, and AI-tailored application
+  materials — all without a single always-on server.
+</p>
+<p>
+  The platform is designed around three guiding principles:
+</p>
+<ul>
+  <li><strong>Decoupled microservices</strong> — each service owns exactly one concern and communicates only through queues or topics.</li>
+  <li><strong>Infrastructure as Code</strong> — every AWS resource is defined in Python via AWS CDK v2, enabling reproducible one-command deployments.</li>
+  <li><strong>Operational resilience</strong> — idempotent handlers, dead-letter queues, and per-service IAM least-privilege contain the blast radius of any failure.</li>
+</ul>
+
+<p>
+  The remainder of this report is structured as follows: Section 2 presents the overall system architecture;
+  Sections 3–8 detail each microservice; Sections 9–12 address cross-cutting concerns (data, messaging,
+  security, CI/CD); Section 13 discusses key design trade-offs; and Section 14 concludes.
+</p>
+
+
+<!-- ═══════════════════════════════════════════════════════════
+     2. SYSTEM ARCHITECTURE
+════════════════════════════════════════════════════════════ -->
+<div class="section-break"></div>
+<h2 id="arch">2. System Architecture</h2>
+
+<h3 id="arch-overview">2.1 High-Level Design</h3>
+
+<p>
+  The system adopts an <em>event-driven microservices</em> pattern. Services never call each other
+  directly; instead, they publish messages to managed queues or topics. This ensures that no single
+  service failure can propagate synchronously to another service, and that each service can be scaled,
+  deployed, and tested independently.
+</p>
+
+<div class="diagram">
+  ┌─────────────────────────────────────────────────────────────────────────┐
+  │                          User Browser                                   │
+  └──────────────┬─────────────────────────────────────────────────────────┘
+                 │
+                 ▼
+        ┌─────────────────┐
+        │   CloudFront    │──► S3 Static Bucket (React SPA)
+        └────────┬────────┘
+                 │ API calls (5 separate API Gateways)
+         ┌───────┴──────────────────────────────────────┐
+         │                                              │
+         ▼                                              ▼
+  ┌──────────────┐  ┌──────────────┐  ┌─────────────┐  ┌──────────────┐  ┌──────────────┐
+  │  Auth API GW │  │ Upload API GW│  │Results API  │  │  Jobs API GW │  │ Apps API GW  │
+  └──────┬───────┘  └──────┬───────┘  └──────┬──────┘  └──────┬───────┘  └──────┬───────┘
+         │                 │                 │                │                 │
+         ▼                 ▼                 ▼                ▼                 ▼
+    Auth Lambda      Upload Lambda     Results API         Jobs Lambda       Apps Lambda
+    (Cognito)        (S3 Presign)      Lambda              (Adzuna/Bedrock)   (CRUD)
+                          │                 ▲                  │
+                          │ SQS             │ DynamoDB         │
+                          ▼                 │                  ▼
+                     Parser Lambda ─────────┤           Tailored Resumes
+                    (Textract/pypdf)        │           (DynamoDB)
+                          │ SQS             │
+                          ▼                 │
+                     Analyzer Lambda ───────┤
+                     (Bedrock + Tavily)     │
+                          │ SNS Fan-out     │
+                 ┌────────┴────────┐        │
+                 ▼                 ▼        │
+           Results Worker    Notification   │
+           Lambda            Lambda         │
+                │           (SES email)     │
+                └───────────────────────► DynamoDB</div>
+<p class="caption">Figure 1. High-level system architecture showing the five API Gateways and the asynchronous processing pipeline.</p>
+
+<h3 id="arch-pipeline">2.2 Event-Driven Processing Pipeline</h3>
+
+<p>
+  The core resume-processing pipeline is fully asynchronous. After a user uploads a file, the backend
+  pipeline runs independently of the browser session, enabling the user to close the browser and return
+  later.
+</p>
+
+<div class="diagram">Step 1  User selects a resume file in the browser
+  ▼
+Step 2  Frontend requests a presigned S3 URL from Upload Lambda
+  ▼
+Step 3  Browser uploads file DIRECTLY to S3 (bypasses all Lambda; no 6 MB limit)
+  ▼
+Step 4  Frontend calls POST /uploads/confirm — Upload Lambda writes to SQS ParseQueue
+  ▼
+  ▼  ── asynchronous boundary ──────────────────────────────────────────────────
+  ▼
+Step 5  Parser Lambda (SQS-triggered)
+          PDF  →  pypdf  →  plain text
+          Image →  AWS Textract (OCR)  →  plain text
+          Writes JSON to S3 parsed bucket  →  puts message on SQS AnalysisQueue
+  ▼
+Step 6  Analyzer Lambda (SQS-triggered)
+          Reads parsed text from S3
+          Calls Tavily API  →  live market signals (hiring trends, in-demand skills)
+          Calls Bedrock Claude 3 Haiku with resume + market context
+          Writes structured JSON analysis to S3
+          Publishes ONE message to SNS ResultsTopic
+  ▼
+  ▼  ── SNS fan-out (simultaneous delivery) ────────────────────────────────────
+  ▼                                    ▼
+Step 7a  Results Worker Lambda         Step 7b  Notification Lambda
+         Stores full analysis                   Looks up user email in Cognito
+         in DynamoDB results table              Sends HTML completion email via SES
+         Updates upload → COMPLETE              with deep link to report
+  ▼
+Step 8  Frontend polls GET /uploads/{id} every 3 s
+          status = COMPLETE  →  redirect to /results/{resultId}
+  ▼
+Step 9  User sees full analysis report</div>
+<p class="caption">Figure 2. The asynchronous resume processing pipeline from upload to rendered report.</p>
+
+<h3 id="arch-stack">2.3 Technology Stack</h3>
+
+<table>
+  <thead>
+    <tr><th>Layer</th><th>Technology</th><th>Version / Detail</th><th>Purpose</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>IaC</td><td>AWS CDK (Python)</td><td>v2.150+</td><td>Define all AWS resources in Python; synthesises CloudFormation</td></tr>
+    <tr><td>Compute</td><td>AWS Lambda</td><td>Python 3.12</td><td>Serverless function execution for all 8 microservices</td></tr>
+    <tr><td>API</td><td>Amazon API Gateway</td><td>REST (v1)</td><td>5 independent HTTP API surfaces, Cognito authorisation</td></tr>
+    <tr><td>Auth</td><td>Amazon Cognito</td><td>User Pools</td><td>Sign-up, OTP, JWT issuance and validation</td></tr>
+    <tr><td>Storage</td><td>Amazon S3</td><td>–</td><td>Resume files, parsed text JSON, analysis JSON, static SPA</td></tr>
+    <tr><td>Database</td><td>Amazon DynamoDB</td><td>On-demand</td><td>8 tables across all services; GSIs for secondary access patterns</td></tr>
+    <tr><td>Messaging</td><td>Amazon SQS + SNS</td><td>–</td><td>Async pipeline coupling; SNS fan-out to two consumers</td></tr>
+    <tr><td>AI (resume)</td><td>Amazon Bedrock</td><td>Claude 3 Haiku</td><td>Resume scoring, role matching, strategy generation</td></tr>
+    <tr><td>AI (resumes)</td><td>Amazon Bedrock</td><td>Claude 3 Haiku</td><td>Tailored resume generation (Markdown + LaTeX)</td></tr>
+    <tr><td>OCR</td><td>AWS Textract</td><td>Sync API</td><td>Text extraction from image-format resumes</td></tr>
+    <tr><td>Email</td><td>Amazon SES</td><td>–</td><td>Completion notifications with report deep link</td></tr>
+    <tr><td>CDN</td><td>Amazon CloudFront</td><td>–</td><td>Serve React SPA globally via edge locations</td></tr>
+    <tr><td>Frontend</td><td>React 18 + Vite</td><td>18.3.1 / 5.3.1</td><td>Single-page application; client-side routing</td></tr>
+    <tr><td>Jobs API</td><td>Adzuna</td><td>REST v1</td><td>Live job listings matched to the candidate's top roles</td></tr>
+    <tr><td>Web search</td><td>Tavily</td><td>REST</td><td>Live market data for AI enrichment and course recommendations</td></tr>
+  </tbody>
+</table>
+
+
+<!-- ═══════════════════════════════════════════════════════════
+     3. MICROSERVICE DESIGN
+════════════════════════════════════════════════════════════ -->
+<div class="section-break"></div>
+<h2 id="microservices">3. Microservice Design</h2>
+
+<p>
+  The platform is composed of eight microservices. Each is implemented as a single AWS Lambda function
+  (or a file with multiple entry-point handlers), backed by a dedicated CDK Stack that owns all its
+  AWS resources. Cross-service communication happens exclusively through SQS queues, SNS topics, or
+  shared DynamoDB tables — never through direct Lambda invocation.
+</p>
+
+<div class="ms-grid">
+  <div class="ms-card">
+    <div class="ms-card-header"><div class="ms-num">1</div><div class="ms-title">Auth Service</div></div>
+    <p>Registration, OTP verification, login, token refresh, password management, account deletion.</p>
+    <div class="ms-stack"><span class="ms-tag">Cognito</span><span class="ms-tag">DynamoDB</span><span class="ms-tag">API GW</span><span class="ms-tag">Lambda</span></div>
+  </div>
+  <div class="ms-card">
+    <div class="ms-card-header"><div class="ms-num">2</div><div class="ms-title">Upload Service</div></div>
+    <p>Presigned S3 URL generation, upload confirmation, upload history, status polling.</p>
+    <div class="ms-stack"><span class="ms-tag">S3</span><span class="ms-tag">SQS</span><span class="ms-tag">DynamoDB</span><span class="ms-tag">API GW</span></div>
+  </div>
+  <div class="ms-card">
+    <div class="ms-card-header"><div class="ms-num">3</div><div class="ms-title">Parser Service</div></div>
+    <p>Extracts text from PDF (pypdf) or image (Textract). Writes parsed JSON to S3 and enqueues analysis task.</p>
+    <div class="ms-stack"><span class="ms-tag">Textract</span><span class="ms-tag">S3</span><span class="ms-tag">SQS</span><span class="ms-tag">pypdf</span></div>
+  </div>
+  <div class="ms-card">
+    <div class="ms-card-header"><div class="ms-num">4</div><div class="ms-title">Analyzer Service</div></div>
+    <p>Calls Tavily for live market data, invokes Bedrock Claude 3 Haiku, fans out result via SNS.</p>
+    <div class="ms-stack"><span class="ms-tag">Bedrock</span><span class="ms-tag">Tavily</span><span class="ms-tag">SNS</span><span class="ms-tag">S3</span></div>
+  </div>
+  <div class="ms-card">
+    <div class="ms-card-header"><div class="ms-num">5</div><div class="ms-title">Results Service</div></div>
+    <p>Two handlers: SQS worker stores analysis in DynamoDB; API handler serves GET/DELETE to the frontend.</p>
+    <div class="ms-stack"><span class="ms-tag">DynamoDB</span><span class="ms-tag">SQS</span><span class="ms-tag">API GW</span></div>
+  </div>
+  <div class="ms-card">
+    <div class="ms-card-header"><div class="ms-num">6</div><div class="ms-title">Notification Service</div></div>
+    <p>Sends HTML completion email via SES with score, top role, and a deep link to the report.</p>
+    <div class="ms-stack"><span class="ms-tag">SES</span><span class="ms-tag">Cognito</span><span class="ms-tag">DynamoDB</span></div>
+  </div>
+  <div class="ms-card">
+    <div class="ms-card-header"><div class="ms-num">7</div><div class="ms-title">Jobs Service</div></div>
+    <p>Adzuna live job search, Tavily course recommendations, Bedrock tailored resume generation (Markdown + LaTeX).</p>
+    <div class="ms-stack"><span class="ms-tag">Adzuna</span><span class="ms-tag">Tavily</span><span class="ms-tag">Bedrock</span><span class="ms-tag">DynamoDB</span></div>
+  </div>
+  <div class="ms-card">
+    <div class="ms-card-header"><div class="ms-num">8</div><div class="ms-title">Applications Service</div></div>
+    <p>Pure CRUD Kanban tracker: application records, status history, interview rounds, and aggregate stats.</p>
+    <div class="ms-stack"><span class="ms-tag">DynamoDB</span><span class="ms-tag">API GW</span><span class="ms-tag">Lambda</span></div>
+  </div>
+</div>
+
+<h3 id="ms-auth">3.1 Authentication Service</h3>
+<p>
+  Authentication is delegated entirely to <strong>Amazon Cognito</strong> — passwords are never stored
+  or seen by application code. The Auth Lambda acts as a thin adapter between the REST API and the
+  Cognito SDK, translating HTTP requests into Cognito API calls.
+</p>
+<p>
+  On registration, Cognito automatically sends a 6-digit OTP to the user's email address. The Lambda
+  creates a corresponding record in the DynamoDB users table. On verification, the Cognito user is
+  confirmed and the DynamoDB status transitions from <code>PENDING</code> to <code>VERIFIED</code>.
+</p>
+<p>
+  Successful login returns three tokens: an <em>ID token</em> (JWT, 1-hour validity, contains
+  <code>sub</code>/<code>email</code>/<code>name</code> claims), an <em>access token</em> (1 hour),
+  and a <em>refresh token</em> (30-day validity). Downstream API Gateways use a Cognito authoriser to
+  validate the ID token's signature against Cognito's JWKS endpoint, requiring no custom authorisation
+  logic in individual Lambdas.
+</p>
+<p>
+  Account deletion triggers a cross-service cascade implemented via broad IAM permissions granted
+  selectively to the Auth Lambda: it queries and deletes records across all DynamoDB tables and S3
+  prefixes belonging to that user before calling Cognito <code>DeleteUser</code>.
+</p>
+
+<h3 id="ms-upload">3.2 Upload Service</h3>
+<p>
+  File uploads follow the <strong>presigned URL pattern</strong> — a key cloud-native design choice.
+  Rather than routing file bytes through a Lambda (which has a 6 MB HTTP body limit and charges for
+  upload-time execution), the Upload Lambda generates an S3 presigned PUT URL with a 5-minute expiry.
+  The browser uploads the file directly to S3 at up to 5 GB, then calls
+  <code>POST /uploads/confirm</code> to notify the backend.
+</p>
+<p>
+  The confirm handler records the upload in DynamoDB with status <code>UPLOADED</code> and publishes a
+  parse-trigger message to the SQS ParseQueue. The upload record then tracks state transitions through
+  the pipeline: <code>PENDING → UPLOADED → PARSING → ANALYZING → COMPLETE / FAILED</code>.
+</p>
+
+<h3 id="ms-parser">3.3 Parser Service</h3>
+<p>
+  The Parser Lambda is triggered by SQS messages from the ParseQueue with a batch size of 1 and a
+  360-second visibility timeout (allowing up to 6 minutes for large documents before a redelivery).
+</p>
+<p>
+  Two extraction paths are supported:
+</p>
+<ul>
+  <li><strong>PDF files</strong> — <code>pypdf.PdfReader</code> iterates pages and concatenates extracted text.</li>
+  <li><strong>Image files</strong> (PNG, JPG, JPEG) — <code>textract.detect_document_text()</code> performs synchronous OCR, with LINE blocks concatenated in order.</li>
+</ul>
+<p>
+  Before processing, the handler checks for an existing parse-job record on the
+  <code>uploadId-index</code> GSI (idempotency guard against SQS at-least-once redelivery).
+  If fewer than 50 characters are extracted, the upload is marked <code>FAILED</code>. Otherwise,
+  extracted text is written as JSON to the parsed-text S3 bucket and a message is sent to the
+  AnalysisQueue.
+</p>
+
+<h3 id="ms-analyzer">3.4 Analyzer Service</h3>
+<p>
+  The Analyzer Lambda is the most computationally intensive service. It runs with 512 MB of memory
+  and a 240-second timeout, reflecting the latency of two sequential external calls (Tavily + Bedrock).
+</p>
+
+<h4>Step 1 — Field Detection</h4>
+<p>
+  The handler scans the resume text for keyword patterns mapped to professional fields (software
+  engineering, data science, DevOps, finance, marketing, etc.). The detected field drives the Tavily
+  search queries, ensuring market enrichment is domain-specific.
+</p>
+
+<h4>Step 2 — Tavily Market Enrichment</h4>
+<p>
+  Two concurrent web searches fetch live context: (1) companies actively hiring in the detected field
+  in 2025, and (2) the most in-demand skills for that field. Snippets are concatenated into a
+  <code>market_context</code> string injected into the Bedrock prompt.
+</p>
+
+<h4>Step 3 — Bedrock Invocation</h4>
+<p>
+  Claude 3 Haiku (<code>anthropic.claude-3-haiku-20240307-v1:0</code>) is invoked via
+  <code>bedrock-runtime.invoke_model</code> with:
+</p>
+<ul>
+  <li><code>max_tokens: 8192</code> — allows a rich, multi-section JSON response</li>
+  <li><code>temperature: 0.55</code> — deterministic enough for consistent scoring, creative enough for varied strategies</li>
+  <li>Resume text truncated to 12,000 characters to respect the effective context budget</li>
+</ul>
+<p>
+  The prompt instructs the model to act as a senior career advisor with 20+ years of experience and
+  return <em>only</em> a valid JSON object matching a strict schema:
+</p>
+<pre>{
+  "resume_score": 73,
+  "summary": "...",
+  "resume_sections_review": {
+    "professional_summary": "...",
+    "work_experience": "...",
+    "skills_section": "...",
+    "education": "...",
+    "overall_presentation": "..."
+  },
+  "critical_improvements": ["...", "..."],
+  "top_roles": [
+    {
+      "title": "Senior Backend Engineer",
+      "match_percentage": 82,
+      "reason": "...",
+      "resume_gaps": ["..."],
+      "application_tips": ["..."],
+      "target_companies": ["Stripe", "Twilio", "..."]
+    }
+  ],
+  "job_search_strategies": ["..."],
+  "skills_to_highlight": ["..."],
+  "skills_to_develop": ["..."],
+  "key_achievements": ["..."]
+}</pre>
+<p>
+  Score calibration rubric is embedded in the prompt (85–100 = exceptional, 70–84 = strong,
+  55–69 = average, 40–54 = below average, &lt;40 = needs rewrite), preventing score inflation
+  common in unconstrained LLM outputs.
+</p>
+
+<h4>Step 4 — SNS Fan-out</h4>
+<p>
+  After writing the analysis JSON to S3, the Analyzer publishes a single SNS message to
+  <code>resume-analyzer-results-topic</code>. SNS delivers the message simultaneously to two SQS
+  subscribers: the ResultsQueue and the NotificationQueue.
+</p>
+
+<h3 id="ms-results">3.5 Results Service</h3>
+<p>
+  The Results Service contains two Lambda entry points in a single handler file:
+</p>
+<ul>
+  <li><strong><code>worker_handler</code></strong> — SQS-triggered; reads the analysis from the SNS-wrapped SQS message, writes the full result to DynamoDB (with an idempotency check on <code>uploadId-index</code>), and updates the upload status to <code>COMPLETE</code>.</li>
+  <li><strong><code>api_handler</code></strong> — HTTP-triggered; serves <code>GET /results</code>, <code>GET /results/{resultId}</code>, and <code>DELETE /results/{resultId}</code> with per-user ownership enforcement.</li>
+</ul>
+
+<h3 id="ms-notification">3.6 Notification Service</h3>
+<p>
+  Triggered by the NotificationQueue, the Notification Lambda retrieves the user's email address from
+  Cognito via <code>admin_get_user</code>, waits up to 15 seconds (5 × 3 s polls) for the Results
+  Worker to write the <code>resultId</code> to DynamoDB, then sends a formatted HTML email via SES
+  containing the resume score, top matched role, and a deep link to the report.
+</p>
+<p>
+  Importantly, the Notification Lambda <em>does not re-raise exceptions</em>. A failed email is
+  non-fatal — the pipeline result is unaffected, and the user can still access their report through
+  the frontend.
+</p>
+
+<h3 id="ms-jobs">3.7 Jobs Service</h3>
+<p>
+  The Jobs Service provides three distinct capabilities through a single Lambda with an API handler
+  entry point:
+</p>
+
+<h4>Live Job Search (Adzuna)</h4>
+<p>
+  When a user requests job listings, the handler calls the Adzuna REST API for each of the
+  candidate's top 5 roles, passing both the role title (<code>what</code>) and the candidate's top
+  skills (<code>what_or</code>). The <code>what_or</code> parameter filters results to postings
+  mentioning at least one of the candidate's skills, producing personalised listings. Results are
+  cached in DynamoDB after the first fetch to avoid repeated API calls.
+</p>
+
+<h4>Course Recommendations (Tavily)</h4>
+<p>
+  For any job listing, the handler queries Tavily for online courses relevant to the job's title and
+  skill requirements. Course metadata (title, URL, snippet) is cached on the job record in DynamoDB.
+</p>
+
+<h4>Tailored Resume Generation (Bedrock)</h4>
+<p>
+  The user may request a resume tailored for a specific job in either <strong>Markdown</strong> or
+  <strong>LaTeX</strong> format. The handler constructs a prompt containing the original parsed resume
+  text, the job's title and description, and (for LaTeX) a standard academic resume template
+  (Jake's Resume template). Claude 3 Haiku rewrites the resume, preserving structure while optimising
+  content for the target role. Generated resumes are stored in DynamoDB and editable in the browser
+  via a Markdown editor or a CodeMirror LaTeX editor.
+</p>
+
+<h3 id="ms-applications">3.8 Applications Service</h3>
+<p>
+  A pure CRUD service with no external API or AI dependency. Each application record tracks company,
+  role, location, source, notes, next action, a complete status history list, and a list of interview
+  rounds. Status transitions drive the Kanban board view. An aggregate <code>GET /stats</code>
+  endpoint computes response rate and offer rate across all applications.
+</p>
+
+
+<!-- ═══════════════════════════════════════════════════════════
+     4. DATA ARCHITECTURE
+════════════════════════════════════════════════════════════ -->
+<div class="section-break"></div>
+<h2 id="data">4. Data Architecture</h2>
+
+<p>
+  All persistent state is stored in <strong>Amazon DynamoDB</strong> using on-demand (pay-per-request)
+  billing. DynamoDB was chosen over relational alternatives (Amazon RDS) to avoid VPC complexity,
+  connection-pool management, and idle capacity costs — critical for a student project with bursty,
+  low-volume traffic.
+</p>
+<p>
+  Every access pattern is served by either a table's primary key or a pre-planned Global Secondary
+  Index (GSI). The eight tables and their key design are:
+</p>
+
+<table>
+  <thead>
+    <tr><th>Table</th><th>PK</th><th>SK</th><th>GSIs</th><th>Purpose</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>resume-analyzer-users</code></td>
+      <td><code>userId</code></td>
+      <td>–</td>
+      <td><code>email-index</code></td>
+      <td>User profile &amp; verification status</td>
+    </tr>
+    <tr>
+      <td><code>resume-analyzer-uploads</code></td>
+      <td><code>userId</code></td>
+      <td><code>uploadId</code></td>
+      <td><code>uploadId-index</code></td>
+      <td>Upload records &amp; pipeline status</td>
+    </tr>
+    <tr>
+      <td><code>resume-analyzer-parse-jobs</code></td>
+      <td><code>parseJobId</code></td>
+      <td>–</td>
+      <td><code>uploadId-index</code></td>
+      <td>Idempotency guard for Parser Lambda</td>
+    </tr>
+    <tr>
+      <td><code>resume-analyzer-analysis-jobs</code></td>
+      <td><code>analysisJobId</code></td>
+      <td>–</td>
+      <td><code>uploadId-index</code></td>
+      <td>Idempotency guard for Analyzer Lambda</td>
+    </tr>
+    <tr>
+      <td><code>resume-analyzer-results</code></td>
+      <td><code>userId</code></td>
+      <td><code>resultId</code></td>
+      <td><code>uploadId-index</code>, <code>resultId-index</code></td>
+      <td>Full analysis output including original resume text</td>
+    </tr>
+    <tr>
+      <td><code>resume-analyzer-jobs</code></td>
+      <td><code>jobId</code></td>
+      <td>–</td>
+      <td><code>resultId-index</code>, <code>userId-index</code></td>
+      <td>Cached Adzuna job listings + Tavily courses</td>
+    </tr>
+    <tr>
+      <td><code>resume-analyzer-tailored-resumes</code></td>
+      <td><code>resumeId</code></td>
+      <td>–</td>
+      <td><code>userId-index</code>, <code>jobId-index</code></td>
+      <td>AI-generated tailored resumes (Markdown + LaTeX)</td>
+    </tr>
+    <tr>
+      <td><code>resume-analyzer-applications</code></td>
+      <td><code>applicationId</code></td>
+      <td>–</td>
+      <td><code>userId-index</code>, <code>userId-status-index</code></td>
+      <td>Job application tracker with interview rounds</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="callout">
+  <strong>Design note:</strong> The <code>resume-analyzer-results</code> table stores the original
+  parsed resume text alongside the analysis output. This avoids a cross-service S3 read in the Jobs
+  Lambda when generating tailored resumes. The trade-off is DynamoDB's 400 KB item limit — acceptable
+  in practice since most resumes produce fewer than 15 KB of text.
+</div>
+
+<p>
+  The composite primary key on the uploads table (<code>userId + uploadId</code>) enforces row-level
+  ownership at the storage layer: a query with a different <code>userId</code> cannot access another
+  user's records, even if the <code>uploadId</code> is known.
+</p>
+
+
+<!-- ═══════════════════════════════════════════════════════════
+     5. MESSAGING & RESILIENCE
+════════════════════════════════════════════════════════════ -->
+<h2 id="messaging">5. Messaging &amp; Resilience</h2>
+
+<h3>5.1 Queue Design</h3>
+
+<table>
+  <thead>
+    <tr><th>Queue</th><th>Producer</th><th>Consumer</th><th>Visibility Timeout</th><th>DLQ Retention</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><code>parse-queue</code></td><td>Upload Lambda</td><td>Parser Lambda</td><td>360 s</td><td>14 days</td></tr>
+    <tr><td><code>analysis-queue</code></td><td>Parser Lambda</td><td>Analyzer Lambda</td><td>300 s</td><td>14 days</td></tr>
+    <tr><td><code>results-queue</code></td><td>SNS Topic</td><td>Results Worker</td><td>120 s</td><td>14 days</td></tr>
+    <tr><td><code>notification-queue</code></td><td>SNS Topic</td><td>Notification Lambda</td><td>60 s</td><td>14 days</td></tr>
+  </tbody>
+</table>
+
+<p>
+  Each queue has a corresponding dead-letter queue (DLQ) configured with <code>maxReceiveCount=3</code>.
+  After three consecutive failures, the message is moved to the DLQ and retained for 14 days for
+  manual inspection and replay.
+</p>
+
+<h3>5.2 Idempotency</h3>
+<p>
+  SQS guarantees <em>at-least-once</em> delivery — a message may be delivered more than once in the
+  event of network issues or Lambda timeouts. Every processing Lambda guards against duplicate
+  processing by querying the relevant GSI for an existing job record before beginning work:
+</p>
+<pre># Parser Lambda — idempotency guard
+existing = parse_jobs_table.query(
+    IndexName="uploadId-index",
+    KeyConditionExpression=Key("uploadId").eq(upload_id)
+)
+if any(i["status"] in ("PROCESSING", "COMPLETE") for i in existing["Items"]):
+    return  # already processed — safe to discard this redelivery</pre>
+
+<h3>5.3 Failure Propagation</h3>
+<p>
+  When a processing Lambda encounters an unrecoverable error, it updates the upload record's status
+  to <code>FAILED</code> and <em>re-raises</em> the exception (causing SQS to retry, and eventually
+  route to the DLQ). The frontend's polling loop surfaces the <code>FAILED</code> status to the user.
+  Notification failures are intentionally swallowed to avoid email spam on retries.
+</p>
+
+
+<!-- ═══════════════════════════════════════════════════════════
+     6. FRONTEND ARCHITECTURE
+════════════════════════════════════════════════════════════ -->
+<div class="section-break"></div>
+<h2 id="frontend">6. Frontend Architecture</h2>
+
+<p>
+  The frontend is a React 18 Single-Page Application (SPA) built with Vite 5.3 and distributed via
+  Amazon CloudFront. All navigation occurs client-side through React Router v6 without full page reloads.
+</p>
+
+<h3>6.1 Routing</h3>
+
+<table>
+  <thead>
+    <tr><th>Route</th><th>Component</th><th>Auth</th><th>Function</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><code>/register</code></td><td>Register.jsx</td><td>No</td><td>Email + password sign-up</td></tr>
+    <tr><td><code>/verify-otp</code></td><td>VerifyOTP.jsx</td><td>No</td><td>6-digit OTP confirmation</td></tr>
+    <tr><td><code>/login</code></td><td>Login.jsx</td><td>No</td><td>Credential login</td></tr>
+    <tr><td><code>/forgot-password</code></td><td>ForgotPassword.jsx</td><td>No</td><td>Password reset initiation</td></tr>
+    <tr><td><code>/reset-password</code></td><td>ResetPassword.jsx</td><td>No</td><td>Code + new password</td></tr>
+    <tr><td><code>/dashboard</code></td><td>ResumeUpload.jsx</td><td>Yes</td><td>Drag-and-drop upload + history</td></tr>
+    <tr><td><code>/results/:resultId</code></td><td>ReportView.jsx</td><td>Yes</td><td>Full analysis report + PDF download</td></tr>
+    <tr><td><code>/results/:resultId/roles/:idx</code></td><td>RoleDetail.jsx</td><td>Yes</td><td>Deep-dive role page with live jobs</td></tr>
+    <tr><td><code>/jobs/:jobId</code></td><td>JobDetail.jsx</td><td>Yes</td><td>Single Adzuna listing</td></tr>
+    <tr><td><code>/tailored-resumes/:resumeId</code></td><td>TailoredResumeEditor.jsx</td><td>Yes</td><td>In-browser Markdown / LaTeX editor</td></tr>
+    <tr><td><code>/tracker</code></td><td>TrackerBoard.jsx</td><td>Yes</td><td>Kanban application tracker</td></tr>
+    <tr><td><code>/tracker/:applicationId</code></td><td>ApplicationDetail.jsx</td><td>Yes</td><td>Application detail + interview rounds</td></tr>
+    <tr><td><code>/profile</code></td><td>Profile.jsx</td><td>Yes</td><td>Change password/email, delete account</td></tr>
+  </tbody>
+</table>
+
+<h3>6.2 API Layer</h3>
+<p>
+  All HTTP calls are centralised in <code>src/services/api.js</code> using Axios. Every authenticated
+  request attaches the Cognito ID token from <code>localStorage</code> as a
+  <code>Authorization: Bearer</code> header. The five API base URLs are injected at build time via
+  Vite environment variables (<code>VITE_AUTH_API_URL</code>, <code>VITE_APP_API_URL</code>,
+  <code>VITE_RESULTS_API_URL</code>, <code>VITE_JOBS_API_URL</code>,
+  <code>VITE_APPLICATIONS_API_URL</code>).
+</p>
+
+<h3>6.3 Key Frontend Features</h3>
+
+<h4>Status Polling</h4>
+<p>
+  After upload confirmation, the dashboard polls <code>GET /uploads/{uploadId}</code> every 3 seconds
+  using a <code>setInterval</code> inside a <code>useEffect</code>. When the status transitions to
+  <code>COMPLETE</code>, the interval is cleared and React Router navigates to
+  <code>/results/{resultId}</code>.
+</p>
+
+<h4>Client-Side PDF Generation</h4>
+<p>
+  The "Download PDF" button uses <code>@react-pdf/renderer</code> to generate a PDF entirely in the
+  browser — no server round-trip. The <code>ReportPDF</code> component defines the document layout
+  using react-pdf primitives, and the output is converted to a Blob and triggered as a file download.
+</p>
+
+<h4>Kanban Drag-and-Drop</h4>
+<p>
+  The application tracker uses <code>@dnd-kit/core</code> for drag-and-drop. Dragging a card between
+  columns triggers a <code>PATCH /applications/{id}</code> call with the new status, updating both
+  the DynamoDB record and the visual position of the card.
+</p>
+
+<h4>Resume Editor</h4>
+<p>
+  AI-generated tailored resumes are editable in-browser. Markdown format renders in
+  <code>@uiw/react-md-editor</code> (live split-pane preview); LaTeX format renders in
+  <code>@uiw/react-codemirror</code> with <code>stex</code> syntax highlighting.
+  Edits are saved via <code>PUT /tailored-resumes/{resumeId}</code>.
+</p>
+
+
+<!-- ═══════════════════════════════════════════════════════════
+     7. SECURITY MODEL
+════════════════════════════════════════════════════════════ -->
+<h2 id="security">7. Security Model</h2>
+
+<h3>7.1 Authentication &amp; Authorisation</h3>
+<p>
+  All protected API Gateway routes use a <strong>Cognito User Pool authoriser</strong>, which validates
+  the JWT signature against Cognito's published JWKS before passing claims to the Lambda. No custom
+  token-validation code exists in application Lambdas — the authoriser layer handles it.
+</p>
+<p>
+  Every Lambda that touches user data performs an explicit ownership check:
+</p>
+<pre>user_id = event["requestContext"]["authorizer"]["claims"]["sub"]
+item = table.get_item(Key={"uploadId": upload_id})["Item"]
+if item["userId"] != user_id:
+    return respond(403, {"error": "Forbidden"})</pre>
+
+<h3>7.2 IAM Least Privilege</h3>
+<p>
+  Each Lambda's IAM role grants only the permissions it needs. For example:
+</p>
+<ul>
+  <li>The <strong>Parser Lambda</strong> can read from the resumes bucket, read/write the parsed bucket, send to the AnalysisQueue, and call <code>textract:DetectDocumentText</code>. It cannot access DynamoDB results, call Bedrock, or publish to SNS.</li>
+  <li>The <strong>Analyzer Lambda</strong> can invoke only the specific Bedrock model ARN it uses, not all Bedrock models.</li>
+  <li>The <strong>Applications Lambda</strong> has read/write only on the applications table — no access to any other table or S3 bucket.</li>
+</ul>
+
+<h3>7.3 S3 Security</h3>
+<p>
+  All S3 buckets have <code>BlockPublicAccess.BLOCK_ALL</code> enforced at the bucket level. The
+  frontend bucket is accessible exclusively through CloudFront's Origin Access Control (OAC). Resume
+  buckets are accessible only via presigned URLs (5-minute expiry) or Lambda execution roles.
+</p>
+
+<h3>7.4 CORS</h3>
+<p>
+  API Gateways are configured with <code>allow_origins=Cors.ALL_ORIGINS</code> to accommodate local
+  development and the CloudFront domain. In a production deployment, this would be restricted to the
+  specific CloudFront domain.
+</p>
+
+
+<!-- ═══════════════════════════════════════════════════════════
+     8. CI/CD PIPELINE
+════════════════════════════════════════════════════════════ -->
+<div class="section-break"></div>
+<h2 id="cicd">8. CI/CD Pipeline</h2>
+
+<p>
+  A GitHub Actions workflow (<code>.github/workflows/deploy-frontend.yml</code>) automates frontend
+  deployment on every push to the <code>main</code> branch where files under <code>frontend/</code>
+  change. The workflow:
+</p>
+<ol>
+  <li>Checks out the repository and configures Node.js 20 with npm caching</li>
+  <li>Runs <code>npm ci</code> (deterministic install from <code>package-lock.json</code>) and <code>npm run build</code> — Vite injects the API URLs from GitHub Secrets as environment variables at compile time</li>
+  <li>Configures AWS credentials from GitHub Secrets (<code>AWS_ACCESS_KEY_ID</code>, <code>AWS_SECRET_ACCESS_KEY</code>)</li>
+  <li>Syncs the <code>dist/</code> directory to the frontend S3 bucket with differential cache headers: <code>max-age=31536000</code> for hashed assets (immutable), <code>max-age=0</code> for <code>index.html</code> (always fresh)</li>
+  <li>Creates a CloudFront invalidation for <code>/*</code> to purge cached content from edge locations</li>
+</ol>
+
+<p>
+  Backend (CDK) deployments are performed manually. <code>cdk deploy --all</code> synthesises all
+  eight stacks into CloudFormation templates and deploys them in dependency order.
+</p>
+
+
+<!-- ═══════════════════════════════════════════════════════════
+     9. THIRD-PARTY INTEGRATIONS
+════════════════════════════════════════════════════════════ -->
+<h2 id="integrations">9. Third-Party Integrations</h2>
+
+<table>
+  <thead>
+    <tr><th>Service</th><th>Used By</th><th>Purpose</th><th>Fallback</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Amazon Bedrock</strong><br><code>claude-3-haiku</code></td>
+      <td>Analyzer, Jobs</td>
+      <td>Resume scoring &amp; analysis; tailored resume generation</td>
+      <td>Analysis fails → upload marked FAILED → DLQ</td>
+    </tr>
+    <tr>
+      <td><strong>Tavily</strong></td>
+      <td>Analyzer, Jobs</td>
+      <td>Live market data enrichment; course recommendations</td>
+      <td>Exception swallowed; analysis continues without market context</td>
+    </tr>
+    <tr>
+      <td><strong>Adzuna</strong></td>
+      <td>Jobs</td>
+      <td>Live job listings personalised by role and skills</td>
+      <td>Exception swallowed; empty job list returned</td>
+    </tr>
+    <tr>
+      <td><strong>Amazon SES</strong></td>
+      <td>Notification</td>
+      <td>HTML completion email with report link</td>
+      <td>Exception swallowed; report still accessible via frontend</td>
+    </tr>
+    <tr>
+      <td><strong>AWS Textract</strong></td>
+      <td>Parser</td>
+      <td>OCR for image-format resumes</td>
+      <td>Exception propagates → upload marked FAILED</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>
+  All third-party API credentials (Tavily, Adzuna) are injected into Lambda environments by CDK at
+  deploy time, reading from OS environment variables. They are not committed to source control.
+</p>
+
+
+<!-- ═══════════════════════════════════════════════════════════
+     10. DISCUSSION
+════════════════════════════════════════════════════════════ -->
+<div class="section-break"></div>
+<h2 id="discussion">10. Discussion: Design Decisions &amp; Trade-offs</h2>
+
+<h3>10.1 Presigned URL Upload vs. Proxy Through Lambda</h3>
+<p>
+  Routing file bytes through Lambda is common in simpler architectures but imposes a hard 6 MB HTTP
+  body limit and charges for Lambda execution time during the upload. The presigned URL pattern
+  eliminates both constraints: S3 accepts files up to 5 GB, and Lambda only handles lightweight
+  coordination messages. The cost is additional frontend complexity — two API calls per upload
+  (presigned URL + confirm) instead of one.
+</p>
+
+<h3>10.2 Five API Gateways vs. One</h3>
+<p>
+  A single API Gateway would simplify the frontend's URL management but would create a cross-stack
+  resource dependency in CDK, preventing independent deployment of services. The five-gateway design
+  mirrors the microservice boundaries: each stack fully owns its API surface with no shared
+  infrastructure to coordinate. The frontend manages the five base URLs through Vite environment
+  variables.
+</p>
+
+<h3>10.3 SNS Fan-out and the Notification Race Condition</h3>
+<p>
+  The SNS fan-out pattern delivers analysis results to both the Results Worker and the Notification
+  Lambda simultaneously — an elegant decoupling. However, the Notification Lambda needs the
+  <code>resultId</code> (created by the Results Worker) to construct the report link. A retry loop
+  (up to 15 s) compensates for this race condition. In production, including the
+  <code>resultId</code> in the SNS message itself (computed before publishing) would eliminate the
+  race entirely.
+</p>
+
+<h3>10.4 DynamoDB vs. Relational Database</h3>
+<p>
+  DynamoDB was chosen for its zero-idle cost, serverless nature, and lack of VPC requirements.
+  The trade-off is that every access pattern must be planned upfront through GSIs. This project has
+  eight GSIs serving specific query shapes. Adding new ad-hoc queries post-deployment can be expensive
+  (a new GSI must backfill from existing data). For complex analytics over user data, a relational
+  store would be preferable.
+</p>
+
+<h3>10.5 Claude 3 Haiku vs. Higher-Capability Models</h3>
+<p>
+  Claude 3 Haiku processes each resume prompt in approximately 5–8 seconds at a cost of roughly
+  $0.006 per analysis. Claude 3.5 Sonnet would produce higher-quality output but at approximately
+  8× the cost and 2× the latency. For a student project at low volume, Haiku offers an excellent
+  quality-to-cost ratio. A production system serving paying users would justify the upgrade.
+</p>
+
+<h3>10.6 Client-Side PDF Generation</h3>
+<p>
+  Using <code>@react-pdf/renderer</code> in the browser eliminates a server-side PDF generation
+  Lambda, reduces latency for the user, and avoids Lambda timeout concerns for large reports.
+  The trade-off is a heavier JavaScript bundle (~1.7 MB uncompressed). Lazy-loading the PDF
+  renderer component would mitigate initial load time in production.
+</p>
+
+<h3>10.7 Single-File Lambda Handlers</h3>
+<p>
+  All service logic lives in one handler file per service (e.g., <code>jobs_service/handler.py</code>
+  is approximately 660 lines). This simplifies deployment — no Lambda Layers or multi-file packaging
+  — and makes each service self-contained. Production systems would decompose these into modules with
+  shared utilities and dedicated unit tests per function.
+</p>
+
+<h3>10.8 What We Would Do Differently in Production</h3>
+<ul>
+  <li>Restrict CORS to the specific CloudFront domain</li>
+  <li>Store API keys in AWS Secrets Manager rather than Lambda environment variables</li>
+  <li>Add CloudWatch Alarms on DLQ depth, Lambda error rates, and API 5xx rates</li>
+  <li>Enable AWS X-Ray tracing for end-to-end pipeline profiling</li>
+  <li>Add Provisioned Concurrency on API Lambdas to eliminate cold-start latency</li>
+  <li>Request SES production access to send to unverified addresses</li>
+  <li>Include <code>resultId</code> in the SNS message to remove the notification race condition</li>
+  <li>Add a comprehensive unit and integration test suite for each Lambda</li>
+</ul>
+
+
+<!-- ═══════════════════════════════════════════════════════════
+     11. CONCLUSION
+════════════════════════════════════════════════════════════ -->
+<h2 id="conclusion">11. Conclusion</h2>
+
+<p>
+  Resume Analyzer demonstrates the power of composing managed cloud services into a coherent,
+  production-quality platform without operating a single persistent server. The eight-microservice
+  architecture — each independently deployed, independently scalable, and independently failure-isolated
+  — illustrates the core principles of event-driven cloud design. The use of AWS CDK v2 Python for
+  all infrastructure ensures the entire platform can be reproduced with a single command, a key
+  property for maintainability and team collaboration.
+</p>
+<p>
+  The integration of Amazon Bedrock with real-time web search (Tavily) and live job-board data
+  (Adzuna) demonstrates how LLM-powered features can be grounded in current, real-world context
+  rather than static training knowledge. The post-analysis workflow — personalised job listings,
+  AI-tailored resume generation, and a job-application tracker — transforms a one-time report into
+  an ongoing career workflow tool.
+</p>
+<p>
+  The project resulted in a fully functional, publicly accessible web application deployed to AWS
+  <code>us-east-1</code>, with an automated CI/CD pipeline for frontend deployments and a documented,
+  reproducible backend deployment process. The architectural trade-offs identified in Section 10
+  provide a clear roadmap for productionising the system beyond the academic context.
+</p>
+
+
+<!-- ═══════════════════════════════════════════════════════════
+     12. REFERENCES
+════════════════════════════════════════════════════════════ -->
+<div class="section-break"></div>
+<h2 id="references">References</h2>
+
+<ol class="ref-list">
+  <li>
+    Amazon Web Services. (2024). <em>AWS CDK Developer Guide, Version 2</em>.
+    AWS Documentation. Retrieved from https://docs.aws.amazon.com/cdk/v2/guide/
+  </li>
+  <li>
+    Amazon Web Services. (2024). <em>Amazon Bedrock User Guide</em>.
+    AWS Documentation. Retrieved from https://docs.aws.amazon.com/bedrock/latest/userguide/
+  </li>
+  <li>
+    Amazon Web Services. (2024). <em>Amazon DynamoDB Developer Guide — Best Practices for Designing and Architecting with DynamoDB</em>.
+    AWS Documentation. Retrieved from https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/best-practices.html
+  </li>
+  <li>
+    Amazon Web Services. (2024). <em>Amazon SQS Developer Guide — Dead-Letter Queues</em>.
+    AWS Documentation. Retrieved from https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-dead-letter-queues.html
+  </li>
+  <li>
+    Anthropic. (2024). <em>Claude 3 Model Card</em>. Anthropic.
+    Retrieved from https://www.anthropic.com/claude
+  </li>
+  <li>
+    Fowler, M. (2014). <em>Microservices: a definition of this new architectural term</em>.
+    martinfowler.com. Retrieved from https://martinfowler.com/articles/microservices.html
+  </li>
+  <li>
+    Richardson, C. (2018). <em>Microservices Patterns: With Examples in Java</em>. Manning Publications.
+  </li>
+  <li>
+    React Documentation Team. (2024). <em>React 18 — What's New</em>.
+    React.dev. Retrieved from https://react.dev/blog/2022/03/29/react-v18
+  </li>
+  <li>
+    Adzuna. (2024). <em>Adzuna API Documentation</em>.
+    Retrieved from https://developer.adzuna.com/
+  </li>
+  <li>
+    Tavily. (2024). <em>Tavily Search API Documentation</em>.
+    Retrieved from https://docs.tavily.com/
+  </li>
+  <li>
+    Amazon Web Services. (2024). <em>Amazon Cognito Developer Guide — User Pools</em>.
+    AWS Documentation. Retrieved from https://docs.aws.amazon.com/cognito/latest/developerguide/
+  </li>
+  <li>
+    Amazon Web Services. (2024). <em>Amazon Textract Developer Guide</em>.
+    AWS Documentation. Retrieved from https://docs.aws.amazon.com/textract/latest/dg/
+  </li>
+</ol>
+
+</body>
+</html>
