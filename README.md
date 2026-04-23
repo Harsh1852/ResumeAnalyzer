@@ -8,26 +8,31 @@ A serverless resume analysis platform built entirely on AWS using Python CDK.
 
 ```
 User → CloudFront (React SPA)
-     → Auth API Gateway  → Lambda → Cognito (OTP email verification)
-     → App API Gateway   → Lambda → S3 (presigned upload)
-                                  ↓
-                               SQS ParseQueue
-                                  ↓
-                         Parser Lambda → Textract
-                                  ↓
-                               SQS AnalysisQueue
-                                  ↓
-                       Analyzer Lambda → Bedrock (Claude 3 Haiku)
-                                  ↓
-                            SNS ResultsTopic
-                           /                \
-                  SQS ResultsQueue     SQS NotificationQueue
-                         ↓                      ↓
-               Results Worker Lambda    Notification Lambda → SES email
-                         ↓
-                   DynamoDB ResultsTable
-                         ↓
-              Results API Lambda → Frontend
+     → Auth API Gateway        → Lambda → Cognito (OTP email verification)
+     → Upload API Gateway      → Lambda → S3 (presigned upload)
+                                                ↓
+                                          SQS ParseQueue
+                                                ↓
+                                      Parser Lambda → Textract / pypdf
+                                                ↓
+                                          SQS AnalysisQueue
+                                                ↓
+                                    Analyzer Lambda → Bedrock (Claude 3 Haiku)
+                                                    → Tavily (market research)
+                                                ↓
+                                         SNS ResultsTopic
+                                        /                \
+                               SQS ResultsQueue     SQS NotificationQueue
+                                      ↓                      ↓
+                            Results Worker Lambda    Notification Lambda → SES email
+                                      ↓
+                                DynamoDB ResultsTable
+                                      ↓
+     → Results API Gateway    → Results API Lambda → Frontend
+     → Jobs API Gateway       → Jobs Lambda → Adzuna (live jobs)
+                                           → Tavily (courses)
+                                           → Bedrock (tailored resumes)
+     → Applications API Gateway → Applications Lambda → DynamoDB ApplicationsTable
 ```
 
 ---
@@ -39,9 +44,11 @@ User → CloudFront (React SPA)
 | 1 | Auth Service | Student 1 | `AuthStack` | Cognito, Lambda, API GW, DynamoDB |
 | 2 | Upload Service | Student 1 | `UploadStack` | S3, Lambda, API GW, SQS |
 | 3 | Parser Service | Student 2 | `ParserStack` | Lambda, Textract, S3, SQS, DynamoDB |
-| 4 | Analyzer Service | Student 2 | `AnalyzerStack` | Lambda, Bedrock, S3, SNS, SQS, DynamoDB |
+| 4 | Analyzer Service | Student 2 | `AnalyzerStack` | Lambda, Bedrock, Tavily, S3, SNS, SQS, DynamoDB |
 | 5 | Results Service | Student 3 | `ResultsStack` | Lambda, DynamoDB, API GW, SQS |
 | 6 | Notification + Frontend | Student 3 | `FrontendStack` | Lambda, SES, S3, CloudFront |
+| 7 | Jobs Service | Student 3 | `JobsStack` | Lambda, API GW, DynamoDB, Bedrock, Adzuna, Tavily |
+| 8 | Applications Service | Student 3 | `ApplicationsStack` | Lambda, API GW, DynamoDB |
 
 ---
 
@@ -53,6 +60,8 @@ User → CloudFront (React SPA)
 - AWS CDK v2 (`npm install -g aws-cdk`)
 - Amazon Bedrock: enable **Claude 3 Haiku** model in `us-east-1` via the AWS console
 - Amazon SES: verify your sender email address in SES (sandbox mode requires verifying recipients too)
+- **Adzuna API credentials:** Register at [developer.adzuna.com](https://developer.adzuna.com) to get `ADZUNA_APP_ID` and `ADZUNA_APP_KEY`
+- **Tavily API key:** Register at [tavily.com](https://tavily.com) to get `TAVILY_API_KEY`
 
 ---
 
@@ -72,7 +81,17 @@ pip install -r requirements.txt
 cdk bootstrap -c account=YOUR_ACCOUNT_ID -c region=us-east-1
 ```
 
-### 2. Deploy all stacks
+### 2. Set third-party API keys
+
+Set these environment variables before deploying so CDK injects them into the Lambda functions:
+
+```bash
+export ADZUNA_APP_ID=your_adzuna_app_id
+export ADZUNA_APP_KEY=your_adzuna_app_key
+export TAVILY_API_KEY=your_tavily_api_key
+```
+
+### 3. Deploy all stacks
 
 ```bash
 cdk deploy --all --require-approval never -c account=YOUR_ACCOUNT_ID -c region=us-east-1
@@ -85,11 +104,13 @@ Note the following values from CDK output:
 | `ResumeAnalyzerAuth.AuthApiUrl` | `VITE_AUTH_API_URL` in `.env.local` |
 | `ResumeAnalyzerUpload.AppApiUrl` | `VITE_APP_API_URL` in `.env.local` |
 | `ResumeAnalyzerResults.ResultsApiUrl` | `VITE_RESULTS_API_URL` in `.env.local` |
+| `ResumeAnalyzerJobs.JobsApiUrl` | `VITE_JOBS_API_URL` in `.env.local` |
+| `ResumeAnalyzerApplications.ApplicationsApiUrl` | `VITE_APPLICATIONS_API_URL` in `.env.local` |
 | `ResumeAnalyzerFrontend.CloudFrontUrl` | `URL` in `.env.local` + update step below |
 | `ResumeAnalyzerFrontend.FrontendBucketName` | `FRONTEND_BUCKET_NAME` in `.env.local` |
 | `ResumeAnalyzerFrontend.CloudFrontDistributionId` | `DISTRIBUTION_ID` in `.env.local` |
 
-### 3. Update FRONTEND_URL and redeploy
+### 4. Update FRONTEND_URL and redeploy
 
 The SES notification email links back to your app. Update the hardcoded URL in `backend/stacks/frontend_stack.py`:
 
@@ -103,15 +124,25 @@ Then redeploy to apply it:
 cdk deploy ResumeAnalyzerFrontend --require-approval never -c account=YOUR_ACCOUNT_ID -c region=us-east-1
 ```
 
-### 4. Configure frontend environment
+### 5. Configure frontend environment
 
 ```bash
 cd ../frontend
 cp .env.example .env.local
-# Fill in .env.local with the CDK output values from step 2
+# Fill in .env.local with the CDK output values from step 3
 ```
 
-### 5. Build and deploy frontend
+`.env.local` must contain all five API URLs:
+
+```bash
+VITE_AUTH_API_URL=https://...execute-api.us-east-1.amazonaws.com/prod/
+VITE_APP_API_URL=https://...execute-api.us-east-1.amazonaws.com/prod/
+VITE_RESULTS_API_URL=https://...execute-api.us-east-1.amazonaws.com/prod/
+VITE_JOBS_API_URL=https://...execute-api.us-east-1.amazonaws.com/prod/
+VITE_APPLICATIONS_API_URL=https://...execute-api.us-east-1.amazonaws.com/prod/
+```
+
+### 6. Build and deploy frontend
 
 ```bash
 npm install
@@ -121,7 +152,7 @@ aws s3 sync dist/ s3://YOUR_FRONTEND_BUCKET_NAME --delete --region us-east-1
 aws cloudfront create-invalidation --distribution-id YOUR_DIST_ID --paths "/*" --region us-east-1
 ```
 
-### 6. SES configuration
+### 7. SES configuration
 
 In the AWS console → SES → Verified identities, verify:
 1. Your sender email (set in `backend/stacks/frontend_stack.py` as `SES_FROM_ADDRESS`)
@@ -141,8 +172,14 @@ In the AWS console → SES → Verified identities, verify:
 | POST | `/auth/login` | Login. Returns `idToken`, `accessToken`, `refreshToken`. |
 | POST | `/auth/refresh` | Refresh access token. |
 | POST | `/auth/logout` | Global sign out. |
+| POST | `/auth/forgot-password` | Send password reset code to email. |
+| POST | `/auth/confirm-forgot-password` | Submit reset code + new password. |
+| POST | `/auth/change-password` | Change password (requires current password). |
+| POST | `/auth/update-email` | Initiate email address change. |
+| POST | `/auth/verify-email-change` | Confirm email change with verification code. |
+| POST | `/auth/delete-account` | Delete account and all associated data. |
 
-### App API (`/uploads/*`, `/results/*`) — Bearer `idToken` required
+### Upload API (`/uploads/*`) — Bearer `idToken` required
 
 | Method | Path | Description |
 |---|---|---|
@@ -152,9 +189,40 @@ In the AWS console → SES → Verified identities, verify:
 | GET | `/uploads/{uploadId}` | Get upload status (`PENDING`→`PARSING`→`ANALYZING`→`COMPLETE`). |
 | GET | `/uploads/{uploadId}/view-url` | Get presigned URL to view the original resume file. |
 | DELETE | `/uploads/{uploadId}` | Delete resume file and upload record. |
+
+### Results API (`/results/*`) — Bearer `idToken` required
+
+| Method | Path | Description |
+|---|---|---|
 | GET | `/results` | List analysis results (optional `?uploadId=`). |
 | GET | `/results/{resultId}` | Get full analysis report. |
 | DELETE | `/results/{resultId}` | Delete analysis report (upload record reverts to ANALYZING). |
+
+### Jobs API (`/jobs/*`, `/tailored-resumes/*`) — Bearer `idToken` required
+
+| Method | Path | Description |
+|---|---|---|
+| GET | `/jobs` | List cached jobs for a result (`?resultId=`). |
+| POST | `/jobs/search` | Search Adzuna for live jobs matching the resume's top roles. |
+| GET | `/jobs/{jobId}` | Get a single job listing. |
+| POST | `/jobs/{jobId}/courses` | Fetch Tavily course recommendations for a job role. |
+| POST | `/jobs/{jobId}/tailored-resume` | Generate an AI-tailored resume for a specific job. |
+| GET | `/tailored-resumes/{resumeId}` | Get a tailored resume (markdown or LaTeX). |
+| PUT | `/tailored-resumes/{resumeId}` | Save edits to a tailored resume. |
+
+### Applications API (`/applications/*`) — Bearer `idToken` required
+
+| Method | Path | Description |
+|---|---|---|
+| GET | `/applications` | List all applications (optional `?status=`). |
+| POST | `/applications` | Create a new application record. |
+| GET | `/applications/stats` | Aggregate stats: total, by-status counts, response rate, offer rate. |
+| GET | `/applications/{id}` | Get a single application. |
+| PATCH | `/applications/{id}` | Update application fields (status, notes, next action, etc.). |
+| DELETE | `/applications/{id}` | Delete an application. |
+| POST | `/applications/{id}/rounds` | Add an interview round to an application. |
+| PATCH | `/applications/{id}/rounds/{roundId}` | Update an interview round. |
+| DELETE | `/applications/{id}/rounds/{roundId}` | Delete an interview round. |
 
 ---
 
@@ -164,10 +232,13 @@ In the AWS console → SES → Verified identities, verify:
 2. **Verify OTP** → Cognito confirms user
 3. **Login** → Cognito returns JWT tokens
 4. **Upload Resume** → Frontend gets presigned S3 URL, uploads directly, calls `/confirm`
-5. **Parse** → S3 event triggers Parser Lambda → Textract extracts text
-6. **Analyze** → Analyzer Lambda calls Bedrock Claude 3 Haiku with resume text
-7. **Results** → Results Worker aggregates into DynamoDB; SES email sent
+5. **Parse** → S3 event triggers Parser Lambda → pypdf (PDF) or Textract (image) extracts text
+6. **Analyze** → Analyzer Lambda calls Tavily for live market data, then Bedrock Claude 3 Haiku with resume text
+7. **Results** → Results Worker aggregates into DynamoDB; SES completion email sent
 8. **View Report** → Frontend polls `/uploads/{id}` until `COMPLETE`, then loads `/results/{resultId}`
+9. **Find Jobs** → Jobs Lambda searches Adzuna for live listings matching the resume's top roles
+10. **Tailored Resume** → Jobs Lambda calls Bedrock to rewrite the resume for a specific job (markdown or LaTeX)
+11. **Track Applications** → Kanban board (`/tracker`) stores and updates job application records
 
 ---
 
@@ -197,22 +268,28 @@ In the AWS console → SES → Verified identities, verify:
 │   │   ├── parser_stack.py       
 │   │   ├── analyzer_stack.py     
 │   │   ├── results_stack.py      
-│   │   └── frontend_stack.py     
+│   │   ├── frontend_stack.py     
+│   │   ├── jobs_stack.py         
+│   │   └── applications_stack.py 
 │   └── lambdas/
 │       ├── auth_service/
 │       ├── upload_service/
 │       ├── parser_service/
 │       ├── analyzer_service/
 │       ├── results_service/
-│       └── notification_service/
+│       ├── notification_service/
+│       ├── jobs_service/
+│       └── applications_service/
 └── frontend/
     ├── src/
     │   ├── App.jsx
     │   ├── services/api.js
     │   └── components/
-    │       ├── Auth/{Register,VerifyOTP,Login}.jsx
+    │       ├── Auth/{Register,VerifyOTP,Login,ForgotPassword,Profile}.jsx
     │       ├── Resume/ResumeUpload.jsx
-    │       └── Report/ReportView.jsx
+    │       ├── Report/{ReportView,RoleDetail,ReportPDF}.jsx
+    │       ├── Jobs/{JobDetail,JobsSection,TailoredResumeEditor}.jsx
+    │       └── Tracker/{TrackerBoard,ApplicationDetail}.jsx
     ├── package.json
     └── .env.example
 ```
