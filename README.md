@@ -221,6 +221,32 @@ After that, every push to `main` that touches `frontend/**` will automatically b
 | `DELETE` | `/applications/{id}` | Delete application |
 | `GET` | `/applications/stats` | Aggregate counts by status |
 
+### Jobs API (`/jobs/*`, `/tailored-resumes/*`) — Bearer `idToken` required
+
+| Method | Path | Description |
+|---|---|---|
+| GET | `/jobs` | List cached jobs for a result (`?resultId=`). |
+| POST | `/jobs/search` | Search Adzuna for live jobs matching the resume's top roles. |
+| GET | `/jobs/{jobId}` | Get a single job listing. |
+| POST | `/jobs/{jobId}/courses` | Fetch Tavily course recommendations for a job role. |
+| POST | `/jobs/{jobId}/tailored-resume` | Generate an AI-tailored resume for a specific job. |
+| GET | `/tailored-resumes/{resumeId}` | Get a tailored resume (markdown or LaTeX). |
+| PUT | `/tailored-resumes/{resumeId}` | Save edits to a tailored resume. |
+
+### Applications API (`/applications/*`) — Bearer `idToken` required
+
+| Method | Path | Description |
+|---|---|---|
+| GET | `/applications` | List all applications (optional `?status=`). |
+| POST | `/applications` | Create a new application record. |
+| GET | `/applications/stats` | Aggregate stats: total, by-status counts, response rate, offer rate. |
+| GET | `/applications/{id}` | Get a single application. |
+| PATCH | `/applications/{id}` | Update application fields (status, notes, next action, etc.). |
+| DELETE | `/applications/{id}` | Delete an application. |
+| POST | `/applications/{id}/rounds` | Add an interview round to an application. |
+| PATCH | `/applications/{id}/rounds/{roundId}` | Update an interview round. |
+| DELETE | `/applications/{id}/rounds/{roundId}` | Delete an interview round. |
+
 ---
 
 ## 🔄 End-to-End Data Flow
